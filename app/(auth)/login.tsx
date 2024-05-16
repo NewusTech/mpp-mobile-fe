@@ -1,8 +1,10 @@
-import { View, Text, Image, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import { icons, images } from "@/constants";
 import { Link } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
+import InputForm from "@/components/InputForm";
+import CustomButton from "@/components/CustomButton";
 
 const LoginScreen = () => {
   const [password, setPassword] = useState("");
@@ -40,46 +42,32 @@ const LoginScreen = () => {
           Silakan Masuk
         </Text>
         <View className="gap-2 flex">
-          <View className="flex flex-row items-center bg-white rounded-[20px] px-4">
-            <Image
-              source={icons.user}
-              className="w-[2.5vh] h-[2.5vh] mr-[10px]"
-            />
-            <TextInput
-              placeholder="NIK"
-              className="bg-white w-[34vh] h-[5vh] py-[10px] rounded-[20px] pr-4"
-            />
-          </View>
-          <View className="flex flex-row items-center bg-white rounded-[20px]">
-            <TextInput
-              placeholder="Kata Sandi"
-              className="bg-white w-[34vh] h-[5vh] py-[10px] rounded-[20px] pl-4"
-              secureTextEntry={!isPasswordVisible}
-              value={password}
-              onChangeText={setPassword}
-            />
-            <TouchableOpacity onPress={togglePasswordVisibility}>
-              <Image
-                source={isPasswordVisible ? icons.eyeOff : icons.eye}
-                className="w-[2.5vh] h-[2.5vh] ml-[10px] pr-4"
-              />
-            </TouchableOpacity>
-          </View>
+          <InputForm icon={icons.user} type="nik" placeholder="NIK" />
+          <View className="mt-12"></View>
+          <InputForm
+            icon={isPasswordVisible ? icons.eyeOff : icons.eye}
+            type="password"
+            placeholder="Kata Sandi"
+            secureTextEntry={!isPasswordVisible}
+            value={password}
+            onChangeText={setPassword}
+            onPress={togglePasswordVisibility}
+          />
         </View>
       </View>
       <View className="flex flex-row gap-1 my-2 justify-end">
         <Text className="text-neutral-50 text-[10px]">
           Belum Punya akun? silakan
         </Text>
-        <Link href="/register" className="text-primary-800 text-[10px]">
-          Daftar
+        <Link href="/register" asChild>
+          <TouchableOpacity>
+            <Text className="underline text-primary-800 text-[10px]">
+              Daftar
+            </Text>
+          </TouchableOpacity>
         </Link>
       </View>
-      <View className="flex items-center justify-center mt-8">
-        <TouchableOpacity className="bg-neutral-50 w-[14.5vh] h-[4.8vh] rounded-[20px] flex items-center justify-center">
-          <Text className="text-sm text-primary-700 font-psemibold">Masuk</Text>
-        </TouchableOpacity>
-      </View>
+      <CustomButton title="Masuk" />
     </SafeAreaView>
   );
 };
