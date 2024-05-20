@@ -52,7 +52,13 @@ const RegisterScreen = () => {
       <InputForm type="address" placeholder="Alamat" />
       <Gap height={43} />
       <View className="flex items-center justify-center">
-        <CustomButton title="Daftar" type="link" />
+        <CustomButton
+          route="/home"
+          clx2="text-sm text-primary-800 font-psemibold"
+          clx="bg-neutral-50 w-[14.5vh] h-[4.8vh] text-sm text-primary-800 font-psemibold"
+          title="Daftar"
+          type="link"
+        />
       </View>
     </SafeAreaView>
   );

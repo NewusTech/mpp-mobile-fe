@@ -1,26 +1,18 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 import React from "react";
+import cn from "clsx"; // Impor clsx
 import { Link } from "expo-router";
 import { CustomButtonProps } from "@/types/type";
 
-const CustomButton = ({ title, type }: CustomButtonProps) => {
-  if (type === "link")
-    return (
-      <Link href="/home" asChild>
-        <TouchableOpacity className="bg-neutral-50 w-[14.5vh] h-[4.8vh] rounded-[20px] flex items-center justify-center">
-          <Text className="text-sm text-primary-800 font-psemibold">
-            {title}
-          </Text>
-        </TouchableOpacity>
-      </Link>
-    );
-
+const CustomButton = ({ title, clx, clx2, route }: CustomButtonProps) => {
   return (
-    <View className="flex items-center justify-center mt-8">
-      <TouchableOpacity className="bg-neutral-50 w-[14.5vh] h-[4.8vh] rounded-[20px] flex items-center justify-center">
-        <Text className="text-sm text-primary-800 font-psemibold">{title}</Text>
+    <Link href={route} asChild>
+      <TouchableOpacity
+        className={cn(clx, "rounded-[20px] flex items-center justify-center")}
+      >
+        <Text className={cn(clx2)}>{title}</Text>
       </TouchableOpacity>
-    </View>
+    </Link>
   );
 };
 

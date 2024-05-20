@@ -68,7 +68,13 @@ const LoginScreen = () => {
         </Link>
       </View>
       <View className="flex items-center justify-center mt-8">
-        <CustomButton title="Masuk" type="link" />
+        <CustomButton
+          route="/home"
+          clx="bg-neutral-50 w-[14.5vh] h-[4.8vh]"
+          clx2="text-sm text-primary-800 font-psemibold"
+          title="Masuk"
+          type="link"
+        />
       </View>
     </SafeAreaView>
   );

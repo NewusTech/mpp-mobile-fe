@@ -1,11 +1,15 @@
+import { View, Text } from "react-native";
+import React from "react";
 import { Link } from "expo-router";
-import { Text, View } from "react-native";
 
-export default function Index() {
+const SplashScreen = () => {
   return (
-    <View className="flex-1 bg-white items-center justify-center">
-      <Text>Edit app/index.tsx to edit this screen.</Text>
-      <Link href="/login">Login</Link>
+    <View className="flex-1 justify-center items-center">
+      <Link href="/login">
+        <Text>Login</Text>
+      </Link>
     </View>
   );
-}
+};
+
+export default SplashScreen;
