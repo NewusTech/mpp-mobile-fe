@@ -51,7 +51,9 @@ const RegisterScreen = () => {
       <Gap height={8} />
       <InputForm type="address" placeholder="Alamat" />
       <Gap height={43} />
-      <CustomButton title="Daftar" />
+      <View className="flex items-center justify-center">
+        <CustomButton title="Daftar" type="link" />
+      </View>
     </SafeAreaView>
   );
 };
