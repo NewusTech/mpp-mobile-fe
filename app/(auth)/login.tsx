@@ -1,10 +1,10 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import { icons, images } from "@/constants";
-import { Link } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import InputForm from "@/components/InputForm";
 import CustomButton from "@/components/CustomButton";
+import { Link } from "expo-router";
 
 const LoginScreen = () => {
   const [password, setPassword] = useState("");
@@ -67,7 +67,9 @@ const LoginScreen = () => {
           </TouchableOpacity>
         </Link>
       </View>
-      <CustomButton title="Masuk" />
+      <View className="flex items-center justify-center mt-8">
+        <CustomButton title="Masuk" type="link" />
+      </View>
     </SafeAreaView>
   );
 };

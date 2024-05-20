@@ -1,15 +1,6 @@
 import { View, Text, Image, TextInput, TouchableOpacity } from "react-native";
 import React from "react";
-
-interface InputFormProps {
-  type?: string;
-  placeholder: string;
-  icon?: any;
-  value?: string;
-  onChangeText?: any;
-  onPress?: () => void;
-  secureTextEntry?: boolean;
-}
+import { InputFormProps } from "@/types/type";
 
 const InputForm = ({
   icon,
@@ -72,6 +63,22 @@ const InputForm = ({
           onChangeText={onChangeText}
           multiline={true}
           numberOfLines={4}
+        />
+      </View>
+    );
+
+  if (type === "search")
+    return (
+      <View
+        style={{ elevation: 5 }}
+        className="flex flex-row items-center bg-white rounded-[20px] z-20 px-4 border border-secondary-500"
+      >
+        <Image source={icon} className="w-[2.5vh] h-[2.5vh] mr-[10px]" />
+        <TextInput
+          placeholder={placeholder}
+          className="bg-white w-[34vh] h-[5vh] py-[10px] rounded-[20px] pr-4"
+          value={value}
+          onChangeText={onChangeText}
         />
       </View>
     );
