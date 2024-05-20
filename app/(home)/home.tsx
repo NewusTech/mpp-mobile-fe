@@ -6,6 +6,7 @@ import InputForm from "@/components/InputForm";
 import CardInstance from "@/components/CardInstance";
 import CardNews from "@/components/CardNews";
 import Bottombar from "@/components/Bottombar";
+import { Link } from "expo-router";
 
 const HomeScreen = () => {
   return (
@@ -31,9 +32,11 @@ const HomeScreen = () => {
         </View>
         <View className="px-8 mt-4">
           <View className="flex items-end">
-            <Text className="font-psemibold text-[10px] text-primary-900">
-              Lihat Semua
-            </Text>
+            <Link href="/instance">
+              <Text className="font-psemibold text-[10px] text-primary-900">
+                Lihat Semua
+              </Text>
+            </Link>
           </View>
           <View className="flex flex-row flex-wrap justify-between -mt-2">
             <CardInstance icon={images.bnn} title="BNN Lampung Timur" />
@@ -54,9 +57,11 @@ const HomeScreen = () => {
             Berita
           </Text>
           <View className="flex items-end">
-            <Text className="font-psemibold text-[10px] text-primary-900">
-              Lihat Semua
-            </Text>
+            <Link href="/news">
+              <Text className="font-psemibold text-[10px] text-primary-900">
+                Lihat Semua
+              </Text>
+            </Link>
           </View>
         </View>
         <View className="px-9 flex flex-row flex-wrap justify-between -mt-1 mb-24">

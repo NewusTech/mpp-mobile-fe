@@ -6,6 +6,9 @@ export interface CardInstanceProps {
 export interface CustomButtonProps {
   title: string;
   type?: string;
+  clx: string;
+  clx2: string;
+  route: string;
 }
 
 export interface InputFormProps {
