@@ -11,6 +11,8 @@ import message from "@/assets/icons/message.png";
 import ticket from "@/assets/icons/ticket.png";
 import chevronLeft from "@/assets/icons/chevron-left.png";
 import chevronLeft2 from "@/assets/icons/chevron-left-2.png";
+import chevronDown from "@/assets/icons/chevron-down.png";
+import chevronDownActive from "@/assets/icons/chevron-down-active.png";
 
 export default {
   user,
@@ -26,4 +28,6 @@ export default {
   ticket,
   chevronLeft,
   chevronLeft2,
+  chevronDown,
+  chevronDownActive,
 };

@@ -7,7 +7,10 @@ const HomeLayout = () => {
       <Stack.Screen name="instance" options={{ headerShown: false }} />
       <Stack.Screen name="detail-instance" options={{ headerShown: false }} />
       <Stack.Screen name="booking" options={{ headerShown: false }} />
-      <Stack.Screen name="service-req" options={{ headerShown: false }} />
+      <Stack.Screen name="service-req-1" options={{ headerShown: false }} />
+      <Stack.Screen name="service-req-2" options={{ headerShown: false }} />
+      <Stack.Screen name="service-req-3" options={{ headerShown: false }} />
+      <Stack.Screen name="service-req-4" options={{ headerShown: false }} />
     </Stack>
   );
 };

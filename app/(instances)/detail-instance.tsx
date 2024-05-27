@@ -14,7 +14,7 @@ import CustomButton from "@/components/CustomButton";
 const DetailInstanceScreen = () => {
   return (
     <>
-      <SafeAreaView className="flex-1 py-[56px] px-1">
+      <SafeAreaView className="flex-1 py-[56px] px-1 bg-primary-50">
         <View className="flex flex-row space-x-2 items-start">
           <Link href="/home" asChild>
             <TouchableOpacity>
@@ -35,7 +35,7 @@ const DetailInstanceScreen = () => {
           />
           <CustomButton
             clx2="text-xs w-[69px] text-center text-white font-white fon"
-            route="/home"
+            route="/service-req-1"
             clx="bg-primary-700 min-w-[18vh] h-[5.5vh]"
             title="Permohonan Layanan"
           />

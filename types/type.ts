@@ -36,3 +36,9 @@ export interface CardNewsProps {
   title: string;
   date: string;
 }
+
+export interface CardServiceProps {
+  title: string;
+  isLastStep: boolean;
+  isActive: boolean;
+}
