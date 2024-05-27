@@ -13,10 +13,10 @@ const InputForm = ({
 }: InputFormProps) => {
   if (type === "password")
     return (
-      <View className="flex flex-row items-center bg-white rounded-[20px]">
+      <View className="flex flex-row items-center bg-neutral-50 rounded-[20px]">
         <TextInput
           placeholder={placeholder}
-          className="bg-white w-[34vh] h-[5vh] py-[10px] rounded-[20px] pl-4"
+          className="bg-neutral-50 w-[34vh] h-[5vh] py-[10px] rounded-[20px] pl-4"
           secureTextEntry={secureTextEntry}
           value={value}
           onChangeText={onChangeText}
@@ -29,11 +29,11 @@ const InputForm = ({
 
   if (type === "nik")
     return (
-      <View className="flex flex-row items-center bg-white rounded-[20px] px-4">
+      <View className="flex flex-row items-center bg-neutral-50 rounded-[20px] px-4">
         <Image source={icon} className="w-[2.5vh] h-[2.5vh] mr-[10px]" />
         <TextInput
           placeholder={placeholder}
-          className="bg-white w-[34vh] h-[5vh] py-[10px] rounded-[20px] pr-4"
+          className="bg-neutral-50 w-[34vh] h-[5vh] py-[10px] rounded-[20px] pr-4"
           value={value}
           onChangeText={onChangeText}
         />
@@ -42,10 +42,10 @@ const InputForm = ({
 
   if (type === "alamat")
     return (
-      <View className="flex flex-row items-center bg-white rounded-[20px] px-4">
+      <View className="flex flex-row items-center bg-neutral-50 rounded-[20px] px-4">
         <TextInput
           placeholder={placeholder}
-          className="bg-white w-[15vh] h-[5vh] py-[10px] rounded-[20px] pr-4"
+          className="bg-neutral-50 w-[15vh] h-[5vh] py-[10px] rounded-[20px] pr-4"
           value={value}
           onChangeText={onChangeText}
         />
@@ -54,10 +54,10 @@ const InputForm = ({
 
   if (type === "address")
     return (
-      <View className="flex flex-row items-start bg-white rounded-[20px] px-4">
+      <View className="flex flex-row items-start bg-neutral-50 rounded-[20px]">
         <TextInput
           placeholder={placeholder}
-          className="bg-white w-[34vh] h-[94px] py-[10px] rounded-[20px] pr-4"
+          className="bg-neutral-50 w-full h-[94px] py-[10px] rounded-[20px] border border-neutral-700 px-4"
           style={{ textAlignVertical: "top" }}
           value={value}
           onChangeText={onChangeText}
@@ -71,12 +71,12 @@ const InputForm = ({
     return (
       <View
         style={{ elevation: 5 }}
-        className="flex flex-row items-center bg-white rounded-[20px] z-20 px-4 border border-secondary-500"
+        className="flex flex-row items-center bg-neutral-50 rounded-[20px] z-20 px-4 border border-secondary-500"
       >
         <Image source={icon} className="w-[2.5vh] h-[2.5vh] mr-[10px]" />
         <TextInput
           placeholder={placeholder}
-          className="bg-white w-[34vh] h-[5vh] py-[10px] rounded-[20px] pr-4"
+          className="bg-neutral-50 w-[34vh] h-[5vh] py-[10px] rounded-[20px] pr-4"
           value={value}
           onChangeText={onChangeText}
         />
@@ -84,10 +84,10 @@ const InputForm = ({
     );
 
   return (
-    <View className="flex flex-row items-center bg-white rounded-[20px] px-4">
+    <View className="flex flex-row items-center bg-neutral-50 rounded-[20px]">
       <TextInput
         placeholder={placeholder}
-        className="bg-white w-[34vh] h-[5vh] py-[10px] rounded-[20px] pr-4"
+        className="bg-neutral-50 w-full px-4 h-[5vh] py-[10px] rounded-[20px] pr-4 border border-neutral-700"
         value={value}
         onChangeText={onChangeText}
       />

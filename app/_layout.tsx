@@ -40,6 +40,7 @@ export default function RootLayout() {
       <Stack.Screen name="(home)" options={{ headerShown: false }} />
       <Stack.Screen name="(instances)" options={{ headerShown: false }} />
       <Stack.Screen name="(news)" options={{ headerShown: false }} />
+      <Stack.Screen name="(chat)" options={{ headerShown: false }} />
     </Stack>
   );
 }
