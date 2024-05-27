@@ -29,7 +29,7 @@ const DetailInstanceScreen = () => {
         <View className="flex flex-row justify-between px-10 py-8">
           <CustomButton
             clx2="text-xs text-white font-white fon"
-            route="/home"
+            route="/booking"
             clx="bg-secondary-700 min-w-[18vh] h-[5.5vh]"
             title="Booking Antrian"
           />
