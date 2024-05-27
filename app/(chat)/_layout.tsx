@@ -6,9 +6,9 @@ const ChatLayout = () => {
   return (
     <>
       <Stack>
-        <Stack.Screen name="home" options={{ headerShown: false }} />
+        <Stack.Screen name="chat" options={{ headerShown: false }} />
       </Stack>
-      <StatusBar style="light" backgroundColor="#7BBA78" />
+      <StatusBar style="dark" />
     </>
   );
 };

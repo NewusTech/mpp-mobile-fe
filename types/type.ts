@@ -29,6 +29,7 @@ export interface GapProps {
 export interface BottombarProps {
   icon: any;
   title: string;
+  route: string;
 }
 
 export interface CardNewsProps {
@@ -41,4 +42,9 @@ export interface CardServiceProps {
   title: string;
   isLastStep: boolean;
   isActive: boolean;
+}
+
+export interface ChatProps {
+  title: string;
+  img: any;
 }
