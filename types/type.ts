@@ -48,3 +48,8 @@ export interface ChatProps {
   title: string;
   img: any;
 }
+
+export interface NotificationCardtProps {
+  desc: string;
+  hour: string;
+}

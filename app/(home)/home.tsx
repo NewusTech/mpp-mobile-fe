@@ -19,7 +19,11 @@ const HomeScreen = () => {
               Selamat Datang, User
             </Text>
             <View className="flex flex-row gap-4 -mt-2">
-              <Image source={icons.bell} className="w-[2.8vh] h-[2.8vh]" />
+              <Link href="/notification" asChild>
+                <TouchableOpacity>
+                  <Image source={icons.bell} className="w-[2.8vh] h-[2.8vh]" />
+                </TouchableOpacity>
+              </Link>
               <Link href="/profile" asChild>
                 <TouchableOpacity>
                   <Image

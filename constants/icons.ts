@@ -13,6 +13,7 @@ import chevronLeft from "@/assets/icons/chevron-left.png";
 import chevronLeft2 from "@/assets/icons/chevron-left-2.png";
 import chevronDown from "@/assets/icons/chevron-down.png";
 import chevronDownActive from "@/assets/icons/chevron-down-active.png";
+import bell2 from "@/assets/icons/bell2.png";
 
 export default {
   user,
@@ -30,4 +31,5 @@ export default {
   chevronLeft2,
   chevronDown,
   chevronDownActive,
+  bell2,
 };
