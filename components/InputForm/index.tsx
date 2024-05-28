@@ -42,10 +42,10 @@ const InputForm = ({
 
   if (type === "alamat")
     return (
-      <View className="flex flex-row items-center bg-neutral-50 rounded-[20px] px-4">
+      <View className="flex flex-row items-center w-1/2 bg-neutral-50 rounded-[20px]">
         <TextInput
           placeholder={placeholder}
-          className="bg-neutral-50 w-[15vh] h-[5vh] py-[10px] rounded-[20px] pr-4"
+          className="bg-neutral-50 w-full h-[5vh] py-[10px] rounded-[20px] pr-4 border border-neutral-700 px-4"
           value={value}
           onChangeText={onChangeText}
         />

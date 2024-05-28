@@ -37,16 +37,18 @@ const RegisterScreen = () => {
       <Text className="text-sm text-primary-800 font-psemibold mt-4 mb-6">
         Alamat
       </Text>
-      <View className="flex flex-row">
-        <InputForm type="alamat" placeholder="Kecamatan" />
-        <Gap width={16} />
-        <InputForm type="alamat" placeholder="Desa" />
-      </View>
-      <Gap height={8} />
-      <View className="flex flex-row">
-        <InputForm type="alamat" placeholder="RT" />
-        <Gap width={16} />
-        <InputForm type="alamat" placeholder="RW" />
+      <View className="w-full">
+        <View className="flex flex-row">
+          <InputForm type="alamat" placeholder="Kecamatan" />
+          <Gap width={16} />
+          <InputForm type="alamat" placeholder="Desa" />
+        </View>
+        <Gap height={8} />
+        <View className="flex flex-row">
+          <InputForm type="alamat" placeholder="RT" />
+          <Gap width={16} />
+          <InputForm type="alamat" placeholder="RW" />
+        </View>
       </View>
       <Gap height={8} />
       <InputForm type="address" placeholder="Alamat" />
