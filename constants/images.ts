@@ -9,6 +9,7 @@ import taspen from "@/assets/images/taspen.png";
 import bri from "@/assets/images/bri.png";
 import news1 from "@/assets/images/news-1.jpg";
 import news2 from "@/assets/images/news-2.jpg";
+import userCircle from "@/assets/images/circle-user-round.png";
 
 export default {
   maps,
@@ -22,4 +23,5 @@ export default {
   bri,
   news1,
   news2,
+  userCircle,
 };

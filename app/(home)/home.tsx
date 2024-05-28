@@ -1,4 +1,4 @@
-import { View, Text, Image, ScrollView } from "react-native";
+import { View, Text, Image, ScrollView, TouchableOpacity } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { icons, images } from "@/constants";
@@ -20,10 +20,14 @@ const HomeScreen = () => {
             </Text>
             <View className="flex flex-row gap-4 -mt-2">
               <Image source={icons.bell} className="w-[2.8vh] h-[2.8vh]" />
-              <Image
-                source={icons.circleUser}
-                className="w-[2.8vh] h-[2.8vh]"
-              />
+              <Link href="/profile" asChild>
+                <TouchableOpacity>
+                  <Image
+                    source={icons.circleUser}
+                    className="w-[2.8vh] h-[2.8vh]"
+                  />
+                </TouchableOpacity>
+              </Link>
             </View>
           </View>
         </View>

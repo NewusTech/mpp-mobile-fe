@@ -8,7 +8,7 @@ const ChatList = ({ img, title }: ChatProps) => {
       style={{ elevation: 3 }}
     >
       <View className="w-[29px] h-10 flex items-center justify-center">
-        <Image source={img} className="w-full h-full object-contain" />
+        <Image source={img} className="w-full h-full" resizeMode="contain" />
       </View>
       <Text className="text-[11px] font-psemibold">{title}</Text>
     </TouchableOpacity>
