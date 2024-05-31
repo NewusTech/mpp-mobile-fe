@@ -16,7 +16,7 @@ const CardInstance = ({ icon, title }: CardInstanceProps) => {
             className="w-[4vh] h-[4vh]"
             resizeMode="contain"
           />
-          <Text className="text-[7px] text-center">{title}</Text>
+          <Text className="text-[1vh] text-center">{title}</Text>
         </View>
       </TouchableOpacity>
     </Link>

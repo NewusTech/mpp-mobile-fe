@@ -53,3 +53,17 @@ export interface NotificationCardtProps {
   desc: string;
   hour: string;
 }
+
+export interface TabRequestProps {
+  images: any;
+  id: string;
+  title: string;
+  status: string;
+}
+
+export interface TabQueueProps {
+  images: any;
+  time: string;
+  title: string;
+  date: string;
+}
