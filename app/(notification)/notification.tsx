@@ -30,7 +30,6 @@ const Notification = () => {
         desc="Permohonan layanan anda sudah selesai, silahkan download sekarang."
         hour="1j"
       />
-
       <Text className="px-9 mt-[27px] mb-2 text-xs text-primary-800 font-psemibold">
         Kemarin
       </Text>
