@@ -8,7 +8,8 @@ export interface CustomButtonProps {
   type?: string;
   clx: string;
   clx2: string;
-  route: string;
+  route?: string;
+  onPress?: () => void;
 }
 
 export interface InputFormProps {
@@ -76,4 +77,9 @@ export interface KecamatanType {
 export interface DesaType {
   id: number;
   name: string;
+}
+
+export interface LoginType {
+  nik: string;
+  password: string;
 }
