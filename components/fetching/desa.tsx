@@ -1,18 +1,15 @@
-export default async function desaFetch(
+import { fetcher } from "@/utils/fetcher";
+import useSWR from "swr";
+
+export default function desaFetch(
   search: string,
   limit = 1000000,
   kecamatan_id: number
 ) {
-  const response = await fetch(
-    `${process.env.EXPO_PUBLIK_API_URL}/user/desa/get?search=${search}&limit=${limit}&kecamatan_id=${kecamatan_id}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      cache: "no-store",
-    }
+  const { data, isLoading, error } = useSWR(
+    `${process.env.EXPO_PUBLIC_API_URL}/user/desa/get?search=${search}&limit=${limit}&kecamatan_id=${kecamatan_id}`,
+    fetcher
   );
 
-  return response.json();
+  return { data, isLoading, error };
 }
