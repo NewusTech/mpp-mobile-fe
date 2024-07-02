@@ -44,6 +44,7 @@ export default function RootLayout() {
       <Stack.Screen name="(profile)" options={{ headerShown: false }} />
       <Stack.Screen name="(notification)" options={{ headerShown: false }} />
       <Stack.Screen name="(history)" options={{ headerShown: false }} />
+      <Stack.Screen name="(skm)" options={{ headerShown: false }} />
     </Stack>
   );
 }

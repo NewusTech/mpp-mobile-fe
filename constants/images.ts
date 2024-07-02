@@ -11,6 +11,7 @@ import news1 from "@/assets/images/news-1.jpg";
 import news2 from "@/assets/images/news-2.jpg";
 import userCircle from "@/assets/images/circle-user-round.png";
 import QRCode from "@/assets/images/qr.png";
+import Check from "@/assets/images/check.png";
 
 export default {
   maps,
@@ -26,4 +27,5 @@ export default {
   news2,
   userCircle,
   QRCode,
+  Check,
 };
