@@ -67,3 +67,13 @@ export interface TabQueueProps {
   title: string;
   date: string;
 }
+
+export interface KecamatanType {
+  id: number;
+  name: string;
+}
+
+export interface DesaType {
+  id: number;
+  name: string;
+}
