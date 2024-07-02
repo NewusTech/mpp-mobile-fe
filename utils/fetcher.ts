@@ -1,7 +1,8 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import Cookies from "js-cookie";
 
-export const fetcherAuth = (url: string) => {
-  const token = Cookies.get("token");
+export const fetcherAuth = async (url: string) => {
+  const token = await AsyncStorage.getItem("token");
   // Atau ambil dari state/context
   return fetch(url, {
     headers: {

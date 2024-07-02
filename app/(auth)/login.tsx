@@ -1,17 +1,46 @@
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 import React, { useState } from "react";
 import { icons, images } from "@/constants";
 import { SafeAreaView } from "react-native-safe-area-context";
 import InputForm from "@/components/InputForm";
 import CustomButton from "@/components/CustomButton";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
+import { loginUser } from "@/components/Fetching/login";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const LoginScreen = () => {
+  const [nik, setNik] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
+  };
+
+  const handleLogin = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const data = await loginUser({ nik, password });
+      if (data.status === 200) {
+        await AsyncStorage.setItem("token", data.data.token);
+        router.push("/home");
+      }
+    } catch (error: any) {
+      console.error("Login failed:", error.message);
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -42,7 +71,13 @@ const LoginScreen = () => {
           Silakan Masuk
         </Text>
         <View className="gap-2 flex">
-          <InputForm icon={icons.user} type="nik" placeholder="NIK" />
+          <InputForm
+            icon={icons.user}
+            type="nik"
+            placeholder="NIK"
+            value={nik}
+            onChangeText={setNik}
+          />
           <View className="mt-12"></View>
           <InputForm
             icon={isPasswordVisible ? icons.eyeOff : icons.eye}
@@ -68,13 +103,18 @@ const LoginScreen = () => {
         </Link>
       </View>
       <View className="flex items-center justify-center mt-8">
-        <CustomButton
-          route="/home"
-          clx="bg-neutral-50 w-[14.5vh] h-[4.8vh]"
-          clx2="text-sm text-primary-800 font-psemibold"
-          title="Masuk"
-          type="link"
-        />
+        {loading ? (
+          <ActivityIndicator size="large" color="#E2EAF7" />
+        ) : (
+          <CustomButton
+            onPress={handleLogin}
+            clx="bg-neutral-50 w-[14.5vh] h-[4.8vh]"
+            clx2="text-sm text-primary-800 font-psemibold"
+            title="Masuk"
+            type="button"
+          />
+        )}
+        {error && <Text className="text-error-700 pt-4">{error}</Text>}
       </View>
     </SafeAreaView>
   );
