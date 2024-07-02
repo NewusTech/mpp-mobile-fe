@@ -8,7 +8,7 @@ const HomeLayout = () => {
       <Stack>
         <Stack.Screen name="home" options={{ headerShown: false }} />
       </Stack>
-      <StatusBar style="light" backgroundColor="#7BBA78" />
+      <StatusBar style="light" backgroundColor="#3568C0" />
     </>
   );
 };
