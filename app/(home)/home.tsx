@@ -1,5 +1,5 @@
 import { View, Text, Image, ScrollView, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { icons, images } from "@/constants";
 import InputForm from "@/components/InputForm";
@@ -7,8 +7,22 @@ import CardInstance from "@/components/CardInstance";
 import CardNews from "@/components/CardNews";
 import Bottombar from "@/components/Bottombar";
 import { Link } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const HomeScreen = () => {
+  useEffect(() => {
+    getToken(); // Panggil getToken saat komponen dimuat
+  }, []);
+
+  const getToken = async () => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      console.log("Token retrieved:", token); // Pastikan token tidak null
+    } catch (error) {
+      console.error("Error retrieving token:", error);
+    }
+  };
+
   return (
     <SafeAreaView className="flex-1 bg-primary-50 relative z-10">
       <Bottombar />
