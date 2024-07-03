@@ -5,18 +5,18 @@ import { icons } from "@/constants";
 
 const Bottombar = () => {
   return (
-    <View className="absolute h-[70px] bottom-3 flex flex-row left-5 right-5 items-start justify-between pt-2 px-8 bg-primary-700 z-20 rounded-[40px]">
+    <View className="absolute h-[65px] bottom-3 flex flex-row left-5 right-5 items-start justify-between pt-2 px-5 bg-primary-700 z-20 rounded-[40px]">
       <MenuBottomBar route="/skm" icon={icons.clipboard} title="SKM" />
       <MenuBottomBar route="/history" icon={icons.history} title="Riwayat" />
       <MenuBottomBar
         route="/booking-queue"
         icon={icons.ticket}
-        title="Booking Antrian"
+        title="Booking"
       />
       <MenuBottomBar
         route="/service-request"
         icon={icons.landmark}
-        title="Permohonan Layanan"
+        title="Permohonan"
       />
       <MenuBottomBar route="/chat" icon={icons.message} title="Chat" />
     </View>

@@ -8,7 +8,7 @@ const CardInstance = ({ icon, title }: CardInstanceProps) => {
     <Link href="/detail-instance" asChild>
       <TouchableOpacity
         style={{ elevation: 5 }}
-        className="w-[9.5vh] h-[10vh] rounded-[10px] py-3 px-3 bg-white mt-3"
+        className="w-[9.5vh] h-[10vh] rounded-[10px] py-3 px-3 bg-white mt-3 mr-[6.5px]"
       >
         <View className="flex gap-2 items-center justify-center">
           <Image
@@ -16,7 +16,7 @@ const CardInstance = ({ icon, title }: CardInstanceProps) => {
             className="w-[4vh] h-[4vh]"
             resizeMode="contain"
           />
-          <Text className="text-[1vh] text-center">{title}</Text>
+          <Text className="text-[0.9vh] text-center">{title}</Text>
         </View>
       </TouchableOpacity>
     </Link>

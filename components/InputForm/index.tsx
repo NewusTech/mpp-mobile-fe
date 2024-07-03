@@ -13,13 +13,14 @@ const InputForm = ({
 }: InputFormProps) => {
   if (type === "password")
     return (
-      <View className="flex flex-row items-center bg-neutral-50 rounded-[20px]">
+      <View className="flex flex-row items-center bg-neutral-50 rounded-[20px] border border-primary-700">
         <TextInput
           placeholder={placeholder}
-          className="bg-neutral-50 w-[34vh] h-[5vh] py-[10px] rounded-[20px] pl-4"
+          className="bg-neutral-50 w-[34vh] h-[5vh] py-[10px] rounded-[20px] pl-4 "
           secureTextEntry={secureTextEntry}
           value={value}
           onChangeText={onChangeText}
+          placeholderTextColor="#3568C0"
         />
         <TouchableOpacity onPress={onPress}>
           <Image source={icon} className="w-[2.5vh] h-[2.5vh] ml-[10px] pr-4" />
@@ -29,13 +30,14 @@ const InputForm = ({
 
   if (type === "nik")
     return (
-      <View className="flex flex-row items-center bg-neutral-50 rounded-[20px] px-4">
+      <View className="flex flex-row items-center bg-neutral-50 rounded-[20px] px-4 border border-primary-700">
         <Image source={icon} className="w-[2.5vh] h-[2.5vh] mr-[10px]" />
         <TextInput
           placeholder={placeholder}
-          className="bg-neutral-50 w-[34vh] h-[5vh] py-[10px] rounded-[20px] pr-4"
+          className="bg-neutral-50 w-[34vh] h-[5vh] py-[10px] rounded-[20px] pr-4 "
           value={value}
           onChangeText={onChangeText}
+          placeholderTextColor="#3568C0"
         />
       </View>
     );
