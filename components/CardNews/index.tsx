@@ -8,15 +8,15 @@ const CardNews = ({ icon, title, date }: CardNewsProps) => {
     <Link href="/detail" asChild>
       <TouchableOpacity
         style={{ elevation: 4 }}
-        className="w-[20vh] h-[20vh] bg-white rounded-[10px] mt-2"
+        className="w-[19vh] h-[20vh] bg-white rounded-[10px] mt-3"
       >
-        <View className="p-2 w-[20vh] h-[16vh]">
+        <View className="p-2 w-[19vh] h-[16vh]">
           <Image
             source={icon}
             className="w-full h-full rounded-[10px]"
             resizeMode="cover"
           />
-          <Text className="text-xs pt-1">{title}</Text>
+          <Text className="text-xs pt-1 truncate">{title}</Text>
           <Text className="text-[10px]">{date}</Text>
         </View>
       </TouchableOpacity>

@@ -13,6 +13,7 @@ import CustomButton from "@/components/CustomButton";
 import { Link, router } from "expo-router";
 import { loginUser } from "@/components/Fetching/login";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import ShowToast from "@/components/Toast";
 
 const LoginScreen = () => {
   const [nik, setNik] = useState("");
@@ -33,6 +34,7 @@ const LoginScreen = () => {
       const data = await loginUser({ nik, password });
       if (data.status === 200) {
         await AsyncStorage.setItem("token", data.data.token);
+        ShowToast("Login Berhasil");
         router.push("/home");
       }
     } catch (error: any) {
@@ -44,30 +46,27 @@ const LoginScreen = () => {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-primary-700 justify-center px-10">
+    <SafeAreaView className="flex-1 bg-primary-100 justify-center px-10">
       <View className="flex items-center mb-10">
-        <View className="flex flex-row">
-          <View className="w-[100px] h-[90px] mt-1">
+        <View className="flex items-center">
+          <View className="w-[137px] h-[110px] mb-1">
             <Image
               source={images.maps}
               className="w-full h-full object-cover"
             />
           </View>
-          <View className="-mt-1">
-            <Text className="text-[20px] font-pbold text-primary-800 uppercase">
-              mpp
-            </Text>
-            <Text className="text-[12px] font-psemibold text-neutral-50">
+          <View className="flex items-center">
+            <Text className="text-[18px] font-psemibold uppercase text-primary-700">
               Mal Pelayana Publik
             </Text>
-            <Text className="text-[10px] font-pmedium text-secondary-700">
-              Lampung Timur
+            <Text className="text-sm uppercase text-primary-700">
+              kabupaten lampung timur
             </Text>
           </View>
         </View>
       </View>
       <View className="flex">
-        <Text className="text-primary-800 text-xs font-psemibold mb-4">
+        <Text className="text-primary-800 text-sm font-psemibold mb-4">
           Silakan Masuk
         </Text>
         <View className="gap-2 flex">
@@ -91,25 +90,23 @@ const LoginScreen = () => {
         </View>
       </View>
       <View className="flex flex-row gap-1 my-2 justify-end">
-        <Text className="text-neutral-50 text-[10px]">
+        <Text className="text-primary-700 text-sm">
           Belum Punya akun? silakan
         </Text>
         <Link href="/register" asChild>
           <TouchableOpacity>
-            <Text className="underline text-primary-800 text-[10px]">
-              Daftar
-            </Text>
+            <Text className="underline text-primary-800 text-sm">Daftar</Text>
           </TouchableOpacity>
         </Link>
       </View>
       <View className="flex items-center justify-center mt-8">
         {loading ? (
-          <ActivityIndicator size="large" color="#E2EAF7" />
+          <ActivityIndicator size="large" color="#3568C0" />
         ) : (
           <CustomButton
             onPress={handleLogin}
-            clx="bg-neutral-50 w-[14.5vh] h-[4.8vh]"
-            clx2="text-sm text-primary-800 font-psemibold"
+            clx="bg-primary-700 w-[14.5vh] h-[4.8vh]"
+            clx2="text-sm text-neutral-50 font-psemibold"
             title="Masuk"
             type="button"
           />
