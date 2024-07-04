@@ -1,14 +1,11 @@
-export default async function kecamatanFetch(search: string, limit = 1000000) {
-  const response = await fetch(
-    `${process.env.EXPO_PUBLIK_API_URL}/user/kecamatan/get?search=${search}&limit=${limit}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      cache: "no-store",
-    }
+import { fetcher } from "@/utils/fetcher";
+import useSWR from "swr";
+
+export default function kecamatanFetch(search: string, limit = 1000000) {
+  const { data, isLoading, error } = useSWR(
+    `${process.env.EXPO_PUBLIC_API_URL}/user/kecamatan/get?search=${search}&limit=${limit}`,
+    fetcher
   );
 
-  return response.json();
+  return { data, isLoading, error };
 }
