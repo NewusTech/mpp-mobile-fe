@@ -7,11 +7,13 @@ import {
 } from "react-native";
 import React from "react";
 import { StatusBar } from "expo-status-bar";
-import { Link } from "expo-router";
+import { Link, useLocalSearchParams } from "expo-router";
 import { icons, images } from "@/constants";
 import CustomButton from "@/components/CustomButton";
 
 const DetailInstanceScreen = () => {
+  const { slug } = useLocalSearchParams();
+
   return (
     <>
       <SafeAreaView className="flex-1 py-[56px] px-1 bg-primary-50">

@@ -2,10 +2,21 @@ import { View, Text, TouchableOpacity, Image } from "react-native";
 import React from "react";
 import { CardNewsProps } from "@/types/type";
 import { Link } from "expo-router";
+import { formatDate, truncateString } from "@/utils";
 
-const CardNews = ({ icon, title, date }: CardNewsProps) => {
+const CardNews = ({ icon, title, date, route }: CardNewsProps) => {
+  const truncate = truncateString(title, 17);
+  const dateFormat = formatDate(date);
   return (
-    <Link href="/detail" asChild>
+    <Link
+      href={{
+        pathname: "/[slug]",
+        params: {
+          slug: route,
+        },
+      }}
+      asChild
+    >
       <TouchableOpacity
         style={{ elevation: 4 }}
         className="w-[19vh] h-[20vh] bg-white rounded-[10px] mt-3"
@@ -16,8 +27,8 @@ const CardNews = ({ icon, title, date }: CardNewsProps) => {
             className="w-full h-full rounded-[10px]"
             resizeMode="cover"
           />
-          <Text className="text-xs pt-1 truncate">{title}</Text>
-          <Text className="text-[10px]">{date}</Text>
+          <Text className="text-xs pt-1 truncate font-pmedium">{truncate}</Text>
+          <Text className="text-[10px]">{dateFormat}</Text>
         </View>
       </TouchableOpacity>
     </Link>
