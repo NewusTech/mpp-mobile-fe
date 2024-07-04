@@ -3,9 +3,17 @@ import React from "react";
 import { CardInstanceProps } from "@/types/type";
 import { Link } from "expo-router";
 
-const CardInstance = ({ icon, title }: CardInstanceProps) => {
+const CardInstance = ({ icon, title, route }: CardInstanceProps) => {
   return (
-    <Link href="/detail-instance" asChild>
+    <Link
+      href={{
+        pathname: "/[slug]",
+        params: {
+          slug: route,
+        },
+      }}
+      asChild
+    >
       <TouchableOpacity
         style={{ elevation: 5 }}
         className="w-[9.5vh] h-[10vh] rounded-[10px] py-3 px-3 bg-white mt-3 mr-[6.5px]"

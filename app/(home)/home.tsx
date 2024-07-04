@@ -18,21 +18,19 @@ import {
   useInstance,
   useNews,
 } from "@/components/Fetching/home-screen";
+import { withAuth } from "@/components/ProtectedRoute";
 
 const HomeScreen = () => {
   const { data, isLoading } = useCarousel();
-  const { data: instance, isLoading: instanceLoading } = useInstance();
-  const { data: news, isLoading: instanceNews } = useNews();
+  const { data: instance, isLoading: instanceLoading } = useInstance(4);
+  const { data: news, isLoading: instanceNews } = useNews(6);
 
   const resultCarousel = data?.data;
   const resultInstance = instance?.data;
   const resultNews = news?.data;
 
-  console.log(resultNews);
-
   return (
-    <SafeAreaView className="flex-1 bg-primary-50 relative z-10">
-      <Bottombar />
+    <SafeAreaView className="flex-1 bg-primary-50 z-10">
       <ScrollView showsVerticalScrollIndicator={false}>
         <View className="bg-primary-700 w-full h-[12vh] py-6 px-5">
           <View className="flex flex-row justify-between items-start px-4">
@@ -69,7 +67,7 @@ const HomeScreen = () => {
               <Image
                 className="w-full h-full rounded-lg mr-10 object-cover"
                 source={{ uri: img.image }}
-                key={img.name}
+                key={img.id}
               />
             ))}
           </Carousel>
@@ -77,14 +75,19 @@ const HomeScreen = () => {
         <View className="px-8 mt-3">
           <View className="flex items-end">
             <Link href="/instance">
-              <Text className="font-psemibold text-[10px] text-primary-900">
+              <Text className="font-psemibold text-xs text-primary-900">
                 Lihat Semua
               </Text>
             </Link>
           </View>
-          <View className="flex flex-row flex-wrap justify-start -mt-2">
+          <View className="flex flex-row flex-wrap justify-start">
             {resultInstance?.map((v: any) => (
-              <CardInstance key={v.id} icon={{ uri: v.image }} title={v.name} />
+              <CardInstance
+                key={v.id}
+                route={v.slug}
+                icon={{ uri: v.image }}
+                title={v.name}
+              />
             ))}
           </View>
         </View>
@@ -94,15 +97,16 @@ const HomeScreen = () => {
           </Text>
           <View className="flex items-end">
             <Link href="/news">
-              <Text className="font-psemibold text-[10px] text-primary-900">
+              <Text className="font-psemibold text-xs text-primary-900">
                 Lihat Semua
               </Text>
             </Link>
           </View>
         </View>
-        <View className="px-9 flex flex-row flex-wrap justify-between -mt-1 mb-24">
+        <View className="px-9 flex flex-row flex-wrap justify-between mb-24">
           {resultNews?.map((v: any) => (
             <CardNews
+              route={v.slug}
               key={v.id}
               icon={{ uri: v.image }}
               title={v.title}
@@ -115,7 +119,7 @@ const HomeScreen = () => {
   );
 };
 
-export default HomeScreen;
+export default withAuth(HomeScreen);
 
 const styles = StyleSheet.create({
   dotStyle: {

@@ -1,6 +1,7 @@
 export interface CardInstanceProps {
   icon: any;
   title: string;
+  route: string;
 }
 
 export interface CustomButtonProps {
@@ -37,6 +38,7 @@ export interface CardNewsProps {
   icon: any;
   title: string;
   date: string;
+  route: string;
 }
 
 export interface CardServiceProps {

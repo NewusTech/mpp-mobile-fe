@@ -1,8 +1,14 @@
-import React from "react";
-import { Stack } from "expo-router";
+import { Redirect, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import { useAuthStore } from "@/store/useAuthStore";
 
 const AuthLayout = () => {
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+
+  if (isAuthenticated) return <Redirect href="/home" />;
+
+  console.log(isAuthenticated);
+
   return (
     <>
       <Stack>

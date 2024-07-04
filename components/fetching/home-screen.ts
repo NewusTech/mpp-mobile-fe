@@ -13,11 +13,12 @@ export function useCarousel() {
   };
 }
 
-export function useInstance() {
-  const { data, isLoading } = useSWR(
-    `${process.env.EXPO_PUBLIC_API_URL}/instansi/get?limit=4`,
-    fetcherAuth
-  );
+export function useInstance(limit: number, search?: string) {
+  const baseUrl = `${process.env.EXPO_PUBLIC_API_URL}/instansi/get?limit=${limit}`;
+  const searchParam = search ? `&search=${encodeURIComponent(search)}` : "";
+  const url = `${baseUrl}${searchParam}`;
+
+  const { data, isLoading } = useSWR(url, fetcherAuth);
 
   return {
     data,
@@ -25,9 +26,9 @@ export function useInstance() {
   };
 }
 
-export function useNews() {
+export function useNews(limit: number) {
   const { data, isLoading } = useSWR(
-    `${process.env.EXPO_PUBLIC_API_URL}/artikel/get?limit=6`,
+    `${process.env.EXPO_PUBLIC_API_URL}/artikel/get?limit=${limit}`,
     fetcherAuth
   );
 

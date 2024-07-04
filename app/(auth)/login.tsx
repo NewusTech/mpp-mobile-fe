@@ -10,10 +10,10 @@ import { icons, images } from "@/constants";
 import { SafeAreaView } from "react-native-safe-area-context";
 import InputForm from "@/components/InputForm";
 import CustomButton from "@/components/CustomButton";
-import { Link, router } from "expo-router";
 import { loginUser } from "@/components/Fetching/login";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import ShowToast from "@/components/Toast";
+import { useAuthStore } from "@/store/useAuthStore";
+import { Link } from "expo-router";
 
 const LoginScreen = () => {
   const [nik, setNik] = useState("");
@@ -21,6 +21,7 @@ const LoginScreen = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const login = useAuthStore((state) => state.login);
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
@@ -33,9 +34,8 @@ const LoginScreen = () => {
     try {
       const data = await loginUser({ nik, password });
       if (data.status === 200) {
-        await AsyncStorage.setItem("token", data.data.token);
+        login(data.data.token);
         ShowToast("Login Berhasil");
-        router.push("/home");
       }
     } catch (error: any) {
       console.error("Login failed:", error.message);
