@@ -11,12 +11,14 @@ const CustomButton = ({
   clx2,
   route,
   onPress,
+  disabled,
 }: CustomButtonProps) => {
   if (type === "button")
     return (
       <TouchableOpacity
         className={cn(clx, "rounded-[20px] flex items-center justify-center")}
         onPress={onPress}
+        disabled={disabled}
       >
         <Text className={cn(clx2)}>{title}</Text>
       </TouchableOpacity>

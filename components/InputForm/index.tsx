@@ -1,6 +1,7 @@
-import { View, Text, Image, TextInput, TouchableOpacity } from "react-native";
+import { View, Image, TextInput, TouchableOpacity } from "react-native";
 import React from "react";
 import { InputFormProps } from "@/types/type";
+import Checkbox from "expo-checkbox";
 
 const InputForm = ({
   icon,
@@ -9,6 +10,7 @@ const InputForm = ({
   value,
   onChangeText,
   onPress,
+  placeholderColor,
   secureTextEntry,
 }: InputFormProps) => {
   if (type === "password")
@@ -20,7 +22,7 @@ const InputForm = ({
           secureTextEntry={secureTextEntry}
           value={value}
           onChangeText={onChangeText}
-          placeholderTextColor="#3568C0"
+          placeholderTextColor={placeholderColor}
         />
         <TouchableOpacity onPress={onPress}>
           <Image source={icon} className="w-[2.5vh] h-[2.5vh] ml-[10px] pr-4" />
@@ -44,14 +46,12 @@ const InputForm = ({
 
   if (type === "alamat")
     return (
-      <View className="flex flex-row items-center w-1/2 bg-neutral-50 rounded-[20px]">
-        <TextInput
-          placeholder={placeholder}
-          className="bg-neutral-50 w-full h-[5vh] py-[10px] rounded-[20px] pr-4 border border-neutral-700 px-4"
-          value={value}
-          onChangeText={onChangeText}
-        />
-      </View>
+      <TextInput
+        placeholder={placeholder}
+        className="bg-neutral-50 w-[18.5vh] h-[5vh] py-[10px] rounded-[20px] pr-4 border border-neutral-700 px-4"
+        value={value}
+        onChangeText={onChangeText}
+      />
     );
 
   if (type === "address")

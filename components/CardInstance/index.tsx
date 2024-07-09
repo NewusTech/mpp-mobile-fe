@@ -7,7 +7,7 @@ const CardInstance = ({ icon, title, route }: CardInstanceProps) => {
   return (
     <Link
       href={{
-        pathname: "/[slug]",
+        pathname: "/instance/[slug]",
         params: {
           slug: route,
         },

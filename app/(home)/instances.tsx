@@ -11,8 +11,8 @@ import { icons } from "@/constants";
 import InputForm from "@/components/InputForm";
 import CardInstance from "@/components/CardInstance";
 import { Link } from "expo-router";
-import { useInstance } from "@/components/Fetching/home-screen";
 import { debounce } from "@/utils";
+import { useInstance } from "@/service/api";
 
 const InstanceScreen = () => {
   const [search, setSearch] = useState<string>("");

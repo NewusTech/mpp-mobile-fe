@@ -13,12 +13,8 @@ import CardInstance from "@/components/CardInstance";
 import CardNews from "@/components/CardNews";
 import Bottombar from "@/components/Bottombar";
 import { Link } from "expo-router";
-import {
-  useCarousel,
-  useInstance,
-  useNews,
-} from "@/components/Fetching/home-screen";
 import { withAuth } from "@/components/ProtectedRoute";
+import { useCarousel, useInstance, useNews } from "@/service/api";
 
 const HomeScreen = () => {
   const { data, isLoading } = useCarousel();
@@ -74,7 +70,7 @@ const HomeScreen = () => {
         </View>
         <View className="px-8 mt-3">
           <View className="flex items-end">
-            <Link href="/instance">
+            <Link href="/instances">
               <Text className="font-psemibold text-xs text-primary-900">
                 Lihat Semua
               </Text>

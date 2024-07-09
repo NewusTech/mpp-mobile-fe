@@ -8,7 +8,7 @@ const NewsLayout = () => {
     <>
       <Stack>
         <Stack.Screen name="news" options={{ headerShown: false }} />
-        <Stack.Screen name="[slug]" options={{ headerShown: false }} />
+        <Stack.Screen name="article/[slug]" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style="dark" />
       <Bottombar />

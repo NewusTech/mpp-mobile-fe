@@ -13,6 +13,7 @@ import chevronLeft from "@/assets/icons/chevron-left.png";
 import chevronLeft2 from "@/assets/icons/chevron-left-2.png";
 import chevronDown from "@/assets/icons/chevron-down.png";
 import chevronDownActive from "@/assets/icons/chevron-down-active.png";
+import chevronDownWhite from "@/assets/icons/chevron-down-white.png";
 import bell2 from "@/assets/icons/bell2.png";
 
 export default {
@@ -31,5 +32,6 @@ export default {
   chevronLeft2,
   chevronDown,
   chevronDownActive,
+  chevronDownWhite,
   bell2,
 };

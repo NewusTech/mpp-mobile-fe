@@ -11,16 +11,18 @@ export interface CustomButtonProps {
   clx2: string;
   route?: string;
   onPress?: () => void;
+  disabled?: boolean;
 }
 
 export interface InputFormProps {
   type?: string;
-  placeholder: string;
+  placeholder?: string;
   icon?: any;
   value?: string;
   onChangeText?: any;
   onPress?: () => void;
   secureTextEntry?: boolean;
+  placeholderColor?: string;
 }
 
 export interface GapProps {
@@ -84,4 +86,22 @@ export interface DesaType {
 export interface LoginType {
   nik: string;
   password: string;
+}
+
+export interface RegisterType {
+  name: string;
+  nik: string;
+  phoneNumber: string;
+  email: string;
+  password: string;
+  districtId: number;
+  villageId: number;
+  neighborhoodAssociation: string;
+  communityAssociation: string;
+  address: string;
+}
+
+export interface AccordionProps {
+  title: string;
+  children: React.ReactNode;
 }
