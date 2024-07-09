@@ -10,7 +10,7 @@ import React from "react";
 import { Link } from "expo-router";
 import { icons, images } from "@/constants";
 import CardNews from "@/components/CardNews";
-import { useNews } from "@/components/Fetching/home-screen";
+import { useNews } from "@/service/api";
 
 const NewsScreen = () => {
   const { data, isLoading } = useNews(10000);

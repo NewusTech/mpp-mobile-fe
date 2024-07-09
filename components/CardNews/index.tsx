@@ -10,7 +10,7 @@ const CardNews = ({ icon, title, date, route }: CardNewsProps) => {
   return (
     <Link
       href={{
-        pathname: "/[slug]",
+        pathname: "/article/[slug]",
         params: {
           slug: route,
         },

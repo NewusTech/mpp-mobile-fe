@@ -9,8 +9,8 @@ import {
 import React from "react";
 import { Link, useLocalSearchParams } from "expo-router";
 import { icons } from "@/constants";
-import { useDetailArticle } from "@/components/Fetching/detailArticles";
 import { formatDate } from "@/utils";
+import { useDetailArticle } from "@/service/api";
 
 const NewsDetailScreen = () => {
   // Mendapatkan nilai slug dari params

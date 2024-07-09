@@ -10,10 +10,10 @@ import { icons, images } from "@/constants";
 import { SafeAreaView } from "react-native-safe-area-context";
 import InputForm from "@/components/InputForm";
 import CustomButton from "@/components/CustomButton";
-import { loginUser } from "@/components/Fetching/login";
 import ShowToast from "@/components/Toast";
 import { useAuthStore } from "@/store/useAuthStore";
 import { Link } from "expo-router";
+import { loginUser } from "@/service/api";
 
 const LoginScreen = () => {
   const [nik, setNik] = useState("");

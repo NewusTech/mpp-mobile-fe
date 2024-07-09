@@ -25,9 +25,9 @@ const HistoryScreen = () => {
         <Text className="text-primary-800 text-xl font-pbold">Riwayat</Text>
       </View>
       <View className="px-9 py-10">
-        <View className="flex flex-row space-x-2">
+        <View className="flex flex-row space-x-2 w-full">
           <TouchableOpacity
-            className={`w-[120px] h-[30px] border border-primary-700 ${
+            className={`w-1/2 h-[30px] border border-primary-700 ${
               selectedTab === "Antrian" ? "bg-primary-700" : "bg-transparent"
             } rounded-full py-1 items-center`}
             onPress={() => setSelectedTab("Antrian")}
@@ -43,7 +43,7 @@ const HistoryScreen = () => {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            className={`w-[120px] h-[30px] border border-primary-700 ${
+            className={`w-1/2 h-[30px] border border-primary-700 ${
               selectedTab === "Permohonan" ? "bg-primary-700" : "bg-transparent"
             } rounded-full py-1 items-center`}
             onPress={() => setSelectedTab("Permohonan")}

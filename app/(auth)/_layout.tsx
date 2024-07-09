@@ -7,8 +7,6 @@ const AuthLayout = () => {
 
   if (isAuthenticated) return <Redirect href="/home" />;
 
-  console.log(isAuthenticated);
-
   return (
     <>
       <Stack>
