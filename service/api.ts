@@ -113,6 +113,30 @@ export function useTermAndCondition() {
   };
 }
 
+export function useHistoryRequest() {
+  const { data, isLoading } = useSWR(
+    `${process.env.EXPO_PUBLIC_API_URL}/historyform`,
+    fetcherAuth
+  );
+
+  return {
+    data,
+    isLoading,
+  };
+}
+
+export function useHistoryRequestId(id: string | undefined | string[]) {
+  const { data, isLoading } = useSWR(
+    `${process.env.EXPO_PUBLIC_API_URL}/historyform/${id}`,
+    fetcherAuth
+  );
+
+  return {
+    data,
+    isLoading,
+  };
+}
+
 // post
 
 export const loginUser = async ({ nik, password }: LoginType) => {

@@ -53,11 +53,9 @@ const RegisterScreen = () => {
   });
   const [isChecked, setIsChecked] = useState<any>(false);
   const [modalVisible, setModalVisible] = useState(false);
-  const { data, isLoading } = useDistrict();
-  const { data: dataVillage, isLoading: villageLoading } =
-    useVillage(selectedDistrict);
-  const { data: termCond, isLoading: isLoadingTermCond } =
-    useTermAndCondition();
+  const { data } = useDistrict();
+  const { data: dataVillage } = useVillage(selectedDistrict);
+  const { data: termCond } = useTermAndCondition();
 
   const resultDistrict = data?.data;
   const resultVillage = dataVillage?.data;

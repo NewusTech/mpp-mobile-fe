@@ -63,7 +63,8 @@ export interface TabRequestProps {
   images: any;
   id: string;
   title: string;
-  status: string;
+  status: number;
+  route: string;
 }
 
 export interface TabQueueProps {
