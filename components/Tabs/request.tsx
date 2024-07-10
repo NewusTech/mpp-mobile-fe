@@ -3,30 +3,23 @@ import React from "react";
 import Gap from "../Gap";
 import TabRequest from "./tabRequest";
 import { images } from "@/constants";
+import { useHistoryRequest } from "@/service/api";
 
 const Request = () => {
+  const { data, isLoading } = useHistoryRequest();
+  const result = data?.data;
   return (
     <View className="py-8">
-      <TabRequest
-        images={images.logoLamtim}
-        id="NP102883749"
-        title="Dinas Kependudukan dan Catatan Sipil"
-        status="Selesai"
-      />
-      <Gap height={10} />
-      <TabRequest
-        images={images.logoLamtim}
-        id="NP102883749"
-        title="Dinas Kependudukan dan Catatan Sipil"
-        status="Gagal"
-      />
-      <Gap height={10} />
-      <TabRequest
-        images={images.logoLamtim}
-        id="NP102883749"
-        title="Dinas Kependudukan dan Catatan Sipil"
-        status="Menunggu"
-      />
+      {result?.map((v: any) => (
+        <TabRequest
+          route={v?.id}
+          key={v?.id}
+          images={v?.instansi_image}
+          id={v.id}
+          title={v?.instansi_name}
+          status={v?.status}
+        />
+      ))}
     </View>
   );
 };
