@@ -4,7 +4,7 @@ import Step from "@/components/Step";
 import { icons } from "@/constants";
 import { useDetailService } from "@/service/api";
 import { useReqeustStore } from "@/store/useRequestStore";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useState, useEffect } from "react";
 import {
@@ -27,7 +27,11 @@ const currentStep = 1;
 
 const ServiceRequestOne = () => {
   const [selected, setSelected] = useState<any>(null);
-  const instanceId = useReqeustStore((state) => state.instanceId);
+  const { instanceId, setServiceId, slug } = useReqeustStore((state) => ({
+    instanceId: state.instanceId,
+    setServiceId: state.setServiceId,
+    slug: state.slug,
+  }));
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null); // To manage expanded accordion state
 
   const { data, isLoading } = useDetailService(instanceId);
@@ -60,12 +64,17 @@ const ServiceRequestOne = () => {
     setExpandedIndex((prevIndex) => (prevIndex === index ? null : index));
   };
 
+  const handlePassSericeId = () => {
+    setServiceId(selected?.id);
+    router.push("/service-req-2");
+  };
+
   return (
     <>
       <SafeAreaView className="flex-1 pt-[56px] px-1 bg-primary-50">
         <ScrollView showsVerticalScrollIndicator={false}>
           <View className="flex flex-row space-x-2 items-start">
-            <Link href="/home" asChild>
+            <Link href={`/instance/${slug}`} asChild>
               <TouchableOpacity>
                 <Image source={icons.chevronLeft2} className="w-8 h-8" />
               </TouchableOpacity>
@@ -137,9 +146,10 @@ const ServiceRequestOne = () => {
             <View className="mt-6 flex justify-center items-center">
               <CustomButton
                 clx2="text-sm text-white font-white"
-                route="/service-req-2"
+                onPress={handlePassSericeId}
                 clx="bg-primary-700 w-[14vh] h-[5.5vh]"
                 title="Lanjut"
+                type="button"
               />
             </View>
           </View>
