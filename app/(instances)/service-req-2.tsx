@@ -3,6 +3,14 @@ import Gap from "@/components/Gap";
 import InputForm from "@/components/InputForm";
 import Step from "@/components/Step";
 import { icons } from "@/constants";
+import {
+  bloodTypes,
+  educations,
+  genders,
+  marriedStatus,
+  religions,
+} from "@/constants/select";
+import { useReqeustStore } from "@/store/useRequestStore";
 import { Link } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import {
@@ -13,6 +21,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { SelectList } from "react-native-dropdown-select-list";
 
 const steps = [
   { id: 1, title: "1" },
@@ -23,12 +32,18 @@ const steps = [
 const currentStep = 2;
 
 const ServiceRequestTwo = () => {
+  const { serviceId } = useReqeustStore((state) => ({
+    serviceId: state.serviceId,
+  }));
+
+  console.log(serviceId);
+
   return (
     <>
       <SafeAreaView className="flex-1 pt-[56px] px-1 bg-primary-50">
         <ScrollView showsVerticalScrollIndicator={false}>
           <View className="flex flex-row space-x-2 items-start">
-            <Link href="/home" asChild>
+            <Link href="/service-req-1" asChild>
               <TouchableOpacity>
                 <Image source={icons.chevronLeft2} className="w-8 h-8" />
               </TouchableOpacity>
@@ -53,17 +68,178 @@ const ServiceRequestTwo = () => {
                 <Text className="text-sm text-primary-800 font-psemibold">
                   Data Diri
                 </Text>
-                <Text className="text-xs text-neutral-900 mt-4 mb-2">Nama</Text>
+                <Text className="text-xs text-neutral-900 mt-4 mb-2">
+                  Nama Lengkap
+                </Text>
                 <InputForm placeholder="Nama Lengkap" />
-                <Gap height={8} />
+                <Gap height={4} />
                 <Text className="text-xs text-neutral-900 mt-4 mb-2">NIK</Text>
                 <InputForm placeholder="NIK" />
-                <Gap height={8} />
+                <Gap height={4} />
                 <Text className="text-xs text-neutral-900 mt-4 mb-2">
                   Nomor Telfon
                 </Text>
                 <InputForm placeholder="Nomor Telepon" />
-                <Gap height={8} />
+                <Gap height={4} />
+                <Text className="text-xs text-neutral-900 mt-4 mb-2">
+                  Email
+                </Text>
+                <InputForm placeholder="Email" />
+                <Gap height={4} />
+                <Text className="text-xs text-neutral-900 mt-4 mb-2">
+                  Pendidikan
+                </Text>
+                <SelectList
+                  // setSelected={handleSelectChange}
+                  data={educations}
+                  save="value"
+                  arrowicon={
+                    <Image
+                      source={icons.chevronDown}
+                      className="w-[3vh] h-[3vh]"
+                    />
+                  }
+                  placeholder="Pilih Pendidikan"
+                  boxStyles={{ borderRadius: 20, borderColor: "#C4C4C4" }}
+                  search={false}
+                  inputStyles={{ color: "#C4C4C4" }}
+                />
+                <Gap height={4} />
+                <Text className="text-xs text-neutral-900 mt-4 mb-2">
+                  Agama
+                </Text>
+                <SelectList
+                  // setSelected={handleSelectChange}
+                  data={religions}
+                  save="value"
+                  arrowicon={
+                    <Image
+                      source={icons.chevronDown}
+                      className="w-[3vh] h-[3vh]"
+                    />
+                  }
+                  placeholder="Pilih Agama"
+                  boxStyles={{ borderRadius: 20, borderColor: "#C4C4C4" }}
+                  search={false}
+                  inputStyles={{ color: "#C4C4C4" }}
+                />
+                <Gap height={4} />
+                <Text className="text-xs text-neutral-900 mt-4 mb-2">
+                  Jenis Kelamin
+                </Text>
+                <SelectList
+                  // setSelected={handleSelectChange}
+                  data={genders}
+                  save="value"
+                  arrowicon={
+                    <Image
+                      source={icons.chevronDown}
+                      className="w-[3vh] h-[3vh]"
+                    />
+                  }
+                  placeholder="Pilih Jenis Kelamin"
+                  boxStyles={{ borderRadius: 20, borderColor: "#C4C4C4" }}
+                  search={false}
+                  inputStyles={{ color: "#C4C4C4" }}
+                />
+                <Gap height={4} />
+                <Text className="text-xs text-neutral-900 mt-4 mb-2">
+                  Tempat Lahir
+                </Text>
+                <InputForm placeholder="Tempat lahir" />
+                <Gap height={4} />
+                <Text className="text-xs text-neutral-900 mt-4 mb-2">
+                  Tanggal Lahir
+                </Text>
+                <InputForm placeholder="Tempat lahir" />
+                <Gap height={4} />
+                <Text className="text-xs text-neutral-900 mt-4 mb-2">
+                  Golongan Darah
+                </Text>
+                <SelectList
+                  // setSelected={handleSelectChange}
+                  data={bloodTypes}
+                  save="value"
+                  arrowicon={
+                    <Image
+                      source={icons.chevronDown}
+                      className="w-[3vh] h-[3vh]"
+                    />
+                  }
+                  placeholder="Pilih Golongan Darah"
+                  boxStyles={{ borderRadius: 20, borderColor: "#C4C4C4" }}
+                  search={false}
+                  inputStyles={{ color: "#C4C4C4" }}
+                />
+                <Gap height={4} />
+                <Text className="text-xs text-neutral-900 mt-4 mb-2">
+                  Status Perkawinan
+                </Text>
+                <SelectList
+                  // setSelected={handleSelectChange}
+                  data={marriedStatus}
+                  save="value"
+                  arrowicon={
+                    <Image
+                      source={icons.chevronDown}
+                      className="w-[3vh] h-[3vh]"
+                    />
+                  }
+                  placeholder="Pilih Status Perkawinan"
+                  boxStyles={{ borderRadius: 20, borderColor: "#C4C4C4" }}
+                  search={false}
+                  inputStyles={{ color: "#C4C4C4" }}
+                />
+                <Gap height={4} />
+                <Text className="text-xs text-neutral-900 mt-4 mb-2">
+                  Pekerjaan
+                </Text>
+                <InputForm placeholder="Tempat lahir" />
+                <Gap height={4} />
+                <Text className="text-xs text-neutral-900 mt-4 mb-2">
+                  Kecamatan
+                </Text>
+                <SelectList
+                  // setSelected={handleSelectChange}
+                  data={educations}
+                  searchPlaceholder="Cari Layanan Permohonan"
+                  save="value"
+                  arrowicon={
+                    <Image
+                      source={icons.chevronDown}
+                      className="w-[3vh] h-[3vh]"
+                    />
+                  }
+                  placeholder="Pilih Layanan Permohonan"
+                  boxStyles={{ borderRadius: 20, borderColor: "#C4C4C4" }}
+                  search={true}
+                  inputStyles={{ color: "#C4C4C4" }}
+                />
+                <Gap height={4} />
+                <Text className="text-xs text-neutral-900 mt-4 mb-2">Desa</Text>
+                <SelectList
+                  // setSelected={handleSelectChange}
+                  data={educations}
+                  searchPlaceholder="Cari Layanan Permohonan"
+                  save="value"
+                  arrowicon={
+                    <Image
+                      source={icons.chevronDown}
+                      className="w-[3vh] h-[3vh]"
+                    />
+                  }
+                  placeholder="Pilih Layanan Permohonan"
+                  boxStyles={{ borderRadius: 20, borderColor: "#C4C4C4" }}
+                  search={true}
+                  inputStyles={{ color: "#C4C4C4" }}
+                />
+                <Gap height={4} />
+                <Text className="text-xs text-neutral-900 mt-4 mb-2">RT</Text>
+                <InputForm placeholder="Tempat lahir" />
+                <Gap height={4} />
+                <Text className="text-xs text-neutral-900 mt-4 mb-2">RW</Text>
+                <InputForm placeholder="Tempat lahir" />
+                <Gap height={4} />
                 <Text className="text-xs text-neutral-900 mt-4 mb-2">
                   Alamat
                 </Text>

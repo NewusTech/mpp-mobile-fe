@@ -3,6 +3,8 @@ import { create } from "zustand";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface RequestStore {
+  slug: string;
+  setSlug: (slug: string) => void;
   instanceId: number;
   setInstanceId: (id: number) => void;
   serviceId: number;
@@ -17,5 +19,9 @@ export const useReqeustStore = create<RequestStore>((set) => ({
   serviceId: 0,
   setServiceId: (id: number) => {
     set({ serviceId: id });
+  },
+  slug: "",
+  setSlug: (slug: string) => {
+    set({ slug });
   },
 }));

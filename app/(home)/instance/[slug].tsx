@@ -18,7 +18,10 @@ import { useReqeustStore } from "@/store/useRequestStore";
 import { useDetailInstance } from "@/service/api";
 
 const DetailInstanceScreen = () => {
-  const setInstanceId = useReqeustStore((state) => state.setInstanceId);
+  const { setInstanceId, setSlug } = useReqeustStore((state) => ({
+    setInstanceId: state.setInstanceId,
+    setSlug: state.setSlug,
+  }));
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const { slug } = useLocalSearchParams();
   const { data, isLoading } = useDetailInstance(slug);
@@ -39,6 +42,7 @@ const DetailInstanceScreen = () => {
 
   const handlePassInstanceId = () => {
     setInstanceId(result?.id);
+    setSlug(result?.slug);
     router.push("/service-req-1");
   };
 
