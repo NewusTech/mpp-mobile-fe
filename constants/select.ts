@@ -1,40 +1,40 @@
 export const religions = [
-  { id: 1, key: "Islam" },
-  { id: 2, key: "Kristen" },
-  { id: 3, key: "Katolik" },
-  { id: 4, key: "Hindu" },
-  { id: 5, key: "Buddha" },
-  { id: 6, key: "Konghucu" },
+  { key: 1, value: "Islam" },
+  { key: 2, value: "Kristen" },
+  { key: 3, value: "Katolik" },
+  { key: 4, value: "Hindu" },
+  { key: 5, value: "Buddha" },
+  { key: 6, value: "Konghucu" },
 ];
 
 export const educations = [
-  { id: 1, key: "Tidak Sekolah" },
-  { id: 2, key: "SD" },
-  { id: 3, key: "SMP" },
-  { id: 4, key: "SMA" },
-  { id: 5, key: "D1" },
-  { id: 6, key: "D2" },
-  { id: 7, key: "D3" },
-  { id: 8, key: "S1" },
-  { id: 9, key: "S2" },
-  { id: 10, key: "S3" },
+  { key: 1, value: "Tidak Sekolah" },
+  { key: 2, value: "SD" },
+  { key: 3, value: "SMP" },
+  { key: 4, value: "SMA" },
+  { key: 5, value: "D1" },
+  { key: 6, value: "D2" },
+  { key: 7, value: "D3" },
+  { key: 8, value: "S1" },
+  { key: 9, value: "S2" },
+  { key: 10, value: "S3" },
 ];
 
 export const marriedStatus = [
-  { id: 1, key: "Belum Kawin" },
-  { id: 2, key: "Kawin" },
-  { id: 3, key: "Cerai Hidup" },
-  { id: 4, key: "Cerai Mati" },
+  { key: 1, value: "Belum Kawin" },
+  { key: 2, value: "Kawin" },
+  { key: 3, value: "Cerai Hidup" },
+  { key: 4, value: "Cerai Mati" },
 ];
 
 export const bloodTypes = [
-  { id: 1, key: "A" },
-  { id: 2, key: "B" },
-  { id: 3, key: "AB" },
-  { id: 4, key: "O" },
+  { key: 1, value: "A" },
+  { key: 2, value: "B" },
+  { key: 3, value: "AB" },
+  { key: 4, value: "O" },
 ];
 
 export const genders = [
-  { id: 1, key: "Laki-Laki" },
-  { id: 2, key: "Perempuan" },
+  { key: 1, value: "Laki-Laki" },
+  { key: 2, value: "Perempuan" },
 ];

@@ -1,12 +1,15 @@
-import { LoginType, RegisterType } from "@/types/type";
+import { FormDataUpdateStepTwo, LoginType, RegisterType } from "@/types/type";
 import { fetcher, fetcherAuth } from "@/utils/fetcher";
 import useSWR from "swr";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 
 // get
 
 export function useDetailService(id: number | undefined | number[]) {
   const { data, isLoading } = useSWR(
-    `${process.env.EXPO_PUBLIC_API_URL}/layanan/dinas/get/${id}`,
+    `${apiUrl}/layanan/dinas/get/${id}`,
     fetcherAuth
   );
 
@@ -18,7 +21,7 @@ export function useDetailService(id: number | undefined | number[]) {
 
 export function useDetailArticle(slug: string | undefined | string[]) {
   const { data, isLoading } = useSWR(
-    `${process.env.EXPO_PUBLIC_API_URL}/artikel/get/${slug}`,
+    `${apiUrl}/artikel/get/${slug}`,
     fetcherAuth
   );
 
@@ -30,7 +33,7 @@ export function useDetailArticle(slug: string | undefined | string[]) {
 
 export function useDetailInstance(slug: string | undefined | string[]) {
   const { data, isLoading } = useSWR(
-    `${process.env.EXPO_PUBLIC_API_URL}/instansi/get/${slug}`,
+    `${apiUrl}/instansi/get/${slug}`,
     fetcherAuth
   );
 
@@ -41,10 +44,7 @@ export function useDetailInstance(slug: string | undefined | string[]) {
 }
 
 export function useCarousel() {
-  const { data, isLoading } = useSWR(
-    `${process.env.EXPO_PUBLIC_API_URL}/carousel/get`,
-    fetcherAuth
-  );
+  const { data, isLoading } = useSWR(`${apiUrl}/carousel/get`, fetcherAuth);
 
   return {
     data,
@@ -53,7 +53,7 @@ export function useCarousel() {
 }
 
 export function useInstance(limit: number, search?: string) {
-  const baseUrl = `${process.env.EXPO_PUBLIC_API_URL}/instansi/get?limit=${limit}`;
+  const baseUrl = `${apiUrl}/instansi/get?limit=${limit}`;
   const searchParam = search ? `&search=${encodeURIComponent(search)}` : "";
   const url = `${baseUrl}${searchParam}`;
 
@@ -67,7 +67,7 @@ export function useInstance(limit: number, search?: string) {
 
 export function useNews(limit: number) {
   const { data, isLoading } = useSWR(
-    `${process.env.EXPO_PUBLIC_API_URL}/artikel/get?limit=${limit}`,
+    `${apiUrl}/artikel/get?limit=${limit}`,
     fetcherAuth
   );
 
@@ -79,7 +79,7 @@ export function useNews(limit: number) {
 
 export function useDistrict() {
   const { data, isLoading } = useSWR(
-    `${process.env.EXPO_PUBLIC_API_URL}/kecamatan/get?limit=30`,
+    `${apiUrl}/kecamatan/get?limit=30`,
     fetcherAuth
   );
 
@@ -90,7 +90,7 @@ export function useDistrict() {
 }
 
 export function useVillage(id: number) {
-  const baseUrl = `${process.env.EXPO_PUBLIC_API_URL}/desa/get?limit=300`;
+  const baseUrl = `${apiUrl}/desa/get?limit=300`;
   const searchParam = id ? `&kecamatan_id=${encodeURIComponent(id)}` : "";
   const url = `${baseUrl}${searchParam}`;
   const { data, isLoading } = useSWR(url, fetcherAuth);
@@ -102,10 +102,7 @@ export function useVillage(id: number) {
 }
 
 export function useTermAndCondition() {
-  const { data, isLoading } = useSWR(
-    `${process.env.EXPO_PUBLIC_API_URL}/termcond/get`,
-    fetcher
-  );
+  const { data, isLoading } = useSWR(`${apiUrl}/termcond/get`, fetcher);
 
   return {
     data,
@@ -114,10 +111,7 @@ export function useTermAndCondition() {
 }
 
 export function useHistoryRequest() {
-  const { data, isLoading } = useSWR(
-    `${process.env.EXPO_PUBLIC_API_URL}/historyform`,
-    fetcherAuth
-  );
+  const { data, isLoading } = useSWR(`${apiUrl}/historyform`, fetcherAuth);
 
   return {
     data,
@@ -127,7 +121,28 @@ export function useHistoryRequest() {
 
 export function useHistoryRequestId(id: string | undefined | string[]) {
   const { data, isLoading } = useSWR(
-    `${process.env.EXPO_PUBLIC_API_URL}/historyform/${id}`,
+    `${apiUrl}/historyform/${id}`,
+    fetcherAuth
+  );
+
+  return {
+    data,
+    isLoading,
+  };
+}
+
+export function useCurrentUser() {
+  const { data, isLoading } = useSWR(`${apiUrl}/getforuser`, fetcherAuth);
+
+  return {
+    data,
+    isLoading,
+  };
+}
+
+export function useGenerateForm(id: number | undefined | number[]) {
+  const { data, isLoading } = useSWR(
+    `${apiUrl}/layanan/form/${id}`,
     fetcherAuth
   );
 
@@ -141,7 +156,7 @@ export function useHistoryRequestId(id: string | undefined | string[]) {
 
 export const loginUser = async ({ nik, password }: LoginType) => {
   try {
-    const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/login`, {
+    const response = await fetch(`${apiUrl}/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -181,20 +196,43 @@ export const register = async ({
     rw: communityAssociation,
   };
   try {
-    const response = await fetch(
-      `${process.env.EXPO_PUBLIC_API_URL}/register`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      }
-    );
+    const response = await fetch(`${apiUrl}/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
 
     const data = await response.json();
     return data;
   } catch (error) {
+    throw error;
+  }
+};
+
+export const requestStepTwo = async ({
+  formData,
+  slug,
+}: FormDataUpdateStepTwo) => {
+  try {
+    const token = await AsyncStorage.getItem("token");
+    const response = await fetch(`${apiUrl}/userinfo/update/${slug}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(formData),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("API Error:", error);
     throw error;
   }
 };

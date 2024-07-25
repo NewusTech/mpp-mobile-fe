@@ -1,3 +1,6 @@
+import { format } from "date-fns";
+import { id } from "date-fns/locale";
+
 export function truncateString(str: string, num: number): string {
   if (str.length <= num) {
     return str;
@@ -40,3 +43,14 @@ export function debounce(func: (...args: any[]) => void, wait: number) {
     timeout = setTimeout(later, wait);
   };
 }
+
+export const formatDateToString = (date: any) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0"); // Adding leading zero
+  const day = String(date.getDate()).padStart(2, "0"); // Adding leading zero
+  return `${year}-${month}-${day}`;
+};
+
+export const formatDateToIndo = (date: any) => {
+  return format(new Date(date), "dd MMMM yyyy", { locale: id });
+};

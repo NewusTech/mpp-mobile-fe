@@ -73,7 +73,8 @@ const InputForm = ({
     return (
       <View
         style={{ elevation: 5 }}
-        className="flex flex-row items-center bg-neutral-50 rounded-[20px] z-20 px-4 border border-secondary-500">
+        className="flex flex-row items-center bg-neutral-50 rounded-[20px] z-20 px-4 border border-secondary-500"
+      >
         <Image source={icon} className="w-[2.5vh] h-[2.5vh] mr-[10px]" />
         <TextInput
           placeholder={placeholder}

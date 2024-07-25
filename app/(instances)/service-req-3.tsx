@@ -3,6 +3,8 @@ import Gap from "@/components/Gap";
 import InputForm from "@/components/InputForm";
 import Step from "@/components/Step";
 import { icons } from "@/constants";
+import { useGenerateForm } from "@/service/api";
+import { useReqeustStore } from "@/store/useRequestStore";
 import { Link } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import {
@@ -23,12 +25,22 @@ const steps = [
 const currentStep = 3;
 
 const ServiceRequestThree = () => {
+  const { serviceId } = useReqeustStore((state) => ({
+    serviceId: state.serviceId,
+  }));
+
+  console.log(serviceId);
+
+  const { data, isLoading } = useGenerateForm(serviceId);
+  const result = data?.data?.Layananforms;
+  console.log(result);
+
   return (
     <>
       <SafeAreaView className="flex-1 pt-[56px] px-1 bg-primary-50">
         <ScrollView showsVerticalScrollIndicator={false}>
           <View className="flex flex-row space-x-2 items-start">
-            <Link href="/home" asChild>
+            <Link href="/service-req-2" asChild>
               <TouchableOpacity>
                 <Image source={icons.chevronLeft2} className="w-8 h-8" />
               </TouchableOpacity>
@@ -58,18 +70,6 @@ const ServiceRequestThree = () => {
                 </Text>
                 <InputForm placeholder="Jawaban" />
                 <Gap height={8} />
-                <Text className="text-xs text-neutral-900 mt-4 mb-2">NIK</Text>
-                <InputForm placeholder="NIK" />
-                <Gap height={8} />
-                <Text className="text-xs text-neutral-900 mt-4 mb-2">
-                  Nomor Telfon
-                </Text>
-                <InputForm placeholder="Nomor Telepon" />
-                <Gap height={8} />
-                <Text className="text-xs text-neutral-900 mt-4 mb-2">
-                  Alamat
-                </Text>
-                <InputForm placeholder="Alamat" />
               </View>
             </View>
             <CustomButton
