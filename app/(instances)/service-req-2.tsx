@@ -39,7 +39,6 @@ import {
 } from "react-native";
 import RenderHtml from "react-native-render-html";
 import { SelectList } from "react-native-dropdown-select-list";
-import { set } from "date-fns";
 import ShowToast from "@/components/Toast";
 
 const steps = [

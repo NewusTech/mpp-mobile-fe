@@ -150,3 +150,9 @@ interface FormDataProps {
   alamat: string;
   selectedDateNow: string;
 }
+
+export interface RadioButtonProps {
+  label: string;
+  onPress?: () => void;
+  isSelected?: boolean;
+}
