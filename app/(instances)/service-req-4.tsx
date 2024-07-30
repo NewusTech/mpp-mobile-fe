@@ -3,6 +3,7 @@ import Gap from "@/components/Gap";
 import InputForm from "@/components/InputForm";
 import Step from "@/components/Step";
 import { icons } from "@/constants";
+import { useReqeustStore } from "@/store/useRequestStore";
 import { Link } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import {
@@ -23,12 +24,18 @@ const steps = [
 const currentStep = 4;
 
 const ServiceRequestFour = () => {
+  const { datainput } = useReqeustStore((state: any) => ({
+    datainput: state.datainput,
+  }));
+
+  console.log(datainput);
+
   return (
     <>
       <SafeAreaView className="flex-1 pt-[56px] px-1 bg-primary-50">
         <ScrollView showsVerticalScrollIndicator={false}>
           <View className="flex flex-row space-x-2 items-start">
-            <Link href="/home" asChild>
+            <Link href="/service-req-3" asChild>
               <TouchableOpacity>
                 <Image source={icons.chevronLeft2} className="w-8 h-8" />
               </TouchableOpacity>

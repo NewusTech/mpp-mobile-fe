@@ -43,7 +43,7 @@ const ServiceRequestThree = () => {
   const [showPicker, setShowPicker] = useState(false);
   const [selectedDateNow, setSelectedDateNow] = useState(date.toDateString());
   const [inputValues, setInputValues] = useState<{
-    [key: number | string]: string | number;
+    [key: number | string]: string | number | Array<number>;
   }>({});
 
   const convertToDate = (dateString: any) => {
@@ -62,21 +62,24 @@ const ServiceRequestThree = () => {
   };
 
   const onChange = ({ type }: { type: string }, selectedDate: any) => {
-    if (type == "set") {
+    if (type === "set") {
       const currentDate = selectedDate;
       setDate(currentDate);
       if (Platform.OS === "android") {
         togglePickerDate();
         setSelectedDateNow(currentDate.toDateString());
       }
+      // Update the inputValues state with the selected date
+
+      handleInputChange(0, 6, currentDate.toDateString());
     } else {
       togglePickerDate();
     }
   };
 
   const handleInputChange = (
-    index: number,
-    formId: string,
+    index: number | null,
+    formId: string | number,
     value: string | number,
     type?: string
   ) => {
@@ -85,8 +88,25 @@ const ServiceRequestThree = () => {
         ...prevValues,
         [formId]: value,
       }));
+    } else if (type === "checkbox") {
+      setInputValues((prevValues) => {
+        const currentValues = (prevValues[formId] as Array<number>) || [];
+        if (currentValues.includes(value as number)) {
+          return {
+            ...prevValues,
+            [formId]: currentValues.filter((item) => item !== value),
+          };
+        } else {
+          return {
+            ...prevValues,
+            [formId]: [...currentValues, value as number],
+          };
+        }
+      });
     } else {
-      setDatainput(index, formId, value);
+      if (index !== null) {
+        setDatainput(index, formId, value);
+      }
       setInputValues((prevValues) => ({
         ...prevValues,
         [formId]: value,
@@ -97,10 +117,7 @@ const ServiceRequestThree = () => {
   const handleSubmit = async () => {
     await saveToAsyncStorage();
     router.push("/service-req-4");
-    // redirect to next page or handle submission
   };
-
-  console.log(inputValues);
 
   return (
     <>
@@ -177,7 +194,9 @@ const ServiceRequestThree = () => {
                             mode="date"
                             display="spinner"
                             value={date}
-                            onChange={onChange}
+                            onChange={(event, selectedDate) =>
+                              onChange(event, selectedDate)
+                            }
                           />
                         )}
                         <InputForm
@@ -203,9 +222,11 @@ const ServiceRequestThree = () => {
                           >
                             <Checkbox
                               onValueChange={(value) =>
-                                handleInputChange(index, z.id, value ? 1 : 0)
+                                handleInputChange(index, v.id, z.id, "checkbox")
                               }
-                              value={!!inputValues[z.id]}
+                              value={(
+                                inputValues[v.id] as Array<number>
+                              )?.includes(z.id)}
                               className="bg-neutral-50 border"
                             />
                             <Text>{z.key}</Text>
@@ -227,7 +248,7 @@ const ServiceRequestThree = () => {
                             onPress={() =>
                               handleInputChange(index, v.id, z.id, "radio")
                             }
-                            isSelected={inputValues[z.id] === z.id}
+                            isSelected={inputValues[v.id] === z.id}
                           />
                         ))}
                         <Gap height={8} />
