@@ -5,7 +5,7 @@ import Step from "@/components/Step";
 import { icons } from "@/constants";
 import { useGenerateForm } from "@/service/api";
 import { useReqeustStore } from "@/store/useRequestStore";
-import { formatDateToIndo } from "@/utils";
+import { formatDateToIndo, formatDateToString } from "@/utils";
 import { Link, router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
@@ -31,13 +31,17 @@ const steps = [
 const currentStep = 3;
 
 const ServiceRequestThree = () => {
-  const { serviceId, setDatainput, saveToAsyncStorage } = useReqeustStore(
-    (state: any) => ({
-      serviceId: state.serviceId,
-      setDatainput: state.setDatainput,
-      saveToAsyncStorage: state.saveToAsyncStorage,
-    })
-  );
+  const {
+    serviceId,
+    setDataInput,
+    saveToAsyncStorage,
+    setDataInputFromValues,
+  } = useReqeustStore((state: any) => ({
+    serviceId: state.serviceId,
+    setDataInput: state.setDataInput,
+    saveToAsyncStorage: state.saveToAsyncStorage,
+    setDataInputFromValues: state.setDataInputFromValues,
+  }));
 
   const [date, setDate] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
@@ -51,11 +55,9 @@ const ServiceRequestThree = () => {
     return new Date(year, month - 1, day);
   };
 
-  console.log(serviceId);
-
   const { data, isLoading } = useGenerateForm(serviceId);
   const result = data?.data?.Layananforms;
-  console.log(result);
+  // console.log(result);
 
   const togglePickerDate = () => {
     setShowPicker(!showPicker);
@@ -71,7 +73,7 @@ const ServiceRequestThree = () => {
       }
       // Update the inputValues state with the selected date
 
-      handleInputChange(0, 6, currentDate.toDateString());
+      handleInputChange(0, 6, formatDateToString(currentDate));
     } else {
       togglePickerDate();
     }
@@ -103,9 +105,13 @@ const ServiceRequestThree = () => {
           };
         }
       });
+
+      if (index !== null) {
+        setDataInput(index, formId as number, value, "checkbox");
+      }
     } else {
       if (index !== null) {
-        setDatainput(index, formId, value);
+        setDataInput(index, formId as number, value);
       }
       setInputValues((prevValues) => ({
         ...prevValues,
@@ -115,6 +121,7 @@ const ServiceRequestThree = () => {
   };
 
   const handleSubmit = async () => {
+    setDataInputFromValues(inputValues);
     await saveToAsyncStorage();
     router.push("/service-req-4");
   };

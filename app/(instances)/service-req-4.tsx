@@ -3,9 +3,11 @@ import Gap from "@/components/Gap";
 import InputForm from "@/components/InputForm";
 import Step from "@/components/Step";
 import { icons } from "@/constants";
+import { useGenerateDocs } from "@/service/api";
 import { useReqeustStore } from "@/store/useRequestStore";
 import { Link } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import * as DocumentPicker from "expo-document-picker";
 import {
   Image,
   SafeAreaView,
@@ -14,6 +16,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { useEffect, useState } from "react";
 
 const steps = [
   { id: 1, title: "1" },
@@ -24,11 +27,28 @@ const steps = [
 const currentStep = 4;
 
 const ServiceRequestFour = () => {
-  const { datainput } = useReqeustStore((state: any) => ({
-    datainput: state.datainput,
+  const { dataInput, serviceId } = useReqeustStore((state: any) => ({
+    dataInput: state.dataInput,
+    serviceId: state.serviceId,
   }));
+  const { data, isLoading } = useGenerateDocs(serviceId);
+  const result = data?.data?.Layananforms;
+  const [documents, setDocuments] = useState<{ [key: number]: any }>({});
 
-  console.log(datainput);
+  const pickDocument = async (index: any) => {
+    let result: any = await DocumentPicker.getDocumentAsync({});
+    if (
+      result.type === "success" &&
+      result.assets &&
+      result.assets.length > 0
+    ) {
+      const selectedDocument = result.assets[0];
+      setDocuments((prevDocuments) => ({
+        ...prevDocuments,
+        [index]: selectedDocument, // Save the document correctly
+      }));
+    }
+  };
 
   return (
     <>
@@ -56,58 +76,38 @@ const ServiceRequestFour = () => {
           </View>
           <View className="px-9 py-4 flex items-center">
             <View className="space-y-3">
-              <View className="w-full rounded-[20px] border border-neutral-700 px-4 py-[14px] flex flex-row items-center justify-between">
-                <View className="space-y-1">
-                  <Text className="text-sm text-primary-800 font-psemibold">
-                    Nama Dokumen
-                  </Text>
-                  <Text className="text-xs">
-                    Lorem ipsum dolor sit amet consectetur.
-                  </Text>
+              {result?.map((v: any, index: number) => (
+                <View
+                  key={v.id}
+                  className="w-full rounded-[20px] border border-neutral-700 px-4 py-[14px] flex flex-row items-center justify-between"
+                >
+                  <View className="space-y-1">
+                    <Text className="text-sm text-primary-800 font-psemibold">
+                      {v.field}
+                    </Text>
+                    <Text className="text-xs">
+                      {v.isrequired ? "Wajib diisi" : "Tidak Wajib"}
+                    </Text>
+                    {documents[index] && (
+                      <Text className="text-xs text-primary-700">
+                        {documents[index].name}
+                      </Text>
+                    )}
+                  </View>
+                  <TouchableOpacity
+                    onPress={() => pickDocument(index)}
+                    className="px-4 py-2 border rounded-[20px] border-neutral-500"
+                  >
+                    {documents[index] ? (
+                      <Text className="text-xs text-primary-700">
+                        {documents[index].name}
+                      </Text>
+                    ) : (
+                      <Text className="text-primary-700">Upload</Text>
+                    )}
+                  </TouchableOpacity>
                 </View>
-                <TouchableOpacity className="px-4 py-2 border rounded-[20px] border-neutral-500">
-                  <Text className="text-primary-700">Upload</Text>
-                </TouchableOpacity>
-              </View>
-              <View className="w-full rounded-[20px] border border-neutral-700 px-4 py-[14px] flex flex-row items-center justify-between">
-                <View className="space-y-1">
-                  <Text className="text-sm text-primary-800 font-psemibold">
-                    Nama Dokumen
-                  </Text>
-                  <Text className="text-xs">
-                    Lorem ipsum dolor sit amet consectetur.
-                  </Text>
-                </View>
-                <TouchableOpacity className="px-4 py-2 border rounded-[20px] border-neutral-500">
-                  <Text className="text-primary-700">Upload</Text>
-                </TouchableOpacity>
-              </View>
-              <View className="w-full rounded-[20px] border border-neutral-700 px-4 py-[14px] flex flex-row items-center justify-between">
-                <View className="space-y-1">
-                  <Text className="text-sm text-primary-800 font-psemibold">
-                    Nama Dokumen
-                  </Text>
-                  <Text className="text-xs">
-                    Lorem ipsum dolor sit amet consectetur.
-                  </Text>
-                </View>
-                <TouchableOpacity className="px-4 py-2 border rounded-[20px] border-neutral-500">
-                  <Text className="text-primary-700">Upload</Text>
-                </TouchableOpacity>
-              </View>
-              <View className="w-full rounded-[20px] border border-neutral-700 px-4 py-[14px] flex flex-row items-center justify-between">
-                <View className="space-y-1">
-                  <Text className="text-sm text-primary-800 font-psemibold">
-                    Nama Dokumen
-                  </Text>
-                  <Text className="text-xs">
-                    Lorem ipsum dolor sit amet consectetur.
-                  </Text>
-                </View>
-                <TouchableOpacity className="px-4 py-2 border rounded-[20px] border-neutral-500">
-                  <Text className="text-primary-700">Upload</Text>
-                </TouchableOpacity>
-              </View>
+              ))}
             </View>
             <CustomButton
               clx2="text-sm text-white font-white"

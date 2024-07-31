@@ -152,6 +152,18 @@ export function useGenerateForm(id: number | undefined | number[]) {
   };
 }
 
+export function useGenerateDocs(id: number | undefined | number[]) {
+  const { data, isLoading } = useSWR(
+    `${apiUrl}/layanan/docs/${id}`,
+    fetcherAuth
+  );
+
+  return {
+    data,
+    isLoading,
+  };
+}
+
 // post
 
 export const loginUser = async ({ nik, password }: LoginType) => {

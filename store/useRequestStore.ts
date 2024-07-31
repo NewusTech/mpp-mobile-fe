@@ -9,8 +9,15 @@ interface RequestStore {
   setInstanceId: (id: number) => void;
   serviceId: number;
   setServiceId: (id: number) => void;
-  datainput: { [key: string]: any }[];
-  setDatainput: (index: number, formId: number, value: any) => void;
+  dataInput: { [key: string]: any }[];
+  setDataInput: (
+    index: number,
+    formId: number,
+    value: any,
+    type?: string
+  ) => void;
+  setDataInputFromValues: (inputValues: { [key: string]: any }) => void;
+
   saveToAsyncStorage: () => Promise<void>;
 }
 
@@ -27,22 +34,48 @@ export const useReqeustStore = create<RequestStore>((set) => ({
   setSlug: (slug: string) => {
     set({ slug });
   },
-  datainput: [],
-  setDatainput: (index, formId, value) =>
+  dataInput: [],
+  setDataInput: (index, formId, value, type) =>
     set((state) => {
-      const updatedDatainput = [...state.datainput];
-      updatedDatainput[index] = {
-        layananform_id: formId,
-        data: value,
-      };
-      return { datainput: updatedDatainput };
+      const updatedDataInput = [...state.dataInput];
+      const existingEntry = updatedDataInput[index];
+
+      if (type === "checkbox") {
+        const currentValues = (existingEntry?.data || []) as Array<any>;
+        if (currentValues.includes(value)) {
+          updatedDataInput[index] = {
+            layananform_id: formId,
+            data: currentValues.filter((item) => item !== value),
+          };
+        } else {
+          updatedDataInput[index] = {
+            layananform_id: formId,
+            data: [...currentValues, value],
+          };
+        }
+      } else {
+        updatedDataInput[index] = {
+          layananform_id: formId,
+          data: value,
+        };
+      }
+
+      return { dataInput: updatedDataInput };
     }),
   saveToAsyncStorage: async () => {
-    const { datainput } = useReqeustStore.getState();
+    const { dataInput } = useReqeustStore.getState();
     try {
-      await AsyncStorage.setItem("datainput", JSON.stringify(datainput));
+      await AsyncStorage.setItem("dataInput", JSON.stringify(dataInput));
     } catch (error) {
       console.error("Error saving data to AsyncStorage:", error);
     }
   },
+  setDataInputFromValues: (inputValues: { [key: string]: any }) =>
+    set(() => {
+      const dataInput = Object.entries(inputValues).map(([key, value]) => ({
+        layananform_id: Number(key),
+        data: value,
+      }));
+      return { dataInput };
+    }),
 }));
