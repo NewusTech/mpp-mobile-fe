@@ -5,7 +5,7 @@ import { Link } from "expo-router";
 import { formatDate, truncateString } from "@/utils";
 
 const CardNews = ({ icon, title, date, route }: CardNewsProps) => {
-  const truncate = truncateString(title, 17);
+  const truncate = truncateString(title, 15);
   const dateFormat = formatDate(date);
   return (
     <Link

@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { icons } from "@/constants";
+import { icons, images } from "@/constants";
 import InputForm from "@/components/InputForm";
 import CardInstance from "@/components/CardInstance";
 import { Link } from "expo-router";
@@ -41,8 +41,9 @@ const InstanceScreen = () => {
   return (
     <SafeAreaView className="flex-1 bg-primary-50 relative z-10">
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View className="bg-primary-700 w-full h-[17vh] py-6 px-1">
-          <Link href="/home" asChild>
+        <View className="relative w-full h-[20vh]">
+          <Image source={images.Banner} className="w-full h-full" />
+          <Link href="/home" asChild className="absolute mt-4">
             <TouchableOpacity>
               <Image source={icons.chevronLeft} className="w-10 h-10" />
             </TouchableOpacity>
@@ -50,7 +51,7 @@ const InstanceScreen = () => {
         </View>
         <View className="-mt-5 px-9">
           <InputForm
-            placeholder="Cari"
+            placeholder="Cari Instansi"
             icon={icons.search}
             type="search"
             value={search}

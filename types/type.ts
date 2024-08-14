@@ -12,6 +12,7 @@ export interface CustomButtonProps {
   route?: string;
   onPress?: () => void;
   disabled?: boolean;
+  icon?: any;
 }
 
 export interface InputFormProps {
@@ -105,4 +106,54 @@ export interface RegisterType {
 export interface AccordionProps {
   title: string;
   children: React.ReactNode;
+}
+
+export interface FormDataUser {
+  name: string;
+  nik: string;
+  telepon: string;
+  email: string;
+  pendidikan: string;
+  agama: string;
+  gender: string;
+  tempatLahir: string;
+  goldar: string;
+  statusKawin: string;
+  pekerjaan: string;
+  kecamatan: string;
+  desa: string;
+  rt: string;
+  rw: string;
+  alamat: string;
+}
+
+export interface FormDataUpdateStepTwo {
+  formData: FormDataProps;
+  slug: string;
+}
+
+interface FormDataProps {
+  name: string;
+  nik: string;
+  telepon: string;
+  email: string;
+  pendidikan: string;
+  agama: string;
+  gender: string;
+  tempatLahir: string;
+  goldar: string;
+  statusKawin: string;
+  pekerjaan: string;
+  kecamatan: string;
+  desa: string;
+  rt: string;
+  rw: string;
+  alamat: string;
+  selectedDateNow: string;
+}
+
+export interface RadioButtonProps {
+  label: string;
+  onPress?: () => void;
+  isSelected?: boolean;
 }
