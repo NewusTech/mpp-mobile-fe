@@ -19,14 +19,14 @@ import { useCarousel, useInstance, useNews } from "@/service/api";
 const HomeScreen = () => {
   const { data, isLoading } = useCarousel();
   const { data: instance, isLoading: instanceLoading } = useInstance(4);
-  const { data: news, isLoading: instanceNews } = useNews(6);
+  const { data: news, isLoading: instanceNews } = useNews(2);
 
   const resultCarousel = data?.data;
   const resultInstance = instance?.data;
   const resultNews = news?.data;
 
   return (
-    <SafeAreaView className="flex-1 bg-primary-50 z-10">
+    <SafeAreaView className="flex-1 z-10">
       <ScrollView showsVerticalScrollIndicator={false}>
         <View className="bg-primary-700 w-full h-[12vh] py-6 px-5">
           <View className="flex flex-row justify-between items-start px-4">
@@ -50,9 +50,9 @@ const HomeScreen = () => {
             </View>
           </View>
         </View>
-        <View className="py-4 px-6 h-[20vh] rounded-lg">
+        <View className="h-[25vh] rounded-lg">
           <Carousel
-            style={{ height: "100%", width: "100%", borderRadius: 20 }}
+            style={{ height: "100%", width: "100%" }}
             showsControls={false}
             loop={true}
             autoplay={true}
@@ -68,47 +68,72 @@ const HomeScreen = () => {
             ))}
           </Carousel>
         </View>
-        <View className="px-8 mt-3">
-          <View className="flex items-end">
-            <Link href="/instances">
-              <Text className="font-psemibold text-xs text-primary-900">
-                Lihat Semua
-              </Text>
-            </Link>
+        <View className="bg-primary-100 w-full -mt-16 rounded-t-[40px]">
+          <View className="px-8 mt-8">
+            <View className="flex items-end">
+              <Link href="/instances">
+                <Text className="font-psemibold text-xs text-primary-900">
+                  Lihat Semua
+                </Text>
+              </Link>
+            </View>
+            <View className="flex flex-row flex-wrap justify-start">
+              {resultInstance?.map((v: any) => (
+                <CardInstance
+                  key={v.id}
+                  route={v.slug}
+                  icon={{ uri: v.image }}
+                  title={v.name}
+                />
+              ))}
+            </View>
           </View>
-          <View className="flex flex-row flex-wrap justify-start">
-            {resultInstance?.map((v: any) => (
-              <CardInstance
-                key={v.id}
+          <View className="px-8 mt-4">
+            <Text className="text-neutral-900 text-[16px] font-psemibold">
+              Berita
+            </Text>
+            <View className="flex items-end">
+              <Link href="/news">
+                <Text className="font-psemibold text-xs text-primary-900">
+                  Lihat Semua
+                </Text>
+              </Link>
+            </View>
+          </View>
+          <View className="px-9 flex flex-row flex-wrap justify-between">
+            {resultNews?.map((v: any) => (
+              <CardNews
                 route={v.slug}
+                key={v.id}
                 icon={{ uri: v.image }}
-                title={v.name}
+                title={v.title}
+                date={v.createdAt}
               />
             ))}
           </View>
-        </View>
-        <View className="px-8 mt-4">
-          <Text className="text-neutral-900 text-[16px] font-psemibold">
-            Berita
-          </Text>
-          <View className="flex items-end">
-            <Link href="/news">
-              <Text className="font-psemibold text-xs text-primary-900">
-                Lihat Semua
-              </Text>
-            </Link>
+          <View className="px-8 mt-4">
+            <Text className="text-neutral-900 text-[16px] font-psemibold">
+              Fasilitas
+            </Text>
+            <View className="flex items-end">
+              <Link href="/news">
+                <Text className="font-psemibold text-xs text-primary-900">
+                  Lihat Semua
+                </Text>
+              </Link>
+            </View>
           </View>
-        </View>
-        <View className="px-9 flex flex-row flex-wrap justify-between mb-24">
-          {resultNews?.map((v: any) => (
-            <CardNews
-              route={v.slug}
-              key={v.id}
-              icon={{ uri: v.image }}
-              title={v.title}
-              date={v.createdAt}
-            />
-          ))}
+          <View className="px-9 flex flex-row flex-wrap justify-between mb-24">
+            {resultNews?.map((v: any) => (
+              <CardNews
+                route={v.slug}
+                key={v.id}
+                icon={{ uri: v.image }}
+                title={v.title}
+                date={v.createdAt}
+              />
+            ))}
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>

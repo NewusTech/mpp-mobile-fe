@@ -49,17 +49,17 @@ const LoginScreen = () => {
     <SafeAreaView className="flex-1 bg-primary-100 justify-center px-10">
       <View className="flex items-center mb-10">
         <View className="flex items-center">
-          <View className="w-[137px] h-[110px] mb-1">
+          <View className="w-[167px] h-[140px] mb-1">
             <Image
               source={images.maps}
               className="w-full h-full object-cover"
             />
           </View>
-          <View className="flex items-center">
-            <Text className="text-[18px] font-psemibold uppercase text-primary-700">
+          <View className="flex items-center mt-4">
+            <Text className="text-lg font-psemibold uppercase text-primary-700">
               Mal Pelayana Publik
             </Text>
-            <Text className="text-sm uppercase text-primary-700">
+            <Text className="text-lg uppercase text-primary-700 -mt-2">
               kabupaten lampung timur
             </Text>
           </View>
@@ -89,29 +89,58 @@ const LoginScreen = () => {
           />
         </View>
       </View>
-      <View className="flex flex-row gap-1 my-2 justify-end">
-        <Text className="text-primary-700 text-sm">
-          Belum Punya akun? silakan
+      <View className="flex flex-row my-2 justify-between">
+        <Text className="underline text-primary-700 text-sm">
+          Lupa Kata Sandi?
         </Text>
-        <Link href="/register" asChild>
-          <TouchableOpacity>
-            <Text className="underline text-primary-800 text-sm">Daftar</Text>
-          </TouchableOpacity>
-        </Link>
+        <View>
+          <Text className="text-primary-700 text-sm">
+            Belum Punya akun? silakan
+          </Text>
+          <Link href="/register" asChild>
+            <TouchableOpacity className="flex flex-row justify-end">
+              <Text className="underline text-primary-800 text-xs font-psemibold">
+                Daftar
+              </Text>
+            </TouchableOpacity>
+          </Link>
+        </View>
       </View>
-      <View className="flex items-center justify-center mt-8">
+      <View className="flex items-center justify-center mt-4">
         {loading ? (
           <ActivityIndicator size="large" color="#3568C0" />
         ) : (
           <CustomButton
             onPress={handleLogin}
-            clx="bg-primary-700 w-[14.5vh] h-[4.8vh]"
+            clx="bg-primary-700 w-[14.5vh] h-[5.8vh]"
             clx2="text-sm text-neutral-50 font-psemibold"
             title="Masuk"
             type="button"
           />
         )}
         {error && <Text className="text-error-700 pt-4">{error}</Text>}
+      </View>
+      <View className="flex flex-row items-center justify-between mt-4 mb-4">
+        <View className="w-[122px] bg-neutral-800 h-[1px]"></View>
+        <Text className="text-neutral-800">atau</Text>
+        <View className="w-[122px] bg-neutral-800 h-[1px]"></View>
+      </View>
+      <CustomButton
+        onPress={handleLogin}
+        clx="bg-white w-full h-[5.8vh] border border-neutral-700"
+        clx2="text-sm text-primary-700 font-psemibold"
+        title="Masuk dengan Google"
+        type="google"
+        icon={icons.google}
+      />
+      <View className="mt-5">
+        <Text className="text-primary-700 text-xs text-center">
+          Dengan mendaftar, Anda menyetujui{" "}
+          <Text className="font-psemibold">Syarat & Ketentuan</Text> kami dan
+          Anda telah membaca{" "}
+          <Text className="font-psemibold">Kebijakan Privasi </Text>
+          kami.
+        </Text>
       </View>
     </SafeAreaView>
   );

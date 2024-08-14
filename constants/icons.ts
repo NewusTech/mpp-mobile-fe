@@ -15,6 +15,8 @@ import chevronDown from "@/assets/icons/chevron-down.png";
 import chevronDownActive from "@/assets/icons/chevron-down-active.png";
 import chevronDownWhite from "@/assets/icons/chevron-down-white.png";
 import bell2 from "@/assets/icons/bell2.png";
+import complain from "@/assets/icons/complain.png";
+import google from "@/assets/icons/google.png";
 
 export default {
   user,
@@ -34,4 +36,6 @@ export default {
   chevronDownActive,
   chevronDownWhite,
   bell2,
+  complain,
+  google,
 };

@@ -248,3 +248,25 @@ export const requestStepTwo = async ({
     throw error;
   }
 };
+
+export const requestStepFour = async (data: any, serviceId: number) => {
+  try {
+    const token = await AsyncStorage.getItem("token");
+    const response = await fetch(`${apiUrl}/inputform/create/${serviceId}`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: data,
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("API Error:", error);
+    throw error;
+  }
+};

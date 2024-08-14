@@ -12,6 +12,7 @@ export interface CustomButtonProps {
   route?: string;
   onPress?: () => void;
   disabled?: boolean;
+  icon?: any;
 }
 
 export interface InputFormProps {

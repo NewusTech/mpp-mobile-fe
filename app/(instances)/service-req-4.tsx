@@ -3,12 +3,13 @@ import Gap from "@/components/Gap";
 import InputForm from "@/components/InputForm";
 import Step from "@/components/Step";
 import { icons } from "@/constants";
-import { useGenerateDocs } from "@/service/api";
+import { requestStepFour, useGenerateDocs } from "@/service/api";
 import { useReqeustStore } from "@/store/useRequestStore";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import * as DocumentPicker from "expo-document-picker";
 import {
+  ActivityIndicator,
   Image,
   SafeAreaView,
   ScrollView,
@@ -17,6 +18,9 @@ import {
   View,
 } from "react-native";
 import { useEffect, useState } from "react";
+import { truncateString } from "@/utils";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import ShowToast from "@/components/Toast";
 
 const steps = [
   { id: 1, title: "1" },
@@ -33,20 +37,128 @@ const ServiceRequestFour = () => {
   }));
   const { data, isLoading } = useGenerateDocs(serviceId);
   const result = data?.data?.Layananforms;
-  const [documents, setDocuments] = useState<{ [key: number]: any }>({});
+  const [selectedDocuments, setSelectedDocuments] = useState<
+    DocumentPicker.DocumentPickerAsset[]
+  >([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const pickDocument = async (index: any) => {
-    let result: any = await DocumentPicker.getDocumentAsync({});
-    if (
-      result.type === "success" &&
-      result.assets &&
-      result.assets.length > 0
-    ) {
-      const selectedDocument = result.assets[0];
-      setDocuments((prevDocuments) => ({
-        ...prevDocuments,
-        [index]: selectedDocument, // Save the document correctly
-      }));
+  const pickDocuments = async () => {
+    try {
+      const docs = await DocumentPicker.getDocumentAsync();
+
+      if (!docs.canceled) {
+        const successResult =
+          docs as DocumentPicker.DocumentPickerSuccessResult;
+
+        // To limit the amount of documents that are added to the array "selectedDocuments"
+        if (
+          selectedDocuments.length + successResult.assets.length <=
+          result?.length
+        ) {
+          setSelectedDocuments((prevSelectedDocuments) => [
+            ...prevSelectedDocuments,
+            ...successResult.assets,
+          ]);
+        } else {
+          console.log(`Maximum of ${result?.length} documents allowed.`);
+        }
+      } else {
+        console.log("Document selection cancelled.");
+      }
+    } catch (error) {
+      console.log("Error picking documents:", error);
+    }
+  };
+
+  const handleSubmit = async () => {
+    setIsSubmitting(true);
+    const formData = new FormData();
+
+    // Menambahkan selectedDocuments ke formData
+    // for (const [key, value] of Object.entries(selectedDocuments)) {
+    //   if (value) {
+    //     const documentFile = {
+    //       name: value.name.split(".")[0],
+    //       uri: value.uri,
+    //       type: value.mimeType || "application/octet-stream", // Berikan tipe default jika mimeType tidak ada
+    //       size: value.size,
+    //     };
+
+    //     formData.append(`datafile[${key}][layananform_id]`, key);
+    //     formData.append(`datafile[${key}][data]`, documentFile as any);
+    //   } else {
+    //     console.warn(`Value for key ${key} is undefined or null`);
+    //   }
+    // }
+
+    for (const [key, value] of Object.entries(selectedDocuments)) {
+      if (value) {
+        try {
+          const response = await fetch(value.uri);
+          if (!response.ok) {
+            throw new Error(`Failed to fetch document at ${value.uri}`);
+          }
+          const blob = await response.blob();
+
+          // Log Blob untuk memastikan bahwa Blob benar-benar ada
+          console.log(`Blob for document ${key}:`, blob);
+
+          formData.append(`datafile[${key}][layananform_id]`, key);
+          formData.append(`datafile[${key}][data]`, blob, value.name);
+        } catch (fetchError) {
+          console.error(`Error fetching document ${key}:`, fetchError);
+        }
+      } else {
+        console.warn(`Value for key ${key} is undefined or null`);
+      }
+    }
+
+    // dataInput.forEach((item: any, index: any) => {
+    //   formData.append(
+    //     `datainput[${index}][layananform_id]`,
+    //     item.layananform_id.toString()
+    //   );
+
+    //   // Memastikan nilai tidak diubah ke string jika tidak perlu
+    //   const dataValue =
+    //     Array.isArray(item.data) || typeof item.data === "object"
+    //       ? JSON.stringify(item.data)
+    //       : item.data;
+
+    //   formData.append(`datainput[${index}][data]`, dataValue);
+    // });
+    // Log FormData untuk memastikan isinya
+    console.log("FormData:", formData);
+    try {
+      const token = await AsyncStorage.getItem("token");
+      const response = await fetch(
+        `${process.env.EXPO_PUBLIC_API_URL}/inputform/create/${serviceId}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        }
+      );
+
+      if (!response.ok) {
+        const errorBody = await response.text();
+        console.error(
+          `HTTP error! Status: ${response.status}, Body: ${errorBody}`
+        );
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      if (data.status === 201) {
+        ShowToast(data.message);
+        // router.push("/service-req-5");
+      }
+    } catch (error: any) {
+      console.error("Error:", error.message);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -88,19 +200,14 @@ const ServiceRequestFour = () => {
                     <Text className="text-xs">
                       {v.isrequired ? "Wajib diisi" : "Tidak Wajib"}
                     </Text>
-                    {documents[index] && (
-                      <Text className="text-xs text-primary-700">
-                        {documents[index].name}
-                      </Text>
-                    )}
                   </View>
                   <TouchableOpacity
-                    onPress={() => pickDocument(index)}
+                    onPress={() => pickDocuments()}
                     className="px-4 py-2 border rounded-[20px] border-neutral-500"
                   >
-                    {documents[index] ? (
+                    {selectedDocuments[index] ? (
                       <Text className="text-xs text-primary-700">
-                        {documents[index].name}
+                        {truncateString(selectedDocuments[index].name, 10)}
                       </Text>
                     ) : (
                       <Text className="text-primary-700">Upload</Text>
@@ -109,12 +216,21 @@ const ServiceRequestFour = () => {
                 </View>
               ))}
             </View>
-            <CustomButton
-              clx2="text-sm text-white font-white"
-              route="/home"
-              clx="bg-primary-700 w-[14vh] h-[5.5vh] mt-[10vh]"
-              title="Ajukan"
-            />
+            {isSubmitting ? (
+              <ActivityIndicator
+                size="large"
+                color="#3568C0"
+                className="mt-[5vh]"
+              />
+            ) : (
+              <CustomButton
+                clx2="text-sm text-white font-white"
+                type="button"
+                clx="bg-primary-700 w-[14vh] h-[5.5vh] mt-[5vh]"
+                title="Ajukan"
+                onPress={handleSubmit}
+              />
+            )}
           </View>
         </ScrollView>
       </SafeAreaView>

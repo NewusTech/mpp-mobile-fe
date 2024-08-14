@@ -18,7 +18,7 @@ const Bottombar = () => {
         icon={icons.landmark}
         title="Permohonan"
       />
-      <MenuBottomBar route="/chat" icon={icons.message} title="Chat" />
+      <MenuBottomBar route="/chat" icon={icons.complain} title="Pengaduan" />
     </View>
   );
 };

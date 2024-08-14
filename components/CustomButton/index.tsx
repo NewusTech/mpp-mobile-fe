@@ -1,4 +1,4 @@
-import { Text, TouchableOpacity } from "react-native";
+import { Image, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import cn from "clsx"; // Impor clsx
 import { Link } from "expo-router";
@@ -12,6 +12,7 @@ const CustomButton = ({
   route,
   onPress,
   disabled,
+  icon,
 }: CustomButtonProps) => {
   if (type === "button")
     return (
@@ -20,6 +21,21 @@ const CustomButton = ({
         onPress={onPress}
         disabled={disabled}
       >
+        <Text className={cn(clx2)}>{title}</Text>
+      </TouchableOpacity>
+    );
+
+  if (type === "google")
+    return (
+      <TouchableOpacity
+        className={cn(
+          clx,
+          "rounded-full flex flex-row items-center px-4 space-x-5"
+        )}
+        onPress={onPress}
+        disabled={disabled}
+      >
+        <Image source={icon} className="w-[5vh] h-[5vh]" />
         <Text className={cn(clx2)}>{title}</Text>
       </TouchableOpacity>
     );
