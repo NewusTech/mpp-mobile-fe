@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import BioDataUser from "./bioData";
+import FileUpload from "./document";
+import MultipleFileUpload from "./document";
+import PublishedDocument from "./published";
 
 const TabBioData = (data: any) => {
   const [selectedTab, setSelectedTab] = useState("Data Diri");
@@ -71,12 +74,10 @@ const TabBioData = (data: any) => {
       </View>
       {selectedTab === "Data Diri" && <BioDataUser data={data} />}
       {selectedTab === "Dokumen Pendukung" && (
-        <View className="px-2 py-4">{/* <Text>{law || "-"}</Text> */}</View>
+        <MultipleFileUpload data={data} />
       )}
       {selectedTab === "Dokumen Terbit" && (
-        <View className="px-2 py-4">
-          {/* <Text>{requirement || "-"}</Text> */}
-        </View>
+        <PublishedDocument id={data?.data?.id} />
       )}
     </View>
   );
