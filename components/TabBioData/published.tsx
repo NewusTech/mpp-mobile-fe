@@ -12,7 +12,7 @@ const PublishedDocument = (id: any) => {
         <Text className="text-sm text-neutral-800 font-psemibold">
           Dokumen Terbit
         </Text>
-        {result.map((item: any, index: number) => (
+        {result?.map((item: any, index: number) => (
           <View
             key={index}
             className="mt-4 w-full flex-row rounded-lg h-28 flex border items-center justify-between space-x-3 border-neutral-400 p-3"
