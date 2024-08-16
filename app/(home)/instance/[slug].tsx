@@ -16,11 +16,17 @@ import Accordion from "@/components/Accordion";
 import TabService from "@/components/TabService";
 import { useReqeustStore } from "@/store/useRequestStore";
 import { useDetailInstance } from "@/service/api";
+import { useBookingStore } from "@/store/useBookingStore";
 
 const DetailInstanceScreen = () => {
   const { setInstanceId, setSlug } = useReqeustStore((state) => ({
     setInstanceId: state.setInstanceId,
     setSlug: state.setSlug,
+  }));
+  const { setInstansiId, setImage, setName } = useBookingStore((state) => ({
+    setInstansiId: state.setInstansiId,
+    setImage: state.setImage,
+    setName: state.setName,
   }));
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const { slug } = useLocalSearchParams();
@@ -44,6 +50,13 @@ const DetailInstanceScreen = () => {
     setInstanceId(result?.id);
     setSlug(result?.slug);
     router.push("/service-req-1");
+  };
+
+  const handlePassInstanceIdToBooking = () => {
+    setInstansiId(result?.id);
+    setImage(result?.image);
+    setName(result?.name);
+    router.push("/booking");
   };
 
   return (
@@ -72,14 +85,16 @@ const DetailInstanceScreen = () => {
             </View>
             <View className="flex flex-row justify-between px-10 pt-8">
               <CustomButton
-                clx2="text-xs text-white font-white fon"
-                route="/booking"
+                clx2="text-xs w-[69px] text-center text-white font-white"
+                // route="/booking"
                 clx="bg-secondary-700 min-w-[18vh] h-[5.5vh]"
                 title="Booking Antrian"
+                type="button"
+                onPress={handlePassInstanceIdToBooking}
               />
               <CustomButton
                 clx2="text-xs w-[69px] text-center text-white font-white"
-                route="/service-req-1"
+                // route="/service-req-1"
                 clx="bg-primary-700 min-w-[18vh] h-[5.5vh]"
                 title="Permohonan Layanan"
                 type="button"

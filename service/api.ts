@@ -176,6 +176,18 @@ export function useHistoryDocument(id: number | undefined | number[]) {
   };
 }
 
+export function useQueueService(id: undefined | string[] | string) {
+  const { data, isLoading } = useSWR(
+    `https://backend-mpp.newus.id/api/antrian/check/${id}`,
+    fetcherAuth
+  );
+
+  return {
+    data,
+    isLoading,
+  };
+}
+
 // post
 
 export const loginUser = async ({ nik, password }: LoginType) => {
