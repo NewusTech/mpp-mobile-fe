@@ -18,6 +18,25 @@ import { useReqeustStore } from "@/store/useRequestStore";
 import { useDetailInstance } from "@/service/api";
 import { useBookingStore } from "@/store/useBookingStore";
 
+const CardSop = ({ icon, name, desc }: any) => {
+  return (
+    <View
+      className="bg-primary-100 p-2 rounded w-[47%] ml-2 mb-2"
+      style={{ elevation: 1 }}
+    >
+      <View className="flex flex-row items-center space-x-2">
+        <Image source={icon} className="w-10 h-10 mt-2" resizeMode="contain" />
+        <View>
+          <Text className="text-sm text-primary-700 font-psemibold">
+            {name}
+          </Text>
+          <Text className="text-xs text-primary-700">{desc}</Text>
+        </View>
+      </View>
+    </View>
+  );
+};
+
 const DetailInstanceScreen = () => {
   const { setInstanceId, setSlug } = useReqeustStore((state) => ({
     setInstanceId: state.setInstanceId,
@@ -102,7 +121,7 @@ const DetailInstanceScreen = () => {
               />
             </View>
             <View className="px-9">
-              <View className="my-[26px] w-full justify-between p-4 bg-primary-100 h-[188px] rounded-[20px]">
+              <View className="my-[26px] w-full justify-between p-4 bg-primary-100 h-[248px] rounded-[20px]">
                 <View className="flex flex-row">
                   <Text className="w-1/2 font-pmedium text-primary-700 text-xs">
                     Alamat
@@ -123,6 +142,26 @@ const DetailInstanceScreen = () => {
                 </View>
                 <View className="flex flex-row">
                   <Text className="w-1/2 font-pmedium text-primary-700 text-xs">
+                    Website
+                  </Text>
+                  <Text className="text-xs w-1/2">
+                    {result?.website || "-"}
+                  </Text>
+                </View>
+                <View className="flex flex-row">
+                  <Text className="w-1/2 font-pmedium text-primary-700 text-xs">
+                    Maps
+                  </Text>
+                  <View className="flex flex-row items-center space-x-2">
+                    <Image source={icons.maps} className="w-5 h-5" />
+                    <Text className="text-xs w-1/2 underline text-primary-600">
+                      {result?.linkmaps || "-"}
+                    </Text>
+                  </View>
+                </View>
+
+                <View className="flex flex-row">
+                  <Text className="w-1/2 font-pmedium text-primary-700 text-xs">
                     Jam Operasional
                   </Text>
                   <Text className="w-1/2 text-xs">{`${result?.jam_buka} - ${result?.jam_tutup}`}</Text>
@@ -135,6 +174,19 @@ const DetailInstanceScreen = () => {
                     {result?.Layanans?.length}
                   </Text>
                 </View>
+              </View>
+            </View>
+            <View className="px-10 pb-2">
+              <View className="flex items-center justify-center rounded-full py-2 px-16 bg-primary-700">
+                <Text className="text-sm font-psemibold text-neutral-50">
+                  Standar Layanan (SOP)
+                </Text>
+              </View>
+              <View className="flex flex-row flex-wrap my-5">
+                <CardSop name="Nama Doc" icon={icons.word} desc="Deskripsi" />
+                <CardSop name="Nama Doc" icon={icons.pdf} desc="Deskripsi" />
+                <CardSop name="Nama Doc" icon={icons.excel} desc="Deskripsi" />
+                <CardSop name="Nama Doc" icon={icons.excel} desc="Deskripsi" />
               </View>
             </View>
             <View className="flex space-y-2 px-10">
