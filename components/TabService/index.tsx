@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
+import RenderHTML from "react-native-render-html";
 
 interface TabServiceProps {
   service: string;
@@ -64,17 +65,23 @@ const TabService = ({ service, law, requirement }: TabServiceProps) => {
       </View>
       {selectedTab === "Pelayanan" && (
         <View className="px-2 py-4">
-          <Text>{service || "-"}</Text>
+          <RenderHTML
+            source={{ html: service }}
+            baseStyle={{ color: "black" }}
+          />
         </View>
       )}
       {selectedTab === "Dasar Hukum" && (
         <View className="px-2 py-4">
-          <Text>{law || "-"}</Text>
+          <RenderHTML source={{ html: law }} baseStyle={{ color: "black" }} />
         </View>
       )}
       {selectedTab === "Persyaratan" && (
         <View className="px-2 py-4">
-          <Text>{requirement || "-"}</Text>
+          <RenderHTML
+            source={{ html: requirement }}
+            baseStyle={{ color: "black" }}
+          />
         </View>
       )}
     </View>

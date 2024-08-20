@@ -16,6 +16,7 @@ import {
   View,
 } from "react-native";
 import { SelectList } from "react-native-dropdown-select-list";
+import RenderHTML from "react-native-render-html";
 
 const steps = [
   { id: 1, title: "1" },
@@ -119,8 +120,11 @@ const ServiceRequestOne = () => {
                   isExpanded={expandedIndex === 0}
                   onPress={() => handlePress(0)}
                 >
-                  <View className="w-full h-40">
-                    <Text>{selected?.service || "-"}</Text>
+                  <View className="w-full h-80">
+                    <RenderHTML
+                      source={{ html: selected?.service }}
+                      baseStyle={{ color: "black" }}
+                    />
                   </View>
                 </Accordion>
                 <Accordion
@@ -128,8 +132,11 @@ const ServiceRequestOne = () => {
                   isExpanded={expandedIndex === 1}
                   onPress={() => handlePress(1)}
                 >
-                  <View className="h-40">
-                    <Text>{selected?.law || "-"}</Text>
+                  <View className="h-80">
+                    <RenderHTML
+                      source={{ html: selected?.law }}
+                      baseStyle={{ color: "black" }}
+                    />
                   </View>
                 </Accordion>
                 <Accordion
@@ -137,8 +144,11 @@ const ServiceRequestOne = () => {
                   isExpanded={expandedIndex === 2}
                   onPress={() => handlePress(2)}
                 >
-                  <View className="h-40">
-                    <Text>{selected?.requirement || "="}</Text>
+                  <View className="h-[500px]">
+                    <RenderHTML
+                      source={{ html: selected?.requirement }}
+                      baseStyle={{ color: "black" }}
+                    />
                   </View>
                 </Accordion>
               </View>
