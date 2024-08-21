@@ -34,7 +34,10 @@ const Profile = () => {
                   <Gap width={10} />
                   <CustomButton
                     clx2="text-sm text-primary-700 font-white"
-                    route="/change-password"
+                    route={{
+                      pathname: "/change-password",
+                      params: { slug: user?.slug },
+                    }}
                     clx="bg-neutral-50 w-[15vh] border border-neutral-500 h-[5vh] mt-2"
                     title="Ganti Kata Sandi"
                   />
