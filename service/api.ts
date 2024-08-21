@@ -294,3 +294,23 @@ export const requestStepFour = async (data: any, serviceId: number) => {
     throw error;
   }
 };
+
+export const changePasswordApi = async (data: any, slug: string) => {
+  try {
+    const token = await AsyncStorage.getItem("token");
+    const response = await fetch(`${apiUrl}/changepassword/${slug}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    });
+
+    const res = await response.json();
+    return res;
+  } catch (error) {
+    console.error("API Error:", error);
+    throw error;
+  }
+};

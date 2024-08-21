@@ -9,7 +9,7 @@ export interface CustomButtonProps {
   type?: string;
   clx: string;
   clx2: string;
-  route?: string;
+  route?: any;
   onPress?: () => void;
   disabled?: boolean;
   icon?: any;

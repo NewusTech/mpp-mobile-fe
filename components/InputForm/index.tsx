@@ -21,7 +21,7 @@ const InputForm = ({
 }: InputFormProps) => {
   if (type === "password")
     return (
-      <View className="flex flex-row items-center bg-neutral-50 rounded-[20px] border border-primary-700">
+      <View className="flex flex-row items-center bg-neutral-50 rounded-[20px] border border-neutral-700">
         <TextInput
           placeholder={placeholder}
           className="bg-neutral-50 w-[34vh] h-[5vh] py-[10px] rounded-[20px] pl-4 "
