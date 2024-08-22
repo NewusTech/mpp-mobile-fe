@@ -188,6 +188,18 @@ export function useQueueService(id: undefined | string[] | string) {
   };
 }
 
+export function useFacility(limit: number | undefined | number[]) {
+  const { data, isLoading } = useSWR(
+    `${apiUrl}/facilities/get?limit=${limit}`,
+    fetcherAuth
+  );
+
+  return {
+    data,
+    isLoading,
+  };
+}
+
 // post
 
 export const loginUser = async ({ nik, password }: LoginType) => {

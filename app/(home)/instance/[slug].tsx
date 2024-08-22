@@ -176,17 +176,7 @@ const DetailInstanceScreen = () => {
                 </View>
               </View>
             </View>
-            <View className="px-10 pb-10 pt-5">
-              <View className="bg-primary-100 w-1/2 space-x-2 h-20 rounded p-2 flex flex-row items-center">
-                <View className="w-10 h-10 bg-primary-700 rounded-full"></View>
-                <View>
-                  <Text className="text-sm text-primary-700 font-psemibold">
-                    Lorem Ipsum
-                  </Text>
-                  <Text className="text-xs">Lorem ipsum dolor</Text>
-                </View>
-              </View>
-            </View>
+            <View className="px-10 pb-10 pt-5"></View>
             <View className="px-10 pb-2">
               <View className="flex items-center justify-center rounded-full py-2 px-16 bg-primary-700">
                 <Text className="text-sm font-psemibold text-neutral-50">

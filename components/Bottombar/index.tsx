@@ -5,7 +5,7 @@ import { icons } from "@/constants";
 
 const Bottombar = () => {
   return (
-    <View className="absolute h-[65px] bottom-3 flex flex-row left-5 right-5 items-start justify-between pt-2 px-5 bg-primary-700 z-20 rounded-[40px]">
+    <View className="absolute h-[65px] bottom-0 flex flex-row left-0 right-0 items-start justify-between pt-2 px-5 bg-neutral-50 z-20 ">
       <MenuBottomBar route="/skm" icon={icons.clipboard} title="SKM" />
       <MenuBottomBar route="/history" icon={icons.history} title="Riwayat" />
       <MenuBottomBar
