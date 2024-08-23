@@ -200,6 +200,45 @@ export function useFacility(limit: number | undefined | number[]) {
   };
 }
 
+export function useVisiMisi() {
+  const { data, isLoading } = useSWR(`${apiUrl}/visimisi/get`, fetcherAuth);
+
+  return {
+    data,
+    isLoading,
+  };
+}
+
+export function useSOP() {
+  const { data, isLoading } = useSWR(`${apiUrl}/sop/get`, fetcherAuth);
+
+  return {
+    data,
+    isLoading,
+  };
+}
+
+export function useManualBook() {
+  const { data, isLoading } = useSWR(
+    `${apiUrl}/manualbook/get?search=User`,
+    fetcherAuth
+  );
+
+  return {
+    data,
+    isLoading,
+  };
+}
+
+export function useMaklumat() {
+  const { data, isLoading } = useSWR(`${apiUrl}/maklumat/get`, fetcherAuth);
+
+  return {
+    data,
+    isLoading,
+  };
+}
+
 // post
 
 export const loginUser = async ({ nik, password }: LoginType) => {

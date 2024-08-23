@@ -13,12 +13,22 @@ import Carousel from "pinar";
 import CardInstance from "@/components/CardInstance";
 import CardNews from "@/components/CardNews";
 import Bottombar from "@/components/Bottombar";
+import { SvgUri } from "react-native-svg";
 import { Link } from "expo-router";
 import { withAuth } from "@/components/ProtectedRoute";
-import { useCarousel, useFacility, useInstance, useNews } from "@/service/api";
-import { useState } from "react";
+import {
+  useCarousel,
+  useFacility,
+  useInstance,
+  useManualBook,
+  useNews,
+  useSOP,
+} from "@/service/api";
+import { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { jwtDecode } from "jwt-decode";
 
-const CardFacility = ({ image, title, route }: any) => {
+const CardFacility = ({ image, title }: any) => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
@@ -62,15 +72,40 @@ const CardFacility = ({ image, title, route }: any) => {
 };
 
 const HomeScreen = () => {
+  const [currenUser, setCurrentUser] = useState<any>(null);
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+
   const { data, isLoading } = useCarousel();
   const { data: instance, isLoading: instanceLoading } = useInstance(4);
   const { data: news, isLoading: instanceNews } = useNews(2);
   const { data: facilities, isLoading: facilitiesLoading } = useFacility(2);
+  const { data: sop, isLoading: sopLoading } = useSOP();
+  const { data: manual, isLoading: manualLoading } = useManualBook();
+  const { data: maklumat, isLoading: maklumatLoading } = useManualBook();
 
   const resultCarousel = data?.data;
   const resultInstance = instance?.data;
   const resultNews = news?.data;
   const resultFacility = facilities?.data;
+  const resultSop = sop?.data;
+  const resultManual = manual?.data;
+  const resultMaklumat = maklumat?.data;
+
+  const toggleDropdown = () => {
+    setIsDropdownVisible(!isDropdownVisible);
+  };
+
+  const getToken = async () => {
+    const token = await AsyncStorage.getItem("token");
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      setCurrentUser(decodedToken);
+    }
+  };
+
+  useEffect(() => {
+    getToken();
+  }, []);
 
   return (
     <SafeAreaView className="flex-1 z-10">
@@ -86,14 +121,9 @@ const HomeScreen = () => {
                   <Image source={icons.bell} className="w-[2.8vh] h-[2.8vh]" />
                 </TouchableOpacity>
               </Link>
-              <Link href="/profile" asChild>
-                <TouchableOpacity>
-                  <Image
-                    source={icons.circleUser}
-                    className="w-[2.8vh] h-[2.8vh]"
-                  />
-                </TouchableOpacity>
-              </Link>
+              <TouchableOpacity onPress={toggleDropdown}>
+                <Image source={icons.ellipis} className="w-[2.8vh] h-[2.8vh]" />
+              </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -107,9 +137,10 @@ const HomeScreen = () => {
             activeDotStyle={[styles.dotStyle, { backgroundColor: "white" }]}
           >
             {resultCarousel?.map((img: any) => (
-              <Image
-                className="w-full h-full rounded-lg mr-10 object-cover"
-                source={{ uri: img.image }}
+              <SvgUri
+                width="100%"
+                height="100%"
+                uri={img?.image}
                 key={img.id}
               />
             ))}
@@ -152,7 +183,7 @@ const HomeScreen = () => {
               <CardNews
                 route={v.slug}
                 key={v.id}
-                icon={{ uri: v.image }}
+                icon={v.image}
                 title={v.title}
                 date={v.createdAt}
               />
@@ -162,7 +193,7 @@ const HomeScreen = () => {
             <Text className="text-neutral-900 text-[16px] font-psemibold">
               Fasilitas
             </Text>
-            <View className="flex items-end">
+            <View className="flex items-end mb-2">
               <Link href="/facilities">
                 <Text className="font-psemibold text-xs text-primary-900">
                   Lihat Semua
@@ -181,6 +212,57 @@ const HomeScreen = () => {
             ))}
           </View>
         </View>
+        {isDropdownVisible && (
+          <View
+            style={{
+              position: "absolute",
+              top: 70,
+              right: 30,
+              width: 155,
+              backgroundColor: "white",
+              padding: 10,
+              borderRadius: 10,
+              shadowColor: "#000",
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.3,
+              shadowRadius: 4,
+              elevation: 5,
+            }}
+          >
+            <Link href="/about" asChild>
+              <TouchableOpacity>
+                <Text style={{ padding: 10 }}>Tentang MPP</Text>
+              </TouchableOpacity>
+            </Link>
+            <Link href="/maklumat" asChild>
+              <TouchableOpacity>
+                <Text style={{ padding: 10 }}>Maklumat MPP</Text>
+              </TouchableOpacity>
+            </Link>
+            <Link
+              href={{
+                pathname: "/documentWebView", // Nama path sesuai dengan file Anda
+                params: { link: resultSop?.file },
+              }}
+              asChild
+            >
+              <TouchableOpacity>
+                <Text style={{ padding: 10 }}>SOP MPP</Text>
+              </TouchableOpacity>
+            </Link>
+            <Link
+              href={{
+                pathname: "/documentWebView", // Nama path sesuai dengan file Anda
+                params: { link: resultManual[0]?.dokumen },
+              }}
+              asChild
+            >
+              <TouchableOpacity>
+                <Text style={{ padding: 10 }}>Manual MPP</Text>
+              </TouchableOpacity>
+            </Link>
+          </View>
+        )}
       </ScrollView>
     </SafeAreaView>
   );
