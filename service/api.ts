@@ -7,11 +7,11 @@ const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 
 // get
 
-export function useDetailService(id: number | undefined | number[]) {
-  const { data, isLoading } = useSWR(
-    `${apiUrl}/layanan/dinas/get/${id}`,
-    fetcherAuth
-  );
+export function useDetailService(limit?: number, id: any) {
+  const baseUrl = `${apiUrl}/layanan/dinas/get/${id}?limit=${limit}`;
+  const url = `${baseUrl}`;
+
+  const { data, isLoading } = useSWR(url, fetcherAuth);
 
   return {
     data,
@@ -122,6 +122,18 @@ export function useHistoryRequest() {
 export function useHistoryRequestId(id: string | undefined | string[]) {
   const { data, isLoading } = useSWR(
     `${apiUrl}/historyform/${id}`,
+    fetcherAuth
+  );
+
+  return {
+    data,
+    isLoading,
+  };
+}
+
+export function useAdminService(id?: number | undefined | number[]) {
+  const { data, isLoading } = useSWR(
+    `${apiUrl}/alluserinfo/get?layanan=${id}`,
     fetcherAuth
   );
 
@@ -306,6 +318,29 @@ export const requestStepTwo = async ({
     const token = await AsyncStorage.getItem("token");
     const response = await fetch(`${apiUrl}/userinfo/update/${slug}`, {
       method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(formData),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("API Error:", error);
+    throw error;
+  }
+};
+
+export const complaint = async ({ formData }: any) => {
+  try {
+    const token = await AsyncStorage.getItem("token");
+    const response = await fetch(`${apiUrl}/pengaduan/create`, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,

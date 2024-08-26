@@ -127,6 +127,16 @@ export interface FormDataUser {
   alamat: string;
 }
 
+export interface FormDataPengaduan {
+  instansi_id: number;
+  layanan_id: number;
+  status: number;
+  aduan: string;
+  judul: string;
+  image: string;
+  admin_id: number;
+}
+
 export interface FormDataUpdateStepTwo {
   formData: FormDataProps;
   slug: string;

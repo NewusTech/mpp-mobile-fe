@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "Mpp Mobile",
-    "slug": "mpp-mobile",
+    "name": "Mal Pelayanan Publik Lampung Timur",
+    "slug": "mal-pelayanan-publik-lampung-timur",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/maps.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "ios": {
@@ -12,7 +12,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/maps.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.aldngrha.mppmobile"
@@ -20,7 +20,7 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/maps.png"
     },
     "plugins": [
       "expo-router",

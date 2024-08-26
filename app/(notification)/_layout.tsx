@@ -9,6 +9,7 @@ const NotificationLayout = () => {
         <Stack.Screen name="notification" options={{ headerShown: false }} />
         <Stack.Screen name="about" options={{ headerShown: false }} />
         <Stack.Screen name="maklumat" options={{ headerShown: false }} />
+        <Stack.Screen name="complaint" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style="dark" />
     </>
