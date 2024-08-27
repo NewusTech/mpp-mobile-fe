@@ -143,6 +143,42 @@ export function useAdminService(id?: number | undefined | number[]) {
   };
 }
 
+export function useAppInstance(id?: number | undefined | number[]) {
+  const { data, isLoading } = useSWR(
+    `${apiUrl}/apkinstansi/get/${id}`,
+    fetcherAuth
+  );
+
+  return {
+    data,
+    isLoading,
+  };
+}
+
+export function useInfoInstance(id?: number | undefined | number[]) {
+  const { data, isLoading } = useSWR(
+    `${apiUrl}/infoinstansi/get/${id}`,
+    fetcherAuth
+  );
+
+  return {
+    data,
+    isLoading,
+  };
+}
+
+export function useSopInstance(id?: number | undefined | number[]) {
+  const { data, isLoading } = useSWR(
+    `${apiUrl}/sopinstansi/get/${id}`,
+    fetcherAuth
+  );
+
+  return {
+    data,
+    isLoading,
+  };
+}
+
 export function useCurrentUser() {
   const { data, isLoading } = useSWR(`${apiUrl}/getforuser`, fetcherAuth);
 
