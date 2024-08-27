@@ -11,6 +11,7 @@ import { Link } from "expo-router";
 import { icons, images } from "@/constants";
 import CardNews from "@/components/CardNews";
 import { useNews } from "@/service/api";
+import { ScrollView } from "react-native";
 
 const NewsScreen = () => {
   const { data, isLoading } = useNews(10000);
@@ -26,27 +27,29 @@ const NewsScreen = () => {
   }
 
   return (
-    <SafeAreaView className="flex-1 py-[56px] px-1">
-      <View className="flex flex-row space-x-1">
-        <Link href="/home" asChild>
-          <TouchableOpacity>
-            <Image source={icons.chevronLeft2} className="w-8 h-8" />
-          </TouchableOpacity>
-        </Link>
-        <Text className="text-primary-800 text-xl font-pbold">Berita</Text>
-      </View>
-      <View className="px-9 flex flex-row flex-wrap justify-between gap-x-2 mt-6">
-        {resultNews?.map((v: any) => (
-          <CardNews
-            route={v.slug}
-            key={v.id}
-            icon={{ uri: v.image }}
-            title={v.title}
-            date={v.createdAt}
-          />
-        ))}
-      </View>
-    </SafeAreaView>
+    <ScrollView>
+      <SafeAreaView className="flex-1 py-[56px] px-1 mb-10">
+        <View className="flex flex-row space-x-1">
+          <Link href="/home" asChild>
+            <TouchableOpacity>
+              <Image source={icons.chevronLeft2} className="w-8 h-8" />
+            </TouchableOpacity>
+          </Link>
+          <Text className="text-primary-800 text-xl font-pbold">Berita</Text>
+        </View>
+        <View className="px-9 flex flex-row flex-wrap justify-between gap-x-2 mt-6">
+          {resultNews?.map((v: any) => (
+            <CardNews
+              route={v.slug}
+              key={v.id}
+              icon={v.image}
+              title={v.title}
+              date={v.createdAt}
+            />
+          ))}
+        </View>
+      </SafeAreaView>
+    </ScrollView>
   );
 };
 

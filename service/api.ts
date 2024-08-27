@@ -7,11 +7,11 @@ const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 
 // get
 
-export function useDetailService(id: number | undefined | number[]) {
-  const { data, isLoading } = useSWR(
-    `${apiUrl}/layanan/dinas/get/${id}`,
-    fetcherAuth
-  );
+export function useDetailService(limit?: number, id: any) {
+  const baseUrl = `${apiUrl}/layanan/dinas/get/${id}?limit=${limit}`;
+  const url = `${baseUrl}`;
+
+  const { data, isLoading } = useSWR(url, fetcherAuth);
 
   return {
     data,
@@ -131,6 +131,54 @@ export function useHistoryRequestId(id: string | undefined | string[]) {
   };
 }
 
+export function useAdminService(id?: number | undefined | number[]) {
+  const { data, isLoading } = useSWR(
+    `${apiUrl}/alluserinfo/get?layanan=${id}`,
+    fetcherAuth
+  );
+
+  return {
+    data,
+    isLoading,
+  };
+}
+
+export function useAppInstance(id?: number | undefined | number[]) {
+  const { data, isLoading } = useSWR(
+    `${apiUrl}/apkinstansi/get/${id}`,
+    fetcherAuth
+  );
+
+  return {
+    data,
+    isLoading,
+  };
+}
+
+export function useInfoInstance(id?: number | undefined | number[]) {
+  const { data, isLoading } = useSWR(
+    `${apiUrl}/infoinstansi/get/${id}`,
+    fetcherAuth
+  );
+
+  return {
+    data,
+    isLoading,
+  };
+}
+
+export function useSopInstance(id?: number | undefined | number[]) {
+  const { data, isLoading } = useSWR(
+    `${apiUrl}/sopinstansi/get/${id}`,
+    fetcherAuth
+  );
+
+  return {
+    data,
+    isLoading,
+  };
+}
+
 export function useCurrentUser() {
   const { data, isLoading } = useSWR(`${apiUrl}/getforuser`, fetcherAuth);
 
@@ -193,6 +241,45 @@ export function useFacility(limit: number | undefined | number[]) {
     `${apiUrl}/facilities/get?limit=${limit}`,
     fetcherAuth
   );
+
+  return {
+    data,
+    isLoading,
+  };
+}
+
+export function useVisiMisi() {
+  const { data, isLoading } = useSWR(`${apiUrl}/visimisi/get`, fetcherAuth);
+
+  return {
+    data,
+    isLoading,
+  };
+}
+
+export function useSOP() {
+  const { data, isLoading } = useSWR(`${apiUrl}/sop/get`, fetcherAuth);
+
+  return {
+    data,
+    isLoading,
+  };
+}
+
+export function useManualBook() {
+  const { data, isLoading } = useSWR(
+    `${apiUrl}/manualbook/get?search=User`,
+    fetcherAuth
+  );
+
+  return {
+    data,
+    isLoading,
+  };
+}
+
+export function useMaklumat() {
+  const { data, isLoading } = useSWR(`${apiUrl}/maklumat/get`, fetcherAuth);
 
   return {
     data,
@@ -267,6 +354,29 @@ export const requestStepTwo = async ({
     const token = await AsyncStorage.getItem("token");
     const response = await fetch(`${apiUrl}/userinfo/update/${slug}`, {
       method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(formData),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("API Error:", error);
+    throw error;
+  }
+};
+
+export const complaint = async ({ formData }: any) => {
+  try {
+    const token = await AsyncStorage.getItem("token");
+    const response = await fetch(`${apiUrl}/pengaduan/create`, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,

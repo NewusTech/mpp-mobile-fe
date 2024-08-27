@@ -21,6 +21,9 @@ import maps from "@/assets/icons/map.png";
 import word from "@/assets/icons/word.png";
 import excel from "@/assets/icons/excel.png";
 import pdf from "@/assets/icons/pdf.png";
+import home from "@/assets/icons/home.png";
+import ellipis from "@/assets/icons/ellipsis.png";
+import ppt from "@/assets/icons/ppt.png";
 
 export default {
   user,
@@ -46,4 +49,7 @@ export default {
   word,
   excel,
   pdf,
+  home,
+  ellipis,
+  ppt,
 };

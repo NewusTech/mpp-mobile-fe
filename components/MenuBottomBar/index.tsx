@@ -10,7 +10,7 @@ const MenuBottomBar = ({ icon, title, route }: BottombarProps) => {
       <TouchableOpacity className="flex items-center justify-center">
         <Image source={icon} className="w-[25px] h-[25px]" />
         <Gap height={8} />
-        <Text className="text-[10px] text-neutral-50 w-[56px] text-center">
+        <Text className="text-[10px] text-neutral-800 w-[56px] text-center">
           {title}
         </Text>
       </TouchableOpacity>
