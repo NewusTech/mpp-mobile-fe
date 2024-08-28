@@ -24,6 +24,7 @@ import pdf from "@/assets/icons/pdf.png";
 import home from "@/assets/icons/home.png";
 import ellipis from "@/assets/icons/ellipsis.png";
 import ppt from "@/assets/icons/ppt.png";
+import calendar from "@/assets/icons/calendar.png";
 
 export default {
   user,
@@ -52,4 +53,5 @@ export default {
   home,
   ellipis,
   ppt,
+  calendar,
 };

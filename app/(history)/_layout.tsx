@@ -8,11 +8,6 @@ const HistoryLayout = () => {
     <>
       <Stack>
         <Stack.Screen name="history" options={{ headerShown: false }} />
-        <Stack.Screen name="history-queue" options={{ headerShown: false }} />
-        <Stack.Screen
-          name="history-request/[id]"
-          options={{ headerShown: false }}
-        />
       </Stack>
       <StatusBar style="dark" backgroundColor="#FEFEFE" />
       <Bottombar />

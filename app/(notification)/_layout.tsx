@@ -10,6 +10,18 @@ const NotificationLayout = () => {
         <Stack.Screen name="about" options={{ headerShown: false }} />
         <Stack.Screen name="maklumat" options={{ headerShown: false }} />
         <Stack.Screen name="complaint" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="history-queue/[id]"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="complaint-screen"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="history-request/[id]"
+          options={{ headerShown: false }}
+        />
       </Stack>
       <StatusBar style="dark" />
     </>

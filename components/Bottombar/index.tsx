@@ -22,7 +22,7 @@ const Bottombar = () => {
       <MenuBottomBar route="/history" icon={icons.history} title="Riwayat" />
       <MenuBottomBar route="/profile" icon={icons.circleUser} title="Profile" />
 
-      <Link href="/complaint" asChild>
+      <Link href="/complaint-screen" asChild>
         <TouchableOpacity className="rounded-full absolute bg-primary-700 px-4 py-2 -mt-12 right-8 flex flex-row items-center space-x-4">
           <Image source={icons.complain} className="w-6 h-6" />
           <Text className="text-neutral-50">Pengaduan</Text>

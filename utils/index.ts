@@ -54,3 +54,31 @@ export const formatDateToString = (date: any) => {
 export const formatDateToIndo = (date: any) => {
   return format(new Date(date), "dd MMMM yyyy", { locale: id });
 };
+
+export function formatDateA(dateString?: any): any | undefined {
+  if (!dateString) {
+    return undefined; // Jika dateString tidak didefinisikan atau null, kembalikan undefined
+  }
+
+  const date = new Date(dateString);
+
+  // Cek apakah objek Date valid
+  if (isNaN(date.getTime())) {
+    return undefined; // Jika objek Date tidak valid, kembalikan undefined
+  }
+
+  const day = String(date.getDate()).padStart(2, "0"); // Mengambil tanggal dan menambahkan nol jika perlu
+  const month = String(date.getMonth() + 1).padStart(2, "0"); // Mengambil bulan (perhatikan bulan dimulai dari 0) dan menambahkan nol jika perlu
+  const year = date.getFullYear(); // Mengambil tahun
+
+  return `${day}-${month}-${year}`; // Menggabungkan semuanya dalam format dd-mm-yyyy
+}
+
+export const formatTime = (isoString: string): string => {
+  const date = new Date(isoString);
+
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+
+  return `${hours}:${minutes}`;
+};
