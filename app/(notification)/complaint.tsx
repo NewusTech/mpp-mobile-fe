@@ -176,7 +176,7 @@ const MaklumatScreen = () => {
     <ScrollView>
       <SafeAreaView className="flex-1 py-[56px] bg-primary-100">
         <View className="flex flex-row space-x-1">
-          <Link href="/home" asChild>
+          <Link href="/complaint-screen" asChild>
             <TouchableOpacity>
               <Image source={icons.chevronLeft2} className="w-8 h-8" />
             </TouchableOpacity>

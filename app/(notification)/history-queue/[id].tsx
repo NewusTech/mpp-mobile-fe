@@ -6,11 +6,12 @@ import {
   View,
 } from "react-native";
 import React from "react";
-import { Link } from "expo-router";
+import { Link, useLocalSearchParams } from "expo-router";
 import { icons, images } from "@/constants";
 import CustomButton from "@/components/CustomButton";
 
 const HistorQueue = () => {
+  const { id } = useLocalSearchParams();
   return (
     <SafeAreaView className="flex-1 py-[56px] bg-primary-50">
       <View className="flex flex-row space-x-1">

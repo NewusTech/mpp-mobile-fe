@@ -27,7 +27,7 @@ const HistoryScreen = () => {
       <View className="px-9 py-10">
         <View className="flex flex-row space-x-2 w-full">
           <TouchableOpacity
-            className={`w-1/2 h-[30px] border border-primary-700 ${
+            className={`w-[31.5%] h-[30px] border border-primary-700 ${
               selectedTab === "Antrian" ? "bg-primary-700" : "bg-transparent"
             } rounded-full py-1 items-center`}
             onPress={() => setSelectedTab("Antrian")}
@@ -43,7 +43,7 @@ const HistoryScreen = () => {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            className={`w-1/2 h-[30px] border border-primary-700 ${
+            className={`w-[31.5%] h-[30px] border border-primary-700 ${
               selectedTab === "Permohonan" ? "bg-primary-700" : "bg-transparent"
             } rounded-full py-1 items-center`}
             onPress={() => setSelectedTab("Permohonan")}
@@ -58,9 +58,24 @@ const HistoryScreen = () => {
               Permohonan
             </Text>
           </TouchableOpacity>
+          <TouchableOpacity
+            className={`w-[31.5%] h-[30px] border border-primary-700 ${
+              selectedTab === "Permohonan" ? "bg-primary-700" : "bg-transparent"
+            } rounded-full py-1 items-center`}
+            onPress={() => setSelectedTab("SKM")}
+          >
+            <Text
+              className={
+                selectedTab === "SKM" ? "text-neutral-50" : "text-primary-700"
+              }
+            >
+              SKM
+            </Text>
+          </TouchableOpacity>
         </View>
         {selectedTab === "Antrian" && <Queue />}
         {selectedTab === "Permohonan" && <Request />}
+        {selectedTab === "SKM" && <Request />}
       </View>
     </SafeAreaView>
   );

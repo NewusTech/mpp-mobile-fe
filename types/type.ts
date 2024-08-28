@@ -69,10 +69,13 @@ export interface TabRequestProps {
 }
 
 export interface TabQueueProps {
-  images: any;
+  images?: any;
+  id: number;
   time: string;
   title: string;
   date: string;
+  no: number;
+  service: string;
 }
 
 export interface KecamatanType {

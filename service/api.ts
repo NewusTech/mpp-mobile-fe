@@ -287,6 +287,38 @@ export function useMaklumat() {
   };
 }
 
+export function useComplaint({ start, end, status, search }: any) {
+  const baseUrl = `${apiUrl}/pengaduan/get`;
+  const startParam = start ? `?start_date=${encodeURIComponent(start)}` : "";
+  const searchParam = start ? `&search=${encodeURIComponent(search)}` : "";
+  const endParam = end ? `&end_date=${encodeURIComponent(end)}` : "";
+  const statusParam = status
+    ? `&status=${encodeURIComponent(status.toString())}`
+    : "";
+  const url = `${baseUrl}${startParam}${endParam}${statusParam}${searchParam}`;
+  const { data, isLoading } = useSWR(url, fetcherAuth);
+
+  return {
+    data,
+    isLoading,
+  };
+}
+
+export function useHistoryQueue({ start, end, status, search }: any) {
+  const baseUrl = `${apiUrl}/bookingantrian/getforuser`;
+  const startParam = start ? `?start_date=${encodeURIComponent(start)}` : "";
+  const searchParam = start ? `&search=${encodeURIComponent(search)}` : "";
+  const endParam = end ? `&end_date=${encodeURIComponent(end)}` : "";
+
+  const url = `${baseUrl}${startParam}${endParam}${searchParam}`;
+  const { data, isLoading } = useSWR(url, fetcherAuth);
+
+  return {
+    data,
+    isLoading,
+  };
+}
+
 // post
 
 export const loginUser = async ({ nik, password }: LoginType) => {
