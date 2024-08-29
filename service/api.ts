@@ -3,11 +3,11 @@ import { fetcher, fetcherAuth } from "@/utils/fetcher";
 import useSWR from "swr";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const apiUrl = process.env.EXPO_PUBLIC_API_URL;
+export const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 
 // get
 
-export function useDetailService(limit?: number, id: any) {
+export function useDetailService(limit?: number, id?: any) {
   const baseUrl = `${apiUrl}/layanan/dinas/get/${id}?limit=${limit}`;
   const url = `${baseUrl}`;
 
@@ -103,15 +103,6 @@ export function useVillage(id: number) {
 
 export function useTermAndCondition() {
   const { data, isLoading } = useSWR(`${apiUrl}/termcond/get`, fetcher);
-
-  return {
-    data,
-    isLoading,
-  };
-}
-
-export function useHistoryRequest() {
-  const { data, isLoading } = useSWR(`${apiUrl}/historyform`, fetcherAuth);
 
   return {
     data,
@@ -304,10 +295,10 @@ export function useComplaint({ start, end, status, search }: any) {
   };
 }
 
-export function useHistoryQueue({ start, end, status, search }: any) {
+export function useHistoryQueue({ start, end, search }: any) {
   const baseUrl = `${apiUrl}/bookingantrian/getforuser`;
   const startParam = start ? `?start_date=${encodeURIComponent(start)}` : "";
-  const searchParam = start ? `&search=${encodeURIComponent(search)}` : "";
+  const searchParam = search ? `&search=${encodeURIComponent(search)}` : "";
   const endParam = end ? `&end_date=${encodeURIComponent(end)}` : "";
 
   const url = `${baseUrl}${startParam}${endParam}${searchParam}`;
@@ -319,7 +310,58 @@ export function useHistoryQueue({ start, end, status, search }: any) {
   };
 }
 
-// post
+export function useHistoryRequest({ start, end, status }: any) {
+  const baseUrl = `${apiUrl}/historyform?limit=1000000`;
+  const startParam = start ? `&start_date=${encodeURIComponent(start)}` : "";
+  const endParam = end ? `&end_date=${encodeURIComponent(end)}` : "";
+  const statusParam = status
+    ? `&status=${encodeURIComponent(status.toString())}`
+    : "";
+
+  const url = `${baseUrl}${startParam}${endParam}${statusParam}`;
+  const { data, isLoading } = useSWR(url, fetcherAuth);
+  return {
+    data,
+    isLoading,
+  };
+}
+
+export function useHistoryQueueDetail(id: any) {
+  const baseUrl = `${apiUrl}/bookingantrian/${id}`;
+  const { data, isLoading } = useSWR(baseUrl, fetcherAuth);
+
+  return {
+    data,
+    isLoading,
+  };
+}
+
+export function useHistorySkm({ start, end, search }: any) {
+  const baseUrl = `${apiUrl}/userhistorysurvey`;
+  const startParam = start ? `?start_date=${encodeURIComponent(start)}` : "";
+  const searchParam = search ? `&search=${encodeURIComponent(search)}` : "";
+  const endParam = end ? `&end_date=${encodeURIComponent(end)}` : "";
+
+  const url = `${baseUrl}${startParam}${endParam}${searchParam}`;
+  const { data, isLoading } = useSWR(url, fetcherAuth);
+
+  return {
+    data,
+    isLoading,
+  };
+}
+
+export function useHistorySkmDetail(id: number) {
+  const baseUrl = `${apiUrl}/inputsurvey/detail/${id}`;
+  const { data, isLoading } = useSWR(baseUrl, fetcherAuth);
+
+  return {
+    data,
+    isLoading,
+  };
+}
+
+// post inputsurvey/detail/1
 
 export const loginUser = async ({ nik, password }: LoginType) => {
   try {

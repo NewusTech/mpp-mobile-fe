@@ -10,6 +10,7 @@ import { Link } from "expo-router";
 import { icons } from "@/constants";
 import Queue from "@/components/Tabs/queue";
 import Request from "@/components/Tabs/request";
+import SKM from "@/components/Tabs/skm";
 
 const HistoryScreen = () => {
   const [selectedTab, setSelectedTab] = useState("Antrian");
@@ -60,7 +61,7 @@ const HistoryScreen = () => {
           </TouchableOpacity>
           <TouchableOpacity
             className={`w-[31.5%] h-[30px] border border-primary-700 ${
-              selectedTab === "Permohonan" ? "bg-primary-700" : "bg-transparent"
+              selectedTab === "SKM" ? "bg-primary-700" : "bg-transparent"
             } rounded-full py-1 items-center`}
             onPress={() => setSelectedTab("SKM")}
           >
@@ -75,7 +76,7 @@ const HistoryScreen = () => {
         </View>
         {selectedTab === "Antrian" && <Queue />}
         {selectedTab === "Permohonan" && <Request />}
-        {selectedTab === "SKM" && <Request />}
+        {selectedTab === "SKM" && <SKM />}
       </View>
     </SafeAreaView>
   );

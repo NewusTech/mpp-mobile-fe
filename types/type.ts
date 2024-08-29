@@ -61,11 +61,14 @@ export interface NotificationCardtProps {
 }
 
 export interface TabRequestProps {
-  images: any;
-  id: string;
+  images?: any;
+  id: number;
+  time: string;
   title: string;
+  date: string;
+  no: number;
+  service: string;
   status: number;
-  route: string;
 }
 
 export interface TabQueueProps {

@@ -22,6 +22,10 @@ const NotificationLayout = () => {
           name="history-request/[id]"
           options={{ headerShown: false }}
         />
+        <Stack.Screen
+          name="history-skm/[id]"
+          options={{ headerShown: false }}
+        />
       </Stack>
       <StatusBar style="dark" />
     </>
