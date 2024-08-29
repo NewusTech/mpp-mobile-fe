@@ -1,102 +1,100 @@
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Image, Text, View } from "react-native";
 import React from "react";
 import { TabRequestProps } from "@/types/type";
 import { Link } from "expo-router";
+import { formatDateA, formatTime, truncateString } from "@/utils";
+import CustomButton from "../CustomButton";
 
-const TabRequest = ({ images, id, title, status, route }: TabRequestProps) => {
-  if (status === 3)
-    return (
-      <Link
-        href={{
-          pathname: "/history-request/[id]",
-          params: {
-            id: route,
-          },
-        }}
-        asChild
-      >
-        <TouchableOpacity
-          className="bg-neutral-50 rounded-[20px] px-5 py-4 flex flex-row items-center space-x-3"
-          style={{ elevation: 4 }}
-        >
-          <View className="w-10 h-10">
-            <Image
-              source={{ uri: images }}
-              className="w-full h-full"
-              resizeMode="contain"
-            />
-          </View>
-          <View>
-            <Text className="text-primary-800 font-psemibold text-xs">
-              {title}
-            </Text>
-            <View className="flex flex-row justify-between pt-1 items-center w-[94%]">
-              <Text className="text-xs text-secondary-700">{id}</Text>
-              <View
-                className={`w-[85px] h-7 items-center ${
-                  status === 3
-                    ? "bg-success-700"
-                    : status === 0
-                    ? "bg-neutral-700"
-                    : status === 4
-                    ? "bg-error-700"
-                    : "bg-primary-700"
-                } justify-center rounded-full`}
-              >
-                <Text className="text-xs text-neutral-50">
-                  {status === 3
-                    ? "Selesai"
-                    : status === 0
-                    ? "Menunggu"
-                    : status === 4
-                    ? "Ditolak"
-                    : "Sedang diproses"}
-                </Text>
-              </View>
-            </View>
-          </View>
-        </TouchableOpacity>
-      </Link>
-    );
+const statusRequest = ({ status }: { status: number }) => {
+  switch (status) {
+    case 0:
+      return "Belum Diproses";
+    case 1:
+      return "Sudah Divalidasi";
+    case 2:
+      return "Sudah Disetujui";
+    case 3:
+      return "Proses Selesai";
+    case 4:
+      return "Ditolak";
+    case 5:
+      return "Butuh Perbaikan";
+    case 6:
+      return "Sudah Diperbaiki";
+    default:
+      return "Belum Diproses";
+  }
+};
 
+const TabRequest = ({
+  images,
+  id,
+  title,
+  status,
+  time,
+  date,
+  service,
+  no,
+}: TabRequestProps) => {
   return (
     <View
-      className="bg-neutral-50 rounded-[20px] px-5 py-4 flex flex-row items-center space-x-3"
-      style={{ elevation: 4 }}
+      className="bg-neutral-50 rounded-[20px] px-5 py-4 mb-5"
+      style={{ elevation: 2 }}
     >
-      <View className="w-10 h-10">
+      <View className="flex flex-row items-center space-x-2">
         <Image
           source={{ uri: images }}
-          className="w-full h-full"
           resizeMode="contain"
+          className="w-14 h-14"
         />
+        <Text className="text-primary-800 font-psemibold text-sm">{title}</Text>
       </View>
-      <View>
-        <Text className="text-primary-800 font-psemibold text-xs">{title}</Text>
-        <View className="flex flex-row justify-between pt-1 items-center w-[94%]">
-          <Text className="text-xs text-secondary-700">{id}</Text>
-          <View
-            className={`w-[85px] h-7 items-center ${
-              status === 3
-                ? "bg-success-700"
-                : status === 0
-                ? "bg-neutral-700"
-                : status === 4
-                ? "bg-error-700"
-                : "bg-primary-700"
-            } justify-center rounded-full`}
-          >
-            <Text className="text-xs text-neutral-50">
-              {status === 0
-                ? "Menunggu"
-                : status === 3
-                ? "Selesai"
-                : status === 2
-                ? "Sedang diproses"
-                : "Ditolak"}
-            </Text>
-          </View>
+      <View className="flex flex-row mt-6 space-x-4">
+        <View className="space-y-2">
+          <Text className="text-primary-800 font-bold">Layanan</Text>
+          <Text className="text-primary-800 font-bold">Nomor Permohonan</Text>
+          <Text className="text-primary-800 font-bold">Tanggal</Text>
+          <Text className="text-primary-800 font-bold">Waktu</Text>
+          <Text className="text-primary-800 font-bold">Status</Text>
         </View>
+        <View className="space-y-2 ml-2">
+          <Text className="text-primary-800">
+            : {truncateString(service, 23)}
+          </Text>
+          <Text className="text-primary-800">: {no}</Text>
+          <Text className="text-primary-800">: {formatDateA(date)}</Text>
+          <Text className="text-primary-800">: {formatTime(time)} WIB</Text>
+          <Text
+            className={`${
+              status === 3
+                ? "text-success-700"
+                : status === 4
+                ? "text-error-700"
+                : status === 5
+                ? "text-warning-700"
+                : "text-primary-700"
+            }`}
+          >
+            : {statusRequest({ status })}
+          </Text>
+        </View>
+      </View>
+      <View className="flex items-end mt-6">
+        {status === 0 || status === 1 || status === 2 ? (
+          <CustomButton
+            clx2="text-sm text-white font-white"
+            clx="bg-primary-700 opacity-50 w-[35%] h-[40px]"
+            title="Lihat"
+            type="button"
+          />
+        ) : (
+          <CustomButton
+            clx2="text-sm text-white font-white"
+            route={{ pathname: "/history-request/[id]", params: { id: id } }}
+            clx="bg-primary-700 w-[35%] h-[40px]"
+            title="Lihat"
+          />
+        )}
       </View>
     </View>
   );

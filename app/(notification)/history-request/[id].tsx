@@ -11,11 +11,14 @@ import { icons } from "@/constants";
 import CustomButton from "@/components/CustomButton";
 import { useHistoryRequestId } from "@/service/api";
 import { formatDate } from "@/utils";
+import Gap from "@/components/Gap";
 
 const HistorRequest = () => {
   const { id } = useLocalSearchParams();
   const { data, isLoading } = useHistoryRequestId(id);
   const result = data?.data;
+
+  console.log(result);
 
   return (
     <SafeAreaView className="flex-1 py-[56px] bg-primary-50">
@@ -26,60 +29,111 @@ const HistorRequest = () => {
           </TouchableOpacity>
         </Link>
         <Text className="text-primary-800 text-xl font-pbold">
-          {result?.instansi_name}
+          Detail Permohonan
         </Text>
       </View>
-      <Text className="px-9">{result?.layanan_name}</Text>
       <View className="px-9 mt-8 mb-4">
-        <View className="w-full h-[330px] rounded-[20px] border border-primary-500 py-[18px]">
+        <View className="w-full rounded-[20px] border border-primary-500 py-[18px]">
           <View className="flex flex-row justify-between items-center gap-20 px-[18px]">
-            <Text>Nomor Permohonan</Text>
+            <View>
+              <Text className="font-psemibold">Nomor Permohonan</Text>
+              <Text>{result?.no_request}</Text>
+            </View>
             <View
-              className={`w-[60px] h-5 items-center bg-success-700 justify-center rounded-full`}
+              className={`w-[60px] h-5 items-center ${
+                result?.status === 3
+                  ? "bg-success-200"
+                  : result?.status === 4
+                  ? "bg-error-200"
+                  : "bg-secondary-200"
+              } justify-center rounded`}
             >
-              <Text className="text-[10px] text-neutral-50">
-                {result?.status === 3 ? "Selesai" : ""}
+              <Text
+                className={`text-xs ${
+                  result?.status === 3
+                    ? "text-success-700"
+                    : result?.status === 4
+                    ? "text-error-700"
+                    : "text-secondary-700"
+                }`}
+              >
+                {result?.status === 3
+                  ? "Selesai"
+                  : result?.status === 4
+                  ? "Ditolak"
+                  : "Butuh Perbaikan"}
               </Text>
             </View>
           </View>
-          <View className="w-full h-[1px] bg-primary-500 mt-4 mb-1"></View>
-          <Text className="text-secondary-700 font-psemibold text-sm mb-4 px-[18px]">
-            Detail :
+          <Gap height={10} />
+          <Text className="px-4 text-sm text-secondary-700">
+            Layanan : {result?.layanan_name}
           </Text>
+          <View className="px-4">
+            <View className="w-full h-[1px] border-[0.5px] border-dashed my-4"></View>
+          </View>
           <View className="mb-2 px-[18px]">
-            <Text className="text-primary-900 font-psemibold text-[10px]">
+            <Text className="text-primary-900 font-psemibold text-sm">
               Tgl dibuat permohonan
             </Text>
-            <Text className="text-neutral-900 text-[10px]">
+            <Text className="text-neutral-900 text-sm">
+              {formatDate(result?.updatedAt)}
+            </Text>
+          </View>
+          <View className="mb-2 px-[18px]">
+            <Text className="text-primary-900 font-psemibold text-sm">
+              Tgl permohonan selesai
+            </Text>
+            <Text className="text-neutral-900 text-sm">
               {formatDate(result?.createdAt)}
             </Text>
           </View>
           <View className="mb-2 px-[18px]">
-            <Text className="text-primary-900 font-psemibold text-[10px]">
-              Tgl permohonan selesai
-            </Text>
-            <Text className="text-neutral-900 text-[10px]">HH/BB/TTTT</Text>
-          </View>
-          <View className="mb-2 px-[18px]">
-            <Text className="text-primary-900 font-psemibold text-[10px]">
+            <Text className="text-primary-900 font-psemibold text-sm">
               Pesan
             </Text>
-            <Text className="text-neutral-900 text-[10px]">
-              Lorem impsum dolor sit amet
+            <Text className="text-neutral-900 text-sm">
+              {result?.pesan || "-"}
             </Text>
           </View>
-          <Text className="text-warning-700 text-[10px] underline px-[18px]">
+          <Text className=" text-xs underline text-justify px-[18px]">
             Silahkan mengisi survey kepuasan masyarakat (SKM) terlebih dahulu
             agar dapat mengunduh hasil permohonan.
           </Text>
-          <View className="flex items-center mt-8">
-            <CustomButton
-              route="/home"
-              clx="bg-primary-700 w-[20.5vh] h-[5vh]"
-              clx2="text-sm text-neutral-50 font-psemibold"
-              title="Download"
-            />
-          </View>
+          {(result?.status === 3 || result?.status === 5) && (
+            <View className="flex flex-row items-center justify-center mt-8">
+              {result?.status !== 3 ? (
+                <CustomButton
+                  route="/home"
+                  clx="bg-transparent border border-primary-700 w-[15vh] h-[4vh] mr-4"
+                  clx2="text-xs text-primary-700 font-psemibold"
+                  title="Lihat"
+                />
+              ) : (
+                <CustomButton
+                  type="button"
+                  clx="bg-transparent border border-neutral-700 w-[15vh] h-[4vh] mr-4"
+                  clx2="text-xs text-neutral-700 font-psemibold"
+                  title="Lihat"
+                />
+              )}
+              {result?.status === 5 ? (
+                <CustomButton
+                  route="/home"
+                  clx="bg-primary-700 w-[15vh] h-[4vh]"
+                  clx2="text-xs text-neutral-50 font-psemibold"
+                  title="Perbaiki"
+                />
+              ) : (
+                <CustomButton
+                  route="/home"
+                  clx="bg-primary-700 w-[15vh] h-[4vh]"
+                  clx2="text-xs text-neutral-50 font-psemibold"
+                  title="Unduh"
+                />
+              )}
+            </View>
+          )}
         </View>
       </View>
     </SafeAreaView>

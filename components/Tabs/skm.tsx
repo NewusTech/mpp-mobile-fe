@@ -12,11 +12,12 @@ import React, { useCallback, useEffect, useState } from "react";
 import Gap from "../Gap";
 import TabRequest from "./tabRequest";
 import { icons, images } from "@/constants";
-import { useHistoryRequest } from "@/service/api";
+import { useHistoryRequest, useHistorySkm } from "@/service/api";
 import { debounce, formatDateA, formatDateToString } from "@/utils";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import TabSkm from "./tabSkm";
 
-const Request = () => {
+const SKM = () => {
   const currentYear = new Date().getFullYear();
   const startDate = new Date(currentYear, 0, 1);
 
@@ -83,13 +84,13 @@ const Request = () => {
     setIsDebouncing(true);
     debouncedSetSearch(search);
   }, [search, debouncedSetSearch]);
-  const { data, isLoading } = useHistoryRequest({
+  const { data, isLoading } = useHistorySkm({
     start: startDateFormatted,
     end: endDateFormatted,
-    status: 0,
+    search: debouncedSearch,
   });
   const result = data?.data;
-  console.log(result);
+
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View className="py-8">
@@ -146,16 +147,16 @@ const Request = () => {
             )}
           </View>
           {result?.map((v: any) => (
-            <TabRequest
+            <TabSkm
               key={v.id}
               title={v.instansi_name}
               time={v.createdAt}
               images={v.instansi_image}
-              date={v.createdAt}
-              no={v.no_request}
+              date={v.date}
+              no={v.no_skm}
               service={v.layanan_name}
               id={v.id}
-              status={v.status}
+              kritik={v.kritiksaran}
             />
           ))}
         </View>
@@ -164,4 +165,4 @@ const Request = () => {
   );
 };
 
-export default Request;
+export default SKM;
