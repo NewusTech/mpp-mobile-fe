@@ -1,8 +1,20 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useState } from "react";
 
-const SelectValueSurvey = ({ title }: { title: string }) => {
-  const [selected, setSelected] = useState(null);
+const SelectValueSurvey = ({
+  title,
+  id,
+  onSelect,
+}: {
+  title: string;
+  id: number;
+  onSelect: (id: number, value: number) => void;
+}) => {
+  const [selected, setSelected] = useState<number | null>(null);
+  const handleSelect = (item: number) => {
+    setSelected(item);
+    onSelect(id, item); // Panggil fungsi onSelect saat nilai dipilih
+  };
   return (
     <>
       <Text className="text-center text-primary-800">{title}</Text>
@@ -14,10 +26,10 @@ const SelectValueSurvey = ({ title }: { title: string }) => {
           <Text className="w-[50px] text-center text-black">Sangat Sesuai</Text>
         </View>
         <View className="flex flex-row justify-between">
-          {[1, 2, 3, 4].map((item) => (
+          {[1, 2, 3, 4].map((item: any) => (
             <TouchableOpacity
               key={item}
-              onPress={() => setSelected(item)}
+              onPress={() => handleSelect(item)}
               className={`rounded-full h-[50px] w-[50px] items-center justify-center ${
                 selected === item
                   ? "bg-primary-700"

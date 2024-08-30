@@ -27,6 +27,7 @@ import ShowToast from "@/components/Toast";
 import { FormDataPengaduan } from "@/types/type";
 import CustomButton from "@/components/CustomButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { WithAuth } from "@/components/ProtectedRoute";
 
 const MaklumatScreen = () => {
   const [selectedImage, setSelectedImage] = useState<any>(null);
@@ -306,4 +307,4 @@ const MaklumatScreen = () => {
   );
 };
 
-export default MaklumatScreen;
+export default WithAuth(MaklumatScreen);

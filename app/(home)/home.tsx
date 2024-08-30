@@ -15,7 +15,6 @@ import CardNews from "@/components/CardNews";
 import Bottombar from "@/components/Bottombar";
 import { SvgUri } from "react-native-svg";
 import { Link } from "expo-router";
-import { withAuth } from "@/components/ProtectedRoute";
 import {
   useCarousel,
   useFacility,
@@ -27,9 +26,12 @@ import {
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { jwtDecode } from "jwt-decode";
+import { useAuthStore } from "@/store/useAuthStore";
+import { authentication } from "@/utils";
 
 const CardFacility = ({ image, title }: any) => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
   };
@@ -74,6 +76,16 @@ const CardFacility = ({ image, title }: any) => {
 const HomeScreen = () => {
   const [currenUser, setCurrentUser] = useState<any>(null);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+  const [token, setToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchToken = async () => {
+      const token = await authentication(); // Memanggil fungsi untuk mendapatkan token
+      setToken(token); // Simpan token di dalam state
+    };
+
+    fetchToken();
+  }, []);
 
   const { data, isLoading } = useCarousel();
   const { data: instance, isLoading: instanceLoading } = useInstance(4);
@@ -82,6 +94,7 @@ const HomeScreen = () => {
   const { data: sop, isLoading: sopLoading } = useSOP();
   const { data: manual, isLoading: manualLoading } = useManualBook();
   const { data: maklumat, isLoading: maklumatLoading } = useManualBook();
+  const { logout } = useAuthStore();
 
   const resultCarousel = data?.data;
   const resultInstance = instance?.data;
@@ -107,6 +120,10 @@ const HomeScreen = () => {
     getToken();
   }, []);
 
+  const handleLogout = async () => {
+    logout();
+  };
+
   return (
     <SafeAreaView className="flex-1 z-10">
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -116,11 +133,16 @@ const HomeScreen = () => {
               Selamat Datang, User
             </Text>
             <View className="flex flex-row gap-4 -mt-2">
-              <Link href="/notification" asChild>
-                <TouchableOpacity>
-                  <Image source={icons.bell} className="w-[2.8vh] h-[2.8vh]" />
-                </TouchableOpacity>
-              </Link>
+              {token && (
+                <Link href="/notification" asChild>
+                  <TouchableOpacity>
+                    <Image
+                      source={icons.bell}
+                      className="w-[2.8vh] h-[2.8vh]"
+                    />
+                  </TouchableOpacity>
+                </Link>
+              )}
               <TouchableOpacity onPress={toggleDropdown}>
                 <Image source={icons.ellipis} className="w-[2.8vh] h-[2.8vh]" />
               </TouchableOpacity>
@@ -261,6 +283,15 @@ const HomeScreen = () => {
                 <Text style={{ padding: 10 }}>Manual MPP</Text>
               </TouchableOpacity>
             </Link>
+            {token && (
+              <TouchableOpacity
+                className="px-[10px] my-2 flex flex-row items-center space-x-3"
+                onPress={handleLogout}
+              >
+                <Text>Logout</Text>
+                <Image source={icons.logout} className="w-4 h-4" />
+              </TouchableOpacity>
+            )}
           </View>
         )}
       </ScrollView>
@@ -268,7 +299,7 @@ const HomeScreen = () => {
   );
 };
 
-export default withAuth(HomeScreen);
+export default HomeScreen;
 
 const styles = StyleSheet.create({
   dotStyle: {

@@ -9,6 +9,7 @@ import React from "react";
 import { icons } from "@/constants";
 import { Link } from "expo-router";
 import NotificationCard from "@/components/Notification";
+import { WithAuth } from "@/components/ProtectedRoute";
 
 const Notification = () => {
   return (
@@ -41,4 +42,4 @@ const Notification = () => {
   );
 };
 
-export default Notification;
+export default WithAuth(Notification);

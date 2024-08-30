@@ -37,6 +37,10 @@ const LoginScreen = () => {
         login(data.data.token);
         ShowToast("Login Berhasil");
       }
+      if (data.status === 403) {
+        ShowToast("Password dan email tidak valid");
+      }
+      console.log(data);
     } catch (error: any) {
       console.error("Login failed:", error.message);
       setError(error.message);

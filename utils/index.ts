@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
 import * as FileSystem from "expo-file-system";
@@ -13,18 +14,18 @@ export function formatDate(dateString: string): string {
   const date = new Date(dateString);
   const day = date.getUTCDate();
   const monthNames = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
+    "Januari",
+    "Februari",
+    "Maret",
+    "April",
+    "Mei",
+    "Juni",
+    "Juli",
+    "Agustus",
+    "September",
+    "Oktober",
+    "November",
+    "Desember",
   ];
   const month = monthNames[date.getUTCMonth()];
   const year = date.getUTCFullYear();
@@ -137,3 +138,8 @@ export default async function downloadFile(
     return `Error downloading the file: ${error}`;
   }
 }
+
+export const authentication = async () => {
+  const token = await AsyncStorage.getItem("token");
+  return token;
+};

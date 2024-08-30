@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
   ScrollView,
   StyleSheet,
+  useWindowDimensions,
 } from "react-native";
 import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -24,6 +25,7 @@ import {
 } from "@/service/api";
 import ShowToast from "@/components/Toast";
 import Checkbox from "expo-checkbox";
+import RenderHTML from "react-native-render-html";
 
 interface FormValues {
   name: string;
@@ -56,10 +58,11 @@ const RegisterScreen = () => {
   const { data } = useDistrict();
   const { data: dataVillage } = useVillage(selectedDistrict);
   const { data: termCond } = useTermAndCondition();
+  const { width } = useWindowDimensions();
 
   const resultDistrict = data?.data;
   const resultVillage = dataVillage?.data;
-  const resultTermCond = termCond?.data?.desc;
+  const resultTermCond = termCond?.data?.privasi_text;
 
   const selectListDataDistrict = resultDistrict?.map((item: any) => ({
     key: item?.id.toString(),
@@ -88,13 +91,32 @@ const RegisterScreen = () => {
       ...formValues,
       districtId: selectedDistrict,
       villageId: selectedVillage,
+      role_id: 5,
     };
     try {
       const response = await register(formData);
       if (response.status === 201) {
         ShowToast("Berhasil Daftar");
+        setFormValues({
+          name: "",
+          nik: "",
+          phoneNumber: "",
+          email: "",
+          password: "",
+          neighborhoodAssociation: "",
+          communityAssociation: "",
+          address: "",
+        });
+        setSelectedDistrict(0);
+        setSelectedVillage(0);
         router.push("/login");
       }
+
+      if (response.status === 400) {
+        ShowToast(response.message);
+      }
+
+      console.log(response);
     } catch (e: any) {
       ShowToast(e.message);
     } finally {
@@ -271,22 +293,28 @@ const RegisterScreen = () => {
           setModalVisible(false);
         }}
       >
-        <View style={styles.modalBackground}>
-          <View style={styles.modalContainer}>
-            <Text style={styles.modalText}>Syarat & Ketentuan</Text>
-            <Text style={styles.modalContent}>{resultTermCond}</Text>
-            <Gap height={10} />
-            <CustomButton
-              type="button"
-              onPress={() => {
-                setModalVisible(false);
-              }}
-              clx2="text-sm text-neutral-50 font-pmedium"
-              clx={"bg-primary-700 w-[14.5vh] h-[4.8vh]"}
-              title="Setuju"
-            />
+        <ScrollView>
+          <View style={styles.modalBackground}>
+            <View style={styles.modalContainer}>
+              <Text style={styles.modalText}>Syarat & Ketentuan</Text>
+              <RenderHTML
+                source={{ html: resultTermCond }}
+                contentWidth={width}
+                baseStyle={{ color: "black", marginTop: -15 }}
+              />
+              <Gap height={10} />
+              <CustomButton
+                type="button"
+                onPress={() => {
+                  setModalVisible(false);
+                }}
+                clx2="text-sm text-neutral-50 font-pmedium"
+                clx={"bg-primary-700 w-[14.5vh] h-[4.8vh]"}
+                title="Setuju"
+              />
+            </View>
           </View>
-        </View>
+        </ScrollView>
       </Modal>
     </SafeAreaView>
   );
@@ -302,8 +330,8 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContainer: {
-    width: 300,
-    padding: 20,
+    width: 370,
+    padding: 30,
     backgroundColor: "white",
     borderRadius: 10,
     alignItems: "center",

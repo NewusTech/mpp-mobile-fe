@@ -40,6 +40,7 @@ import {
 import RenderHtml from "react-native-render-html";
 import { SelectList } from "react-native-dropdown-select-list";
 import ShowToast from "@/components/Toast";
+import { WithAuth } from "@/components/ProtectedRoute";
 
 const steps = [
   { id: 1, title: "1" },
@@ -544,7 +545,7 @@ const ServiceRequestTwo = () => {
   );
 };
 
-export default ServiceRequestTwo;
+export default WithAuth(ServiceRequestTwo);
 
 const styles = StyleSheet.create({
   modalView: {

@@ -21,6 +21,7 @@ import {
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Checkbox from "expo-checkbox";
 import CustomRadioButton from "@/components/RadioInput";
+import { WithAuth } from "@/components/ProtectedRoute";
 
 const steps = [
   { id: 1, title: "1" },
@@ -299,4 +300,4 @@ const ServiceRequestThree = () => {
   );
 };
 
-export default ServiceRequestThree;
+export default WithAuth(ServiceRequestThree);

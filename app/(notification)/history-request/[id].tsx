@@ -4,8 +4,9 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Animated,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Link, useLocalSearchParams } from "expo-router";
 import { icons } from "@/constants";
 import CustomButton from "@/components/CustomButton";
@@ -14,10 +15,31 @@ import { formatDate } from "@/utils";
 import Gap from "@/components/Gap";
 
 const HistorRequest = () => {
+  const moveAnim = useRef(new Animated.Value(1)).current;
   const { id } = useLocalSearchParams();
   const { data, isLoading } = useHistoryRequestId(id);
   const result = data?.data;
+  useEffect(() => {
+    // Fungsi untuk menjalankan animasi bounce berulang
+    const startMoving = () => {
+      Animated.loop(
+        Animated.sequence([
+          Animated.timing(moveAnim, {
+            toValue: 10, // Bergerak ke bawah sebesar 10 unit
+            duration: 1000,
+            useNativeDriver: true,
+          }),
+          Animated.timing(moveAnim, {
+            toValue: 0, // Kembali ke posisi semula
+            duration: 1000,
+            useNativeDriver: true,
+          }),
+        ])
+      ).start();
+    };
 
+    startMoving();
+  }, [moveAnim]);
   console.log(result);
 
   return (
@@ -96,13 +118,26 @@ const HistorRequest = () => {
               {result?.pesan || "-"}
             </Text>
           </View>
-          <Text className=" text-xs underline text-justify px-[18px]">
-            Silahkan mengisi survey kepuasan masyarakat (SKM) terlebih dahulu
-            agar dapat mengunduh hasil permohonan.
-          </Text>
+          {result?.input_skm === true ? (
+            <Text className=" text-xs underline text-justify px-[18px]">
+              Silahkan mengisi survey kepuasan masyarakat (SKM) terlebih dahulu
+              agar dapat mengunduh hasil permohonan.
+            </Text>
+          ) : (
+            <Animated.View style={{ transform: [{ translateY: moveAnim }] }}>
+              <Link href="/skm" asChild>
+                <TouchableOpacity>
+                  <Text className="text-xs underline text-justify px-[18px]">
+                    Silahkan mengisi survey kepuasan masyarakat (SKM) terlebih
+                    dahulu agar dapat mengunduh hasil permohonan.
+                  </Text>
+                </TouchableOpacity>
+              </Link>
+            </Animated.View>
+          )}
           {(result?.status === 3 || result?.status === 5) && (
             <View className="flex flex-row items-center justify-center mt-8">
-              {result?.status !== 3 ? (
+              {result?.status === 3 && result?.input_skm === true ? (
                 <CustomButton
                   route="/home"
                   clx="bg-transparent border border-primary-700 w-[15vh] h-[4vh] mr-4"
@@ -117,7 +152,14 @@ const HistorRequest = () => {
                   title="Lihat"
                 />
               )}
-              {result?.status === 5 ? (
+              {result?.status === 3 && result?.input_skm === true ? (
+                <CustomButton
+                  route="/home"
+                  clx="bg-primary-700 w-[15vh] h-[4vh]"
+                  clx2="text-xs text-neutral-50 font-psemibold"
+                  title="Unduh"
+                />
+              ) : result?.status === 5 ? (
                 <CustomButton
                   route="/home"
                   clx="bg-primary-700 w-[15vh] h-[4vh]"
@@ -126,8 +168,8 @@ const HistorRequest = () => {
                 />
               ) : (
                 <CustomButton
-                  route="/home"
-                  clx="bg-primary-700 w-[15vh] h-[4vh]"
+                  type="button"
+                  clx="bg-primary-700 opacity-50 w-[15vh] h-[4vh]"
                   clx2="text-xs text-neutral-50 font-psemibold"
                   title="Unduh"
                 />
