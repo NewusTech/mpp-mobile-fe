@@ -25,6 +25,8 @@ import home from "@/assets/icons/home.png";
 import ellipis from "@/assets/icons/ellipsis.png";
 import ppt from "@/assets/icons/ppt.png";
 import calendar from "@/assets/icons/calendar.png";
+import check from "@/assets/icons/check.png";
+import logout from "@/assets/icons/log-out.png";
 
 export default {
   user,
@@ -54,4 +56,6 @@ export default {
   ellipis,
   ppt,
   calendar,
+  check,
+  logout,
 };

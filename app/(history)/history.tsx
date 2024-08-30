@@ -11,6 +11,7 @@ import { icons } from "@/constants";
 import Queue from "@/components/Tabs/queue";
 import Request from "@/components/Tabs/request";
 import SKM from "@/components/Tabs/skm";
+import { WithAuth } from "@/components/ProtectedRoute";
 
 const HistoryScreen = () => {
   const [selectedTab, setSelectedTab] = useState("Antrian");
@@ -82,4 +83,4 @@ const HistoryScreen = () => {
   );
 };
 
-export default HistoryScreen;
+export default WithAuth(HistoryScreen);

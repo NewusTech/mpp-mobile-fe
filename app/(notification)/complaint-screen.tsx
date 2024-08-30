@@ -27,6 +27,7 @@ import {
   truncateString,
 } from "@/utils";
 import { useComplaint } from "@/service/api";
+import { WithAuth } from "@/components/ProtectedRoute";
 
 const status = [
   {
@@ -291,4 +292,4 @@ const CardComplaint = ({ name, service, date, time, status, aduan }: any) => {
   );
 };
 
-export default ComplaintScreenHistory;
+export default WithAuth(ComplaintScreenHistory);

@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { useRouter } from "expo-router";
 import { useAuthStore } from "@/store/useAuthStore";
 
-export function withAuth(Component: React.ComponentType) {
+export function WithAuth(Component: React.ComponentType) {
   return function ProtectedComponent(props: any) {
     const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
     const checkAuth = useAuthStore((state) => state.checkAuth);

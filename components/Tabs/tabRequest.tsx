@@ -10,17 +10,17 @@ const statusRequest = ({ status }: { status: number }) => {
     case 0:
       return "Belum Diproses";
     case 1:
-      return "Sudah Divalidasi";
+      return "Sedang diproses";
     case 2:
-      return "Sudah Disetujui";
+      return "Sedang diproses";
     case 3:
-      return "Proses Selesai";
+      return "Selesai";
     case 4:
       return "Ditolak";
     case 5:
-      return "Butuh Perbaikan";
+      return "Butuh Revisi";
     case 6:
-      return "Sudah Diperbaiki";
+      return "Menunggu Validasi";
     default:
       return "Belum Diproses";
   }

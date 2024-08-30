@@ -21,6 +21,7 @@ import { useEffect, useState } from "react";
 import { truncateString } from "@/utils";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ShowToast from "@/components/Toast";
+import { WithAuth } from "@/components/ProtectedRoute";
 
 const steps = [
   { id: 1, title: "1" },
@@ -239,4 +240,4 @@ const ServiceRequestFour = () => {
   );
 };
 
-export default ServiceRequestFour;
+export default WithAuth(ServiceRequestFour);

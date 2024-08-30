@@ -361,7 +361,17 @@ export function useHistorySkmDetail(id: number) {
   };
 }
 
-// post inputsurvey/detail/1
+export function useSkmDetail(id: number) {
+  const baseUrl = `${apiUrl}/survey/form/${id}`;
+  const { data, isLoading } = useSWR(baseUrl, fetcherAuth);
+
+  return {
+    data,
+    isLoading,
+  };
+}
+
+// post
 
 export const loginUser = async ({ nik, password }: LoginType) => {
   try {
@@ -391,6 +401,7 @@ export const register = async ({
   neighborhoodAssociation,
   communityAssociation,
   address,
+  role_id,
 }: RegisterType) => {
   const formData = {
     name: name,
@@ -403,6 +414,7 @@ export const register = async ({
     password: password,
     rt: neighborhoodAssociation,
     rw: communityAssociation,
+    role_id: role_id,
   };
   try {
     const response = await fetch(`${apiUrl}/register`, {
@@ -495,6 +507,26 @@ export const changePasswordApi = async (data: any, slug: string) => {
   try {
     const token = await AsyncStorage.getItem("token");
     const response = await fetch(`${apiUrl}/changepassword/${slug}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    });
+
+    const res = await response.json();
+    return res;
+  } catch (error) {
+    console.error("API Error:", error);
+    throw error;
+  }
+};
+
+export const skmInput = async (data: any, id: number) => {
+  try {
+    const token = await AsyncStorage.getItem("token");
+    const response = await fetch(`${apiUrl}/inputsurvey/${id}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -44,7 +44,7 @@ if (getRNMinorVersion() >= 75) {
   }
 }
 
-rootProject.name = 'Mpp Mobile'
+rootProject.name = 'Mal Pelayanan Publik Lampung Timur'
 
 dependencyResolutionManagement {
   versionCatalogs {

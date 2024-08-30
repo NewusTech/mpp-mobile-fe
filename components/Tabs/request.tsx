@@ -15,6 +15,18 @@ import { icons, images } from "@/constants";
 import { useHistoryRequest } from "@/service/api";
 import { debounce, formatDateA, formatDateToString } from "@/utils";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { SelectList } from "react-native-dropdown-select-list";
+
+const status = [
+  { key: "", value: "Semua" },
+  { key: 0, value: "Belum diproses" },
+  { key: 1, value: "Sedang Diproses" },
+  { key: 2, value: "Sedang Diproses" },
+  { key: 3, value: "Selesai" },
+  { key: 4, value: "Ditolak" },
+  { key: 5, value: "Revisi" },
+  { key: 6, value: "Menunggu Validasi" },
+];
 
 const Request = () => {
   const currentYear = new Date().getFullYear();
@@ -27,8 +39,7 @@ const Request = () => {
   const [date, setDate] = useState(new Date());
   const [dateEnd, setDateEnd] = useState(new Date());
   const [search, setSearch] = useState("");
-  const [debouncedSearch, setDebouncedSearch] = useState<string>(search);
-  const [isDebouncing, setIsDebouncing] = useState<boolean>(false);
+  const [selectedStatus, setSelectedStatus] = useState(0);
 
   const togglePickerDate = () => {
     setShowPicker(!showPicker);
@@ -36,6 +47,9 @@ const Request = () => {
 
   const togglePickerEndDate = () => {
     setShowPickerEnd(!showPickerEnd);
+  };
+  const handleSelectChange = (val: any) => {
+    setSelectedStatus(val);
   };
 
   const startDateFormatted = selectedStartDate
@@ -71,22 +85,10 @@ const Request = () => {
     }
   };
 
-  const debouncedSetSearch = useCallback(
-    debounce((text: string) => {
-      setDebouncedSearch(text);
-      setIsDebouncing(false);
-    }, 500),
-    []
-  );
-
-  useEffect(() => {
-    setIsDebouncing(true);
-    debouncedSetSearch(search);
-  }, [search, debouncedSetSearch]);
   const { data, isLoading } = useHistoryRequest({
     start: startDateFormatted,
     end: endDateFormatted,
-    status: 0,
+    status: selectedStatus,
   });
   const result = data?.data;
   console.log(result);
@@ -94,11 +96,22 @@ const Request = () => {
     <ScrollView showsVerticalScrollIndicator={false}>
       <View className="py-8">
         <View>
-          <TextInput
-            className="border rounded-full py-2 px-5 border-neutral-600"
-            placeholder="Cari ..."
-            value={search}
-            onChangeText={(e) => setSearch(e)}
+          <SelectList
+            setSelected={handleSelectChange}
+            data={status}
+            save="key"
+            arrowicon={
+              <Image source={icons.chevronDown} className="w-[3vh] h-[3vh]" />
+            }
+            placeholder="Pilih Status"
+            boxStyles={{
+              borderRadius: 20,
+              borderColor: "#C4C4C4",
+              height: 45,
+              width: 340,
+            }}
+            search={false}
+            inputStyles={{ color: "#000" }}
           />
           <View className="mb-6 flex flex-row mt-3 items-center justify-between">
             <Pressable

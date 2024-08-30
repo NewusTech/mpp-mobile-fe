@@ -5,23 +5,101 @@ import {
   SafeAreaView,
   TouchableOpacity,
   TextInput,
+  Platform,
+  Pressable,
 } from "react-native";
 import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { icons } from "@/constants";
 import CustomButton from "@/components/CustomButton";
 import { SelectList } from "react-native-dropdown-select-list";
+import { apiUrl, useDetailService, useInstance } from "@/service/api";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import { useSkmStore } from "@/store/useSkmStore";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import ShowToast from "@/components/Toast";
+import { formatDateToIndo } from "@/utils";
 
 const SurveyScreen = () => {
-  const [selected, setSelected] = useState("");
+  const {
+    selectedInstance,
+    setSelectedInstance,
+    setSelectedService,
+    setSelectedDate,
+    selectedService,
+    selectedDate,
+  } = useSkmStore((state) => ({
+    selectedInstance: state.selectedInstance,
+    setSelectedInstance: state.setSelectedInstance,
+    setSelectedDate: state.setSelectedDate,
+    setSelectedService: state.setSelectedService,
+    selectedDate: state.selectedDate,
+    selectedService: state.selectedService,
+  }));
+  const [date, setDate] = useState(new Date());
+  const [showPicker, setShowPicker] = useState(false);
 
-  const data = [
-    { key: "1", value: "Mobiles" },
-    { key: "2", value: "Appliances" },
-    { key: "3", value: "Cameras" },
-    { key: "4", value: "Computers" },
-  ];
+  const { data } = useInstance(10000);
+  const { data: services } = useDetailService(1000, selectedInstance);
+
+  const result = data?.data;
+  const resultService = services?.data;
+
+  const togglePicker = () => {
+    setShowPicker(!showPicker);
+  };
+
+  const onChange = ({ type }: { type: string }, selectedDate: any) => {
+    if (type == "set") {
+      const currentDate = selectedDate;
+      setDate(currentDate);
+      if (Platform.OS === "android") {
+        togglePicker();
+        setSelectedDate(currentDate.toDateString());
+      }
+    } else {
+      togglePicker();
+    }
+  };
+
+  // Data untuk SelectList
+  const selectListData = result?.map((item: any) => ({
+    key: item.id,
+    value: item.name,
+  }));
+
+  const selectListDataService = resultService?.map((item: any) => ({
+    key: item.id,
+    value: item.name,
+  }));
+
+  const handleButtonClick = async () => {
+    const token = await AsyncStorage.getItem("token");
+    try {
+      const res: any = await fetch(
+        `${apiUrl}/getCheckUserSKM/${selectedService}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log(res);
+
+      if (res.ok) {
+        router.push("/fill-skm");
+      } else {
+        ShowToast("Sudah mengisi survey");
+        console.log("Sudah mengisi survey");
+      }
+    } catch (error) {
+      console.error(error);
+      ShowToast("Sudah mengisi survey");
+    }
+  };
 
   return (
     <>
@@ -39,9 +117,9 @@ const SurveyScreen = () => {
             Survey Kepuasan Masyarakat
           </Text>
           <SelectList
-            setSelected={(val: any) => setSelected(val)}
-            data={data}
-            save="value"
+            setSelected={(val: any) => setSelectedInstance(val)}
+            data={selectListData}
+            save="key"
             arrowicon={
               <Image source={icons.chevronDown} className="w-[3vh] h-[3vh]" />
             }
@@ -55,12 +133,12 @@ const SurveyScreen = () => {
               borderRadius: 0,
               marginTop: 10,
             }}
-            search={false}
+            search={true}
           />
           <SelectList
-            setSelected={(val: any) => setSelected(val)}
-            data={data}
-            save="value"
+            setSelected={(val: any) => setSelectedService(val)}
+            data={selectListDataService}
+            save="key"
             arrowicon={
               <Image source={icons.chevronDown} className="w-[3vh] h-[3vh]" />
             }
@@ -74,17 +152,31 @@ const SurveyScreen = () => {
               borderRadius: 0,
               marginTop: 10,
             }}
-            search={false}
+            search={true}
           />
-          <TextInput
-            className="border-b border-neutral-800 py-2 px-5"
-            placeholder="Tanggal"
-          />
+          <Pressable onPress={togglePicker}>
+            <TextInput
+              className="border-b px-5 text-neutral-800 border-neutral-800 py-2"
+              placeholder="Tanggal"
+              value={formatDateToIndo(selectedDate)}
+              onChangeText={setSelectedDate}
+              editable={false}
+            />
+          </Pressable>
+          {showPicker && (
+            <DateTimePicker
+              mode="date"
+              display="spinner"
+              value={date}
+              onChange={onChange}
+            />
+          )}
           <View className="flex flex-row justify-end py-2">
             <CustomButton
               title="Isi SKM"
-              route="/fill-skm"
-              clx="bg-primary-700 w-[90px] h-[30px]"
+              type="button"
+              onPress={handleButtonClick}
+              clx="bg-primary-700 w-[13vh] h-[4vh]"
               clx2="text-neutral-50"
             />
           </View>

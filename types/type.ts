@@ -107,6 +107,7 @@ export interface RegisterType {
   neighborhoodAssociation: string;
   communityAssociation: string;
   address: string;
+  role_id: number;
 }
 
 export interface AccordionProps {

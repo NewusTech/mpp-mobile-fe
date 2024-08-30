@@ -1,5 +1,6 @@
 import Accordion from "@/components/Accordion";
 import CustomButton from "@/components/CustomButton";
+import { WithAuth } from "@/components/ProtectedRoute";
 import Step from "@/components/Step";
 import { icons } from "@/constants";
 import { useDetailService } from "@/service/api";
@@ -170,4 +171,4 @@ const ServiceRequestOne = () => {
   );
 };
 
-export default ServiceRequestOne;
+export default WithAuth(ServiceRequestOne);

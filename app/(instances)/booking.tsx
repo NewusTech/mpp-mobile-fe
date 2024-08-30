@@ -19,6 +19,7 @@ import { SelectList } from "react-native-dropdown-select-list";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useDetailService, useQueueService } from "@/service/api";
 import { useBookingStore } from "@/store/useBookingStore";
+import { WithAuth } from "@/components/ProtectedRoute";
 
 const Queue = ({
   title,
@@ -55,7 +56,7 @@ const DetailInstanceScreen = () => {
     name: state.name,
     image: state.image,
   }));
-  const { data: service, isLoading } = useDetailService(instansiId);
+  const { data: service, isLoading } = useDetailService(instansiId, 10000);
 
   const result = service?.data;
 
@@ -290,4 +291,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DetailInstanceScreen;
+export default WithAuth(DetailInstanceScreen);
