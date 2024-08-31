@@ -1,5 +1,6 @@
 import CustomButton from "@/components/CustomButton";
 import Gap from "@/components/Gap";
+import { WithAuth } from "@/components/ProtectedRoute";
 import TabBioData from "@/components/TabBioData";
 import { useCurrentUser } from "@/service/api";
 import { Image, SafeAreaView, ScrollView, Text, View } from "react-native";
@@ -53,4 +54,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default WithAuth(Profile);

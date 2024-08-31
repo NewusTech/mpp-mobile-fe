@@ -130,7 +130,7 @@ const HomeScreen = () => {
         <View className="bg-primary-700 w-full h-[12vh] py-6 px-5">
           <View className="flex flex-row justify-between items-start px-4">
             <Text className="text-[16px] w-[156px] text-neutral-50 font-pbold">
-              Selamat Datang, User
+              Selamat Datang
             </Text>
             <View className="flex flex-row gap-4 -mt-2">
               {token && (

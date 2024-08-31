@@ -1,6 +1,7 @@
 // useAuthStore.ts
 import { create } from "zustand";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { router } from "expo-router";
 
 interface AuthState {
   isAuthenticated: boolean;
@@ -17,6 +18,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   },
   logout: async () => {
     await AsyncStorage.removeItem("token");
+    router.replace("/login");
     set({ isAuthenticated: false });
   },
   checkAuth: async () => {

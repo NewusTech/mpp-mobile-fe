@@ -32,10 +32,13 @@ const steps = [
 const currentStep = 4;
 
 const ServiceRequestFour = () => {
-  const { dataInput, serviceId } = useReqeustStore((state: any) => ({
-    dataInput: state.dataInput,
-    serviceId: state.serviceId,
-  }));
+  const { dataInput, serviceId, clearAsyncStorage, resetDataInput } =
+    useReqeustStore((state: any) => ({
+      dataInput: state.dataInput,
+      serviceId: state.serviceId,
+      clearAsyncStorage: state.clearAsyncStorage,
+      resetDataInput: state.resetDataInput,
+    }));
   const { data, isLoading } = useGenerateDocs(serviceId);
   const result = data?.data?.Layananforms;
   const [selectedDocuments, setSelectedDocuments] = useState<
@@ -43,28 +46,27 @@ const ServiceRequestFour = () => {
   >([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const pickDocuments = async () => {
+  const pickDocuments = async (layananform_id: number) => {
     try {
-      const docs = await DocumentPicker.getDocumentAsync();
+      const docs: any = await DocumentPicker.getDocumentAsync({
+        multiple: true,
+        copyToCacheDirectory: true,
+      });
 
-      if (!docs.canceled) {
-        const successResult =
-          docs as DocumentPicker.DocumentPickerSuccessResult;
+      if (!docs.canceled && docs.assets && docs.assets.length > 0) {
+        const newDocuments = docs.assets.map((doc: any) => ({
+          name: doc.name,
+          uri: doc.uri,
+          type: doc.mimeType,
+          size: doc.size,
+          layananform_id, // Menyimpan layananform_id dari parameter
+        }));
 
-        // To limit the amount of documents that are added to the array "selectedDocuments"
-        if (
-          selectedDocuments.length + successResult.assets.length <=
-          result?.length
-        ) {
-          setSelectedDocuments((prevSelectedDocuments) => [
-            ...prevSelectedDocuments,
-            ...successResult.assets,
-          ]);
+        if (selectedDocuments.length + newDocuments.length <= result.length) {
+          setSelectedDocuments([...selectedDocuments, ...newDocuments]);
         } else {
-          console.log(`Maximum of ${result?.length} documents allowed.`);
+          ShowToast("You can only select up to 5 documents");
         }
-      } else {
-        console.log("Document selection cancelled.");
       }
     } catch (error) {
       console.log("Error picking documents:", error);
@@ -76,60 +78,40 @@ const ServiceRequestFour = () => {
     const formData = new FormData();
 
     // Menambahkan selectedDocuments ke formData
-    // for (const [key, value] of Object.entries(selectedDocuments)) {
-    //   if (value) {
-    //     const documentFile = {
-    //       name: value.name.split(".")[0],
-    //       uri: value.uri,
-    //       type: value.mimeType || "application/octet-stream", // Berikan tipe default jika mimeType tidak ada
-    //       size: value.size,
-    //     };
+    selectedDocuments.forEach((doc: any, index: any) => {
+      const file: any = {
+        uri: doc.uri,
+        type: doc.type,
+        name: doc.name.split(".")[0],
+        size: doc.size,
+      };
+      // Append layananform_id sebagai ID untuk dokumen ini
+      formData.append(
+        `datafile[${index}][layananform_id]`,
+        doc.layananform_id.toString()
+      );
 
-    //     formData.append(`datafile[${key}][layananform_id]`, key);
-    //     formData.append(`datafile[${key}][data]`, documentFile as any);
-    //   } else {
-    //     console.warn(`Value for key ${key} is undefined or null`);
-    //   }
-    // }
+      // Append file dokumen ke FormData
+      formData.append(`datafile[${index}][data]`, file);
 
-    for (const [key, value] of Object.entries(selectedDocuments)) {
-      if (value) {
-        try {
-          const response = await fetch(value.uri);
-          if (!response.ok) {
-            throw new Error(`Failed to fetch document at ${value.uri}`);
-          }
-          const blob = await response.blob();
+      console.log(file);
+    });
 
-          // Log Blob untuk memastikan bahwa Blob benar-benar ada
-          console.log(`Blob for document ${key}:`, blob);
+    dataInput.forEach((item: any, index: any) => {
+      formData.append(
+        `datainput[${index}][layananform_id]`,
+        item.layananform_id.toString()
+      );
 
-          formData.append(`datafile[${key}][layananform_id]`, key);
-          formData.append(`datafile[${key}][data]`, blob, value.name);
-        } catch (fetchError) {
-          console.error(`Error fetching document ${key}:`, fetchError);
-        }
-      } else {
-        console.warn(`Value for key ${key} is undefined or null`);
-      }
-    }
+      // Memastikan nilai tidak diubah ke string jika tidak perlu
+      const dataValue =
+        Array.isArray(item.data) || typeof item.data === "object"
+          ? JSON.stringify(item.data)
+          : item.data;
 
-    // dataInput.forEach((item: any, index: any) => {
-    //   formData.append(
-    //     `datainput[${index}][layananform_id]`,
-    //     item.layananform_id.toString()
-    //   );
+      formData.append(`datainput[${index}][data]`, dataValue);
+    });
 
-    //   // Memastikan nilai tidak diubah ke string jika tidak perlu
-    //   const dataValue =
-    //     Array.isArray(item.data) || typeof item.data === "object"
-    //       ? JSON.stringify(item.data)
-    //       : item.data;
-
-    //   formData.append(`datainput[${index}][data]`, dataValue);
-    // });
-    // Log FormData untuk memastikan isinya
-    console.log("FormData:", formData);
     try {
       const token = await AsyncStorage.getItem("token");
       const response = await fetch(
@@ -154,7 +136,10 @@ const ServiceRequestFour = () => {
       const data = await response.json();
       if (data.status === 201) {
         ShowToast(data.message);
-        // router.push("/service-req-5");
+        resetDataInput();
+        await clearAsyncStorage();
+
+        router.push("/success-request");
       }
     } catch (error: any) {
       console.error("Error:", error.message);
@@ -198,12 +183,12 @@ const ServiceRequestFour = () => {
                     <Text className="text-sm text-primary-800 font-psemibold">
                       {v.field}
                     </Text>
-                    <Text className="text-xs">
+                    <Text className="text-xs text-error-700">
                       {v.isrequired ? "Wajib diisi" : "Tidak Wajib"}
                     </Text>
                   </View>
                   <TouchableOpacity
-                    onPress={() => pickDocuments()}
+                    onPress={() => pickDocuments(v.id)}
                     className="px-4 py-2 border rounded-[20px] border-neutral-500"
                   >
                     {selectedDocuments[index] ? (

@@ -7,9 +7,10 @@ export const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 
 // get
 
-export function useDetailService(limit?: number, id?: any) {
-  const baseUrl = `${apiUrl}/layanan/dinas/get/${id}?limit=${limit}`;
-  const url = `${baseUrl}`;
+export function useDetailService(limit: number, id?: any) {
+  const baseUrl = `${apiUrl}/layanan/dinas/get/${id}`;
+  const limitParam = id ? `?limit=${encodeURIComponent(limit)}` : "";
+  const url = `${baseUrl}${limitParam}`;
 
   const { data, isLoading } = useSWR(url, fetcherAuth);
 

@@ -21,13 +21,9 @@ const Bottombar = () => {
     <View className="absolute h-[65px] bottom-0 flex flex-row left-0 right-0 items-start justify-between pt-2 px-5 bg-neutral-50 z-20 ">
       <MenuBottomBar route="/home" icon={icons.home} title="Beranda" />
       <MenuBottomBar route="/skm" icon={icons.clipboard} title="SKM" />
+      <MenuBottomBar route="/instances" icon={icons.ticket} title="Booking" />
       <MenuBottomBar
-        route="/booking-queue"
-        icon={icons.ticket}
-        title="Booking"
-      />
-      <MenuBottomBar
-        route="/service-request"
+        route="/instances"
         icon={icons.landmark}
         title="Permohonan"
       />
@@ -41,7 +37,6 @@ const Bottombar = () => {
       ) : (
         <MenuBottomBar route="/login" icon={icons.logout} title="Login" />
       )}
-
       <Link href="/complaint-screen" asChild>
         <TouchableOpacity className="rounded-full absolute bg-primary-700 px-4 py-2 -mt-12 right-8 flex flex-row items-center space-x-4">
           <Image source={icons.complain} className="w-6 h-6" />

@@ -34,6 +34,7 @@ import { formatDateToIndo, formatDateToString } from "@/utils";
 import { SelectList } from "react-native-dropdown-select-list";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { ActivityIndicator } from "react-native";
+import { WithAuth } from "@/components/ProtectedRoute";
 
 const EditProfile = () => {
   const [defaultDistrict, setDefaultDistrict] = useState(null);
@@ -472,4 +473,4 @@ const EditProfile = () => {
   );
 };
 
-export default EditProfile;
+export default WithAuth(EditProfile);

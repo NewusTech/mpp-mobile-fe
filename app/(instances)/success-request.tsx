@@ -4,7 +4,7 @@ import { router } from "expo-router";
 import { useEffect } from "react";
 import { Image, SafeAreaView, Text, View } from "react-native";
 
-const SuccessSKMScreen = () => {
+const SuccessRequest = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       router.replace("/home"); // ganti 'Home' dengan nama rute yang sesuai untuk layar home Anda
@@ -22,10 +22,10 @@ const SuccessSKMScreen = () => {
         Selesai!
       </Text>
       <Text className="text-center w-[289px] text-sm text-neutral-50">
-        Terima kasih telah mengisi survey kepuasan masyarakat (SKM).
+        Terima kasih telah mengajukan permohonan layanan online.
       </Text>
     </SafeAreaView>
   );
 };
 
-export default WithAuth(SuccessSKMScreen);
+export default WithAuth(SuccessRequest);

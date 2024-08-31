@@ -9,6 +9,7 @@ const HomeLayout = () => {
       <Stack.Screen name="service-req-2" options={{ headerShown: false }} />
       <Stack.Screen name="service-req-3" options={{ headerShown: false }} />
       <Stack.Screen name="service-req-4" options={{ headerShown: false }} />
+      <Stack.Screen name="success-request" options={{ headerShown: false }} />
     </Stack>
   );
 };
