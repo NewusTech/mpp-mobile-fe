@@ -36,18 +36,17 @@ const ServiceRequestOne = () => {
   }));
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null); // To manage expanded accordion state
 
-  const { data, isLoading } = useDetailService(instanceId);
+  const { data, isLoading } = useDetailService(10000, instanceId);
 
   const result = data?.data;
+
+  console.log(result);
 
   // Mengambil data dan memformatnya menjadi array objek dengan properti yang diperlukan
   const formattedData =
     result?.map((item: any) => ({
       id: item.id,
       name: item.name,
-      service: item.desc,
-      law: item.dasarhukum,
-      requirement: item.syarat,
     })) || [];
 
   // Data untuk SelectList

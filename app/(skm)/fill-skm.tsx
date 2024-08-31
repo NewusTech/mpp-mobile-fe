@@ -8,7 +8,6 @@ import {
   ScrollView,
 } from "react-native";
 import React, { useState } from "react";
-import { StatusBar } from "expo-status-bar";
 import { Link, router } from "expo-router";
 import { icons } from "@/constants";
 import CustomButton from "@/components/CustomButton";
@@ -18,6 +17,7 @@ import { apiUrl, useSkmDetail } from "@/service/api";
 import ShowToast from "@/components/Toast";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { formatDateToString } from "@/utils";
+import { WithAuth } from "@/components/ProtectedRoute";
 
 const FillSurveyScreen = () => {
   const { selectedInstance, selectedService, selectedDate } = useSkmStore(
@@ -143,4 +143,4 @@ const FillSurveyScreen = () => {
   );
 };
 
-export default FillSurveyScreen;
+export default WithAuth(FillSurveyScreen);

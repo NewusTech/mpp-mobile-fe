@@ -17,6 +17,7 @@ import CustomButton from "@/components/CustomButton";
 import { useState } from "react";
 import { changePasswordApi } from "@/service/api";
 import ShowToast from "@/components/Toast";
+import { WithAuth } from "@/components/ProtectedRoute";
 
 type FormValues = {
   oldPassword: string;
@@ -27,7 +28,7 @@ type FormValues = {
   confirmNewPasswordVisible: boolean;
 };
 
-export default function ChangePasswordScreen() {
+function ChangePasswordScreen() {
   const [isLoading, setIsLoading] = useState(false);
   const params = useLocalSearchParams<{ slug: string | any }>();
   const {
@@ -177,3 +178,5 @@ export default function ChangePasswordScreen() {
     </SafeAreaView>
   );
 }
+
+export default WithAuth(ChangePasswordScreen);

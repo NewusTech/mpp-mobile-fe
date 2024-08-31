@@ -20,6 +20,7 @@ import { useSkmStore } from "@/store/useSkmStore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ShowToast from "@/components/Toast";
 import { formatDateToIndo } from "@/utils";
+import { WithAuth } from "@/components/ProtectedRoute";
 
 const SurveyScreen = () => {
   const {
@@ -187,4 +188,4 @@ const SurveyScreen = () => {
   );
 };
 
-export default SurveyScreen;
+export default WithAuth(SurveyScreen);

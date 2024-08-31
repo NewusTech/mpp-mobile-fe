@@ -19,6 +19,8 @@ interface RequestStore {
   setDataInputFromValues: (inputValues: { [key: string]: any }) => void;
 
   saveToAsyncStorage: () => Promise<void>;
+  resetDataInput: () => void; // Added resetDataInput method
+  clearAsyncStorage: () => Promise<void>;
 }
 
 export const useReqeustStore = create<RequestStore>((set) => ({
@@ -78,4 +80,12 @@ export const useReqeustStore = create<RequestStore>((set) => ({
       }));
       return { dataInput };
     }),
+  resetDataInput: () => set({ dataInput: [] }), // Reset dataInput to empty array
+  clearAsyncStorage: async () => {
+    try {
+      await AsyncStorage.removeItem("dataInput");
+    } catch (error) {
+      console.error("Error clearing AsyncStorage:", error);
+    }
+  },
 }));

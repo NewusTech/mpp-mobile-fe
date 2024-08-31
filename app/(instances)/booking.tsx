@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { icons, images } from "@/constants";
 import CustomButton from "@/components/CustomButton";
 import { SelectList } from "react-native-dropdown-select-list";
@@ -20,6 +20,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { useDetailService, useQueueService } from "@/service/api";
 import { useBookingStore } from "@/store/useBookingStore";
 import { WithAuth } from "@/components/ProtectedRoute";
+import { formatDateToIndo } from "@/utils";
 
 const Queue = ({
   title,
@@ -43,20 +44,33 @@ const Queue = ({
 };
 
 const DetailInstanceScreen = () => {
-  const [selected, setSelected] = useState("");
   const [date, setDate] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
-  const [selectedDateNow, setSelectedDateNow] = useState("");
   const [time, setTime] = useState(new Date());
   const [showPickerTime, setShowPickerTime] = useState(false);
-  const [selectedTimeNow, setSelectedTimeNow] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
-  const { instansiId, name, image } = useBookingStore((state) => ({
+  const {
+    instansiId,
+    name,
+    image,
+    setLayananId,
+    layananId,
+    waktu,
+    tanggal,
+    setWaktu,
+    setTanggal,
+  } = useBookingStore((state) => ({
     instansiId: state.instansiId,
     name: state.name,
     image: state.image,
+    setLayananId: state.setLayananId,
+    setWaktu: state.setWaktu,
+    setTanggal: state.setTanggal,
+    waktu: state.waktu,
+    tanggal: state.tanggal,
+    layananId: state.layananId,
   }));
-  const { data: service, isLoading } = useDetailService(instansiId, 10000);
+  const { data: service } = useDetailService(10000, instansiId);
 
   const result = service?.data;
 
@@ -81,7 +95,7 @@ const DetailInstanceScreen = () => {
   };
 
   const handleSelectChange = (val: any) => {
-    setSelected(val);
+    setLayananId(val);
   };
 
   const togglePickerDate = () => {
@@ -98,7 +112,7 @@ const DetailInstanceScreen = () => {
       setDate(currentDate);
       if (Platform.OS === "android") {
         togglePickerDate();
-        setSelectedDateNow(currentDate.toDateString());
+        setTanggal(currentDate.toDateString());
       }
     } else {
       togglePickerDate();
@@ -111,27 +125,25 @@ const DetailInstanceScreen = () => {
       setTime(currentTime);
       if (Platform.OS === "android") {
         togglePickerTime();
-        setSelectedTimeNow(currentTime.toTimeString());
+        setWaktu(currentTime.toTimeString());
       }
     } else {
       togglePickerTime();
     }
   };
 
-  const { data } = useQueueService(selected);
+  const { data } = useQueueService(layananId);
 
   const queue = data?.data;
-  console.log(queue);
 
   return (
     <>
       <SafeAreaView className="flex-1 py-[56px] px-1">
         <View className="flex flex-row space-x-2 items-start">
-          <Link href="/home" asChild>
-            <TouchableOpacity>
-              <Image source={icons.chevronLeft2} className="w-8 h-8" />
-            </TouchableOpacity>
-          </Link>
+          <TouchableOpacity onPress={() => router.back()}>
+            <Image source={icons.chevronLeft2} className="w-8 h-8" />
+          </TouchableOpacity>
+
           <Image source={{ uri: image }} className="w-10 h-14 mr-4" />
           <Text className="text-primary-900 text-[16px] font-pbold w-[230px]">
             {name}
@@ -181,20 +193,20 @@ const DetailInstanceScreen = () => {
           />
           <Pressable onPress={togglePickerDate}>
             <TextInput
-              className="border-b px-5 border-neutral-800 py-2"
+              className="border-b px-5 text-neutral-900 border-neutral-800 py-2"
               placeholder="Tanggal"
-              value={selectedDateNow}
-              onChangeText={setSelectedDateNow}
+              value={formatDateToIndo(tanggal)}
+              onChangeText={setTanggal}
               editable={false}
             />
           </Pressable>
 
           <Pressable onPress={togglePickerTime}>
             <TextInput
-              className="border-b px-5 border-neutral-800 py-2"
+              className="border-b px-5 text-neutral-900 border-neutral-800 py-2"
               placeholder="Jam"
-              value={selectedTimeNow}
-              onChangeText={setSelectedTimeNow}
+              value={waktu}
+              onChangeText={setWaktu}
               editable={false}
             />
           </Pressable>
@@ -223,23 +235,29 @@ const DetailInstanceScreen = () => {
                       <Text className="text-neutral-700 text-3xl -mt-7">x</Text>
                     </TouchableOpacity>
                   </View>
-                  <View className="flex flex-row justify-around mt-10">
-                    <Queue
-                      title="Total Antrian"
-                      number={queue?.AntrianCount}
-                      color="primary"
-                    />
-                    <Queue
-                      title="Antrian Ke-"
-                      number={queue?.AntrianNumber}
-                      color="secondary"
-                    />
-                    <Queue
-                      title="Antrian Selesai"
-                      number={queue?.AntrianClear}
-                      color="success"
-                    />
-                  </View>
+                  {layananId === "" ? (
+                    <View className="flex-1 justify-center items-center">
+                      <Text>Pilih Layanan Terlebih Dahulu</Text>
+                    </View>
+                  ) : (
+                    <View className="flex flex-row justify-around mt-10">
+                      <Queue
+                        title="Total Antrian"
+                        number={queue?.AntrianCount}
+                        color="primary"
+                      />
+                      <Queue
+                        title="Antrian Ke-"
+                        number={queue?.AntrianNumber}
+                        color="secondary"
+                      />
+                      <Queue
+                        title="Antrian Selesai"
+                        number={queue?.AntrianClear}
+                        color="success"
+                      />
+                    </View>
+                  )}
                 </View>
               </View>
             </Modal>
