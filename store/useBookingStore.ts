@@ -12,10 +12,10 @@ interface BookingStore {
   setImage: (image: string) => void;
   layananId: string;
   setLayananId: (id: string) => void;
-  tanggal: string;
-  setTanggal: (date: string) => void;
-  waktu: string;
-  setWaktu: (time: string) => void;
+  tanggal: any;
+  setTanggal: (date: any) => void;
+  waktu: any;
+  setWaktu: (time: any) => void;
 }
 
 export const useBookingStore = create<BookingStore>((set) => ({
@@ -36,11 +36,11 @@ export const useBookingStore = create<BookingStore>((set) => ({
     set({ layananId: id });
   },
   tanggal: "",
-  setTanggal: (date: string) => {
+  setTanggal: (date: any) => {
     set({ tanggal: date });
   },
   waktu: "",
-  setWaktu: (time: string) => {
+  setWaktu: (time: any) => {
     set({ waktu: time });
   },
 }));

@@ -60,8 +60,8 @@ const ServiceRequestTwo = () => {
   const [defaultReligion, setDefaultReligion] = useState(null);
   const [defaultMarriedStatues, setDefaultMarriedStatues] = useState(null);
   const [date, setDate] = useState(new Date());
-  const [showPicker, setShowPicker] = useState(false);
   const [selectedDateNow, setSelectedDateNow] = useState(date.toDateString());
+  const [showPicker, setShowPicker] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [isLoadingStep2, setIsLoadingStep2] = useState(false);
 

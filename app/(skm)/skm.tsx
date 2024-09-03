@@ -8,7 +8,7 @@ import {
   Platform,
   Pressable,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { Link, router } from "expo-router";
 import { icons } from "@/constants";
@@ -40,6 +40,7 @@ const SurveyScreen = () => {
   }));
   const [date, setDate] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
+  const [selectedDateNow, setSelectedDateNow] = useState(date.toDateString());
 
   const { data } = useInstance(10000);
   const { data: services } = useDetailService(1000, selectedInstance);
@@ -57,7 +58,7 @@ const SurveyScreen = () => {
       setDate(currentDate);
       if (Platform.OS === "android") {
         togglePicker();
-        setSelectedDate(currentDate.toDateString());
+        setSelectedDateNow(currentDate.toDateString());
       }
     } else {
       togglePicker();
@@ -101,6 +102,14 @@ const SurveyScreen = () => {
       ShowToast("Sudah mengisi survey");
     }
   };
+
+  const handleDate = (val: any) => {
+    setSelectedDateNow(val);
+  };
+
+  useEffect(() => {
+    setSelectedDate(selectedDateNow);
+  }, [selectedDateNow]);
 
   return (
     <>
@@ -159,8 +168,8 @@ const SurveyScreen = () => {
             <TextInput
               className="border-b px-5 text-neutral-800 border-neutral-800 py-2"
               placeholder="Tanggal"
-              value={formatDateToIndo(selectedDate)}
-              onChangeText={setSelectedDate}
+              value={formatDateToIndo(selectedDateNow)}
+              onChangeText={handleDate}
               editable={false}
             />
           </Pressable>
@@ -173,13 +182,22 @@ const SurveyScreen = () => {
             />
           )}
           <View className="flex flex-row justify-end py-2">
-            <CustomButton
-              title="Isi SKM"
-              type="button"
-              onPress={handleButtonClick}
-              clx="bg-primary-700 w-[13vh] h-[4vh]"
-              clx2="text-neutral-50"
-            />
+            {selectedInstance && selectedService && selectedDateNow ? (
+              <CustomButton
+                title="Isi SKM"
+                type="button"
+                onPress={handleButtonClick}
+                clx="bg-primary-700 w-[13vh] h-[4vh]"
+                clx2="text-neutral-50"
+              />
+            ) : (
+              <CustomButton
+                title="Isi SKM"
+                type="button"
+                clx="bg-primary-400 w-[13vh] h-[4vh]"
+                clx2="text-neutral-50"
+              />
+            )}
           </View>
         </View>
       </SafeAreaView>

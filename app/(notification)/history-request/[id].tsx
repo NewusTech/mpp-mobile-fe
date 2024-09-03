@@ -10,9 +10,11 @@ import React, { useEffect, useRef } from "react";
 import { Link, useLocalSearchParams } from "expo-router";
 import { icons } from "@/constants";
 import CustomButton from "@/components/CustomButton";
-import { useHistoryRequestId } from "@/service/api";
-import { formatDate } from "@/utils";
+import { apiUrl, useHistoryRequestId } from "@/service/api";
+import downloadFile, { formatDate } from "@/utils";
 import Gap from "@/components/Gap";
+import ShowToast from "@/components/Toast";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const HistorRequest = () => {
   const moveAnim = useRef(new Animated.Value(1)).current;
@@ -41,6 +43,16 @@ const HistorRequest = () => {
     startMoving();
   }, [moveAnim]);
   console.log(result);
+
+  const handleDownload = async (url: string) => {
+    try {
+      await downloadFile(url, `Surat Rekomendasi`);
+      ShowToast("Berhasil Mendownload File");
+    } catch (error) {
+      console.error(error);
+      ShowToast("Gagal Mendownload File");
+    }
+  };
 
   return (
     <SafeAreaView className="flex-1 py-[56px] bg-primary-50">
@@ -139,7 +151,10 @@ const HistorRequest = () => {
             <View className="flex flex-row items-center justify-center mt-8">
               {result?.status === 3 && result?.input_skm === true ? (
                 <CustomButton
-                  route="/home"
+                  route={{
+                    pathname: "/documentWebView", // Nama path sesuai dengan file Anda
+                    params: { link: result?.fileoutput },
+                  }}
                   clx="bg-transparent border border-primary-700 w-[15vh] h-[4vh] mr-4"
                   clx2="text-xs text-primary-700 font-psemibold"
                   title="Lihat"
@@ -154,10 +169,11 @@ const HistorRequest = () => {
               )}
               {result?.status === 3 && result?.input_skm === true ? (
                 <CustomButton
-                  route="/home"
+                  type="button"
                   clx="bg-primary-700 w-[15vh] h-[4vh]"
                   clx2="text-xs text-neutral-50 font-psemibold"
                   title="Unduh"
+                  onPress={() => handleDownload(result?.fileoutput)}
                 />
               ) : result?.status === 5 ? (
                 <CustomButton
