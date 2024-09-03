@@ -57,6 +57,10 @@ export const formatDateToIndo = (date: any) => {
   return format(new Date(date), "dd MMMM yyyy", { locale: id });
 };
 
+export const formatDateTimeToIndo = (date: any) => {
+  return format(new Date(date), "HH:mm", { locale: id });
+};
+
 export function formatDateA(dateString?: any): any | undefined {
   if (!dateString) {
     return undefined; // Jika dateString tidak didefinisikan atau null, kembalikan undefined
@@ -88,7 +92,7 @@ export const formatTime = (isoString: string): string => {
 export default async function downloadFile(
   urlDownload: string,
   fileName: string,
-  token: string | null
+  token?: string | null
 ) {
   try {
     // Request directory permissions from the user
@@ -102,11 +106,13 @@ export default async function downloadFile(
       const downloadResult = await FileSystem.downloadAsync(
         pdfUrl,
         FileSystem.cacheDirectory + "temp.pdf",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`, // Menambahkan header otentikasi
-          },
-        }
+        token
+          ? {
+              headers: {
+                Authorization: `Bearer ${token}`, // Menambahkan header otentikasi
+              },
+            }
+          : undefined
       );
 
       // Read the file content as binary

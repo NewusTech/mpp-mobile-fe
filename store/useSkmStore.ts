@@ -5,8 +5,8 @@ interface SkmStore {
   setSelectedInstance: (id: number) => void;
   selectedService: number;
   setSelectedService: (id: number) => void;
-  selectedDate: string;
-  setSelectedDate: (date: string) => void;
+  selectedDate: any;
+  setSelectedDate: (date: any) => void;
 }
 
 export const useSkmStore = create<SkmStore>((set) => ({
@@ -19,7 +19,7 @@ export const useSkmStore = create<SkmStore>((set) => ({
     set({ selectedService: id });
   },
   selectedDate: "",
-  setSelectedDate: (date: string) => {
+  setSelectedDate: (date: any) => {
     set({ selectedDate: date });
   },
 }));

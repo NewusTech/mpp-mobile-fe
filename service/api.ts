@@ -216,7 +216,7 @@ export function useHistoryDocument(id: number | undefined | number[]) {
   };
 }
 
-export function useQueueService(id: undefined | string[] | string) {
+export function useQueueService(id: undefined | number[] | number) {
   const { data, isLoading } = useSWR(
     `https://backend-mpp.newus.id/api/antrian/check/${id}`,
     fetcherAuth

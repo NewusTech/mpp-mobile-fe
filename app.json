@@ -7,15 +7,30 @@
     "icon": "./assets/images/maps.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
+    "platforms": ["ios", "android"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "runtimeVersion": {
+        "policy": "appVersion"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/maps.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.aldngrha.mppmobile"
+      "package": "com.aldngrha.mppmobile",
+      "runtimeVersion": "1.0.0",
+      "config": {
+        "googleSignIn": {
+          "certificateHash": "B4:EB:A4:49:AA:00:3F:31:EF:F1:71:69:D3:76:8B:86:D9:10:33:E5"
+        }
+      }
+    },
+    "extra": {
+      "googleSignIn": {
+        "androidClientId": "1066505808109-bf58nq4mt9lk45cebjug3p3qp452ohcf.apps.googleusercontent.com"
+      }
     },
     "web": {
       "bundler": "metro",
@@ -29,10 +44,22 @@
         {
           "iCloudContainerEnvironment": "Production"
         }
-      ]
+      ],
+      "@react-native-google-signin/google-signin"
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "2e31b2dd-a665-4407-adc9-293acca0a925"
+      }
+    },
+    "updates": {
+      "url": "https://u.expo.dev/2e31b2dd-a665-4407-adc9-293acca0a925"
     }
   }
 }

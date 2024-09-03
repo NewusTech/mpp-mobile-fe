@@ -10,7 +10,7 @@ import {
   Modal,
   StyleSheet,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { Link, router } from "expo-router";
 import { icons, images } from "@/constants";
@@ -20,7 +20,11 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { useDetailService, useQueueService } from "@/service/api";
 import { useBookingStore } from "@/store/useBookingStore";
 import { WithAuth } from "@/components/ProtectedRoute";
-import { formatDateToIndo } from "@/utils";
+import {
+  formatDateTimeToIndo,
+  formatDateToIndo,
+  formatDateToString,
+} from "@/utils";
 
 const Queue = ({
   title,
@@ -49,14 +53,16 @@ const DetailInstanceScreen = () => {
   const [time, setTime] = useState(new Date());
   const [showPickerTime, setShowPickerTime] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [selectedDateNow, setSelectedDateNow] = useState(date.toDateString());
+  const [selectedTimeNow, setSelectedTimeNow] = useState(
+    time.toTimeString().substring(0, 5)
+  );
   const {
     instansiId,
     name,
     image,
     setLayananId,
     layananId,
-    waktu,
-    tanggal,
     setWaktu,
     setTanggal,
   } = useBookingStore((state) => ({
@@ -66,8 +72,6 @@ const DetailInstanceScreen = () => {
     setLayananId: state.setLayananId,
     setWaktu: state.setWaktu,
     setTanggal: state.setTanggal,
-    waktu: state.waktu,
-    tanggal: state.tanggal,
     layananId: state.layananId,
   }));
   const { data: service } = useDetailService(10000, instansiId);
@@ -112,7 +116,7 @@ const DetailInstanceScreen = () => {
       setDate(currentDate);
       if (Platform.OS === "android") {
         togglePickerDate();
-        setTanggal(currentDate.toDateString());
+        setSelectedDateNow(currentDate.toDateString());
       }
     } else {
       togglePickerDate();
@@ -125,14 +129,24 @@ const DetailInstanceScreen = () => {
       setTime(currentTime);
       if (Platform.OS === "android") {
         togglePickerTime();
-        setWaktu(currentTime.toTimeString());
+        setSelectedTimeNow(currentTime.toTimeString().substring(0, 5));
       }
     } else {
       togglePickerTime();
     }
   };
 
-  const { data } = useQueueService(layananId);
+  const handleDate = (val: any) => {
+    setSelectedDateNow(val);
+    setSelectedTimeNow(val);
+  };
+
+  useEffect(() => {
+    setTanggal(selectedDateNow);
+    setWaktu(selectedTimeNow);
+  }, [selectedDateNow, selectedTimeNow]);
+
+  const { data } = useQueueService(Number(layananId));
 
   const queue = data?.data;
 
@@ -195,8 +209,8 @@ const DetailInstanceScreen = () => {
             <TextInput
               className="border-b px-5 text-neutral-900 border-neutral-800 py-2"
               placeholder="Tanggal"
-              value={formatDateToIndo(tanggal)}
-              onChangeText={setTanggal}
+              value={formatDateToIndo(selectedDateNow)}
+              onChangeText={handleDate}
               editable={false}
             />
           </Pressable>
@@ -205,8 +219,8 @@ const DetailInstanceScreen = () => {
             <TextInput
               className="border-b px-5 text-neutral-900 border-neutral-800 py-2"
               placeholder="Jam"
-              value={waktu}
-              onChangeText={setWaktu}
+              value={selectedTimeNow}
+              onChangeText={handleDate}
               editable={false}
             />
           </Pressable>
@@ -254,7 +268,7 @@ const DetailInstanceScreen = () => {
                       <Queue
                         title="Antrian Selesai"
                         number={queue?.AntrianClear}
-                        color="success"
+                        color="error"
                       />
                     </View>
                   )}
