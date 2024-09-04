@@ -9,6 +9,7 @@ import {
   Platform,
   Modal,
   StyleSheet,
+  ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
@@ -17,7 +18,7 @@ import { icons, images } from "@/constants";
 import CustomButton from "@/components/CustomButton";
 import { SelectList } from "react-native-dropdown-select-list";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { useDetailService, useQueueService } from "@/service/api";
+import { apiUrl, useDetailService, useQueueService } from "@/service/api";
 import { useBookingStore } from "@/store/useBookingStore";
 import { WithAuth } from "@/components/ProtectedRoute";
 import {
@@ -25,6 +26,9 @@ import {
   formatDateToIndo,
   formatDateToString,
 } from "@/utils";
+import ShowToast from "@/components/Toast";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ta } from "date-fns/locale";
 
 const Queue = ({
   title,
@@ -63,6 +67,8 @@ const DetailInstanceScreen = () => {
     image,
     setLayananId,
     layananId,
+    waktu,
+    tanggal,
     setWaktu,
     setTanggal,
   } = useBookingStore((state) => ({
@@ -70,11 +76,14 @@ const DetailInstanceScreen = () => {
     name: state.name,
     image: state.image,
     setLayananId: state.setLayananId,
+    waktu: state.waktu,
+    tanggal: state.tanggal,
     setWaktu: state.setWaktu,
     setTanggal: state.setTanggal,
     layananId: state.layananId,
   }));
   const { data: service } = useDetailService(10000, instansiId);
+  const [isLoading, setIsLoading] = useState(false);
 
   const result = service?.data;
 
@@ -150,6 +159,48 @@ const DetailInstanceScreen = () => {
 
   const queue = data?.data;
 
+  const handleSubmit = async () => {
+    const token = await AsyncStorage.getItem("token");
+    setIsLoading(true);
+
+    const dateNow = new Date(tanggal);
+
+    const formData = {
+      instansi_id: instansiId,
+      layanan_id: layananId,
+      tanggal: formatDateToString(dateNow),
+      waktu: waktu,
+    };
+
+    try {
+      const response = await fetch(`${apiUrl}/bookingantrian/create`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const res = await response.json();
+
+      console.log(res);
+
+      if (response.ok) {
+        ShowToast("Berhasil Membuat Antrian");
+        router.replace({
+          pathname: "/booking-result/[id]",
+          params: { id: res?.data?.id },
+        });
+      }
+    } catch (e) {
+      ShowToast("Gagal Membuat Antrian");
+      console.error(e);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <>
       <SafeAreaView className="flex-1 py-[56px] px-1">
@@ -182,6 +233,7 @@ const DetailInstanceScreen = () => {
               display="spinner"
               value={time}
               onChange={onChangeTime}
+              is24Hour={true}
             />
           )}
           <SelectList
@@ -275,12 +327,19 @@ const DetailInstanceScreen = () => {
                 </View>
               </View>
             </Modal>
-            <CustomButton
-              title="Pilih"
-              route="/home"
-              clx="bg-primary-700 w-[47%] h-[40px]"
-              clx2="text-neutral-50"
-            />
+            {isLoading ? (
+              <View className="w-[47%] h-[40px] flex items-center justify-center">
+                <ActivityIndicator size="large" color="#0000ff" />
+              </View>
+            ) : (
+              <CustomButton
+                title="Pilih"
+                type="button"
+                clx="bg-primary-700 w-[47%] h-[40px]"
+                clx2="text-neutral-50"
+                onPress={handleSubmit}
+              />
+            )}
           </View>
         </View>
       </SafeAreaView>

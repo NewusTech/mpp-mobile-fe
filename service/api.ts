@@ -297,8 +297,8 @@ export function useComplaint({ start, end, status, search }: any) {
 }
 
 export function useHistoryQueue({ start, end, search }: any) {
-  const baseUrl = `${apiUrl}/bookingantrian/getforuser`;
-  const startParam = start ? `?start_date=${encodeURIComponent(start)}` : "";
+  const baseUrl = `${apiUrl}/bookingantrian/getforuser?limit=100000`;
+  const startParam = start ? `&start_date=${encodeURIComponent(start)}` : "";
   const searchParam = search ? `&search=${encodeURIComponent(search)}` : "";
   const endParam = end ? `&end_date=${encodeURIComponent(end)}` : "";
 
@@ -364,6 +364,16 @@ export function useHistorySkmDetail(id: number) {
 
 export function useSkmDetail(id: number) {
   const baseUrl = `${apiUrl}/survey/form/${id}`;
+  const { data, isLoading } = useSWR(baseUrl, fetcherAuth);
+
+  return {
+    data,
+    isLoading,
+  };
+}
+
+export function useRequestDetailById(id: any) {
+  const baseUrl = `${apiUrl}/inputform/detail/${id}`;
   const { data, isLoading } = useSWR(baseUrl, fetcherAuth);
 
   return {
