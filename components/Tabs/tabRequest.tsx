@@ -80,7 +80,7 @@ const TabRequest = ({
         </View>
       </View>
       <View className="flex items-end mt-6">
-        {status === 0 || status === 1 || status === 2 ? (
+        {status === 0 || status === 1 || status === 2 || status === 6 ? (
           <CustomButton
             clx2="text-sm text-white font-white"
             clx="bg-primary-700 opacity-50 w-[35%] h-[40px]"

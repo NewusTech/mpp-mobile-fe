@@ -95,7 +95,7 @@ const HistorRequest = () => {
                   ? "Selesai"
                   : result?.status === 4
                   ? "Ditolak"
-                  : "Butuh Perbaikan"}
+                  : "Revisi"}
               </Text>
             </View>
           </View>
@@ -177,7 +177,10 @@ const HistorRequest = () => {
                 />
               ) : result?.status === 5 ? (
                 <CustomButton
-                  route="/home"
+                  route={{
+                    pathname: "/update-service/[id]",
+                    params: { id: result?.id },
+                  }}
                   clx="bg-primary-700 w-[15vh] h-[4vh]"
                   clx2="text-xs text-neutral-50 font-psemibold"
                   title="Perbaiki"
