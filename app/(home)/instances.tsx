@@ -64,7 +64,7 @@ const InstanceScreen = () => {
               <ActivityIndicator color="#3568C0" size="large" />
             </View>
           ) : (
-            <View className="flex flex-row flex-wrap justify-start">
+            <View className="flex flex-row flex-wrap justify-center">
               {result?.map((v: any) => (
                 <CardInstance
                   route={v.slug}

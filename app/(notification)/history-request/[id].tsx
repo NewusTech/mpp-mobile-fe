@@ -14,7 +14,6 @@ import { apiUrl, useHistoryRequestId } from "@/service/api";
 import downloadFile, { formatDate } from "@/utils";
 import Gap from "@/components/Gap";
 import ShowToast from "@/components/Toast";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const HistorRequest = () => {
   const moveAnim = useRef(new Animated.Value(1)).current;

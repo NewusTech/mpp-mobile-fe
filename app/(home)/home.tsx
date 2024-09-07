@@ -88,7 +88,7 @@ const HomeScreen = () => {
   }, []);
 
   const { data, isLoading } = useCarousel();
-  const { data: instance, isLoading: instanceLoading } = useInstance(4);
+  const { data: instance, isLoading: instanceLoading } = useInstance(8);
   const { data: news, isLoading: instanceNews } = useNews(2);
   const { data: facilities, isLoading: facilitiesLoading } = useFacility(2);
   const { data: sop, isLoading: sopLoading } = useSOP();
@@ -177,7 +177,7 @@ const HomeScreen = () => {
                 </Text>
               </Link>
             </View>
-            <View className="flex flex-row flex-wrap justify-start">
+            <View className="flex flex-row flex-wrap justify-between">
               {resultInstance?.map((v: any) => (
                 <CardInstance
                   key={v.id}

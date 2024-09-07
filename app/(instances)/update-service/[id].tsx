@@ -21,6 +21,7 @@ import {
 } from "react-native";
 import ShowToast from "@/components/Toast";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useUpdateRequestStore } from "@/store/useUpdateRequestStore";
 
 const UpdateService = () => {
   const { id } = useLocalSearchParams();
@@ -28,13 +29,22 @@ const UpdateService = () => {
   const { data, isLoading } = useRequestDetailById(id);
 
   const result = data?.data;
-  const [inputs, setInputs] = useState(result?.Layananforminputs || []);
+  const [inputs, setInputs] = useState<any>([]);
+  const { dataInput, setDataInput, setDataInputFromValues } =
+    useUpdateRequestStore((state: any) => ({
+      dataInput: state.dataInput,
+      setDataInput: state.setDataInput,
+      setDataInputFromValues: state.setDataInputFromValues,
+    }));
   const [selectedDocuments, setSelectedDocuments] = useState<any[]>([]);
 
   // Tambahkan state untuk DateTimePicker
   const [showPicker, setShowPicker] = useState(false);
   const [date, setDate] = useState(new Date());
   const [selectedDateNow, setSelectedDateNow] = useState("");
+  const [inputValues, setInputValues] = useState<{
+    [key: number | string]: string | number | Array<number>;
+  }>({});
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -83,7 +93,7 @@ const UpdateService = () => {
       (input: any) => input.layananform_tipedata === "date"
     );
     if (index !== -1) {
-      handleInputChange(index, formatDateToString(currentDate));
+      handleInputChange(0, 6, formatDateToString(currentDate));
     }
   };
 
@@ -95,105 +105,136 @@ const UpdateService = () => {
   }, [result]);
 
   const handleInputChange = (
-    index: number,
+    index: number | null,
+    formId: string | number,
     value: string | number,
-    key = "data",
     type?: string
   ) => {
-    const newInputs = [...inputs];
-
     if (type === "radio") {
-      newInputs[index][key] = value;
-      setInputs(newInputs);
+      setInputValues((prevValues) => ({
+        ...prevValues,
+        [formId]: value,
+      }));
     } else if (type === "checkbox") {
-      const currentValues = (newInputs[index][key] as Array<number>) || [];
+      setInputValues((prevValues) => {
+        const currentValues = (prevValues[formId] as Array<number>) || [];
+        if (currentValues.includes(value as number)) {
+          return {
+            ...prevValues,
+            [formId]: currentValues.filter((item) => item !== value),
+          };
+        } else {
+          return {
+            ...prevValues,
+            [formId]: [...currentValues, value as number],
+          };
+        }
+      });
 
-      if (currentValues.includes(value as number)) {
-        newInputs[index][key] = currentValues.filter((item) => item !== value);
-      } else {
-        newInputs[index][key] = [...currentValues, value as number];
+      if (index !== null) {
+        setDataInput(index, formId as number, value, "checkbox");
       }
-
-      setInputs(newInputs);
     } else {
-      newInputs[index][key] = value;
-      setInputs(newInputs);
+      if (index !== null) {
+        setDataInput(index, formId as number, value);
+      }
+      setInputValues((prevValues) => ({
+        ...prevValues,
+        [formId]: value,
+      }));
     }
   };
 
+  useEffect(() => {
+    setDataInputFromValues(inputValues);
+  }, [inputValues]);
+
   const handleSubmit = async () => {
-    // setIsSubmitting(true);
+    setIsSubmitting(true);
     const formData = new FormData();
 
     // Menambahkan selectedDocuments ke formData
-    // selectedDocuments.forEach((doc: any, index: any) => {
-    //   const file: any = {
-    //     uri: doc.uri,
-    //     type: doc.type,
-    //     name: doc.name.split(".")[0],
-    //     size: doc.size,
-    //   };
-    //   // Append layananform_id sebagai ID untuk dokumen ini
-    //   formData.append(
-    //     `datafile[${index}][layananform_id]`,
-    //     doc.layananform_id.toString()
-    //   );
+    selectedDocuments.forEach((doc: any, index: any) => {
+      const file: any = {
+        uri: doc.uri,
+        type: doc.type,
+        name: doc.name.split(".")[0],
+        size: doc.size,
+      };
 
-    //   // Append file dokumen ke FormData
-    //   formData.append(`datafile[${index}][data]`, file);
-    // });
+      const matchedInput = inputs.find(
+        (input: any) => input.layananform_id === doc.layananform_id
+      );
+
+      const id = matchedInput.id;
+
+      // Append layananform_id sebagai ID untuk dokumen ini
+      formData.append(`datafile[${index}][layananform_id]`, doc.layananform_id);
+
+      formData.append(`datafile[${index}][id]`, id);
+      // Append file dokumen ke FormData
+      formData.append(`datafile[${index}][data]`, file);
+    });
 
     // Tambahkan input data lainnya ke formData
-    inputs.forEach((item: any, index: any) => {
-      if (item.layananform_tipedata !== "file") {
-        formData.append(
-          `datainput[${index}][layananform_id]`,
-          item.layananform_id
-        );
+    dataInput.forEach((item: any, index: any) => {
+      formData.append(
+        `datainput[${index}][layananform_id]`,
+        item.layananform_id
+      );
 
-        const dataValue =
-          Array.isArray(item.data) || typeof item.data === "object"
-            ? JSON.stringify(item.data)
-            : item.data;
+      const matchedInput = inputs.find(
+        (input: any) => input.layananform_id === Number(item.layananform_id)
+      );
 
-        formData.append(`datainput[${index}][data]`, dataValue);
-      }
+      const id = matchedInput.id;
+
+      formData.append(`datainput[${index}][id]`, id);
+
+      const dataValue =
+        Array.isArray(item.data) || typeof item.data === "object"
+          ? JSON.stringify(item.data)
+          : item.data;
+
+      formData.append(`datainput[${index}][data]`, dataValue);
     });
     formData.append("status", "6");
 
-    console.log("formData", formData);
+    // console.log("formData", formData);
 
     // Kirim formData ke server
-    // try {
-    //   const token = await AsyncStorage.getItem("token");
-    //   const response = await fetch(`${apiUrl}/inputform/update/${id}`, {
-    //     method: "PUT",
-    //     headers: {
-    //       Authorization: `Bearer ${token}`,
-    //     },
-    //     body: formData,
-    //   });
+    try {
+      const token = await AsyncStorage.getItem("token");
+      const response = await fetch(`${apiUrl}/inputform/update/${id}`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
 
-    //   if (!response.ok) {
-    //     const errorBody = await response.text();
-    //     console.error(
-    //       `HTTP error! Status: ${response.status}, Body: ${errorBody}`
-    //     );
-    //     throw new Error(`HTTP error! Status: ${response.status}`);
-    //   }
+      if (!response.ok) {
+        const errorBody = await response.text();
+        console.error(
+          `HTTP error! Status: ${response.status}, Body: ${errorBody}`
+        );
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
 
-    //   const data = await response.json();
-    //   if (response.ok) {
-    //     ShowToast(data.message);
-    //     // Navigate to the next screen or show success message
+      const data = await response.json();
+      if (response.ok) {
+        ShowToast(data.message);
+        // Navigate to the next screen or show success message
 
-    //     router.push("/history");
-    //   }
-    // } catch (error: any) {
-    //   console.error("Error:", error.message);
-    // } finally {
-    //   setIsSubmitting(false);
-    // }
+        router.push("/history");
+      }
+    } catch (error: any) {
+      console.error("Error:", error.message);
+    } finally {
+      setIsSubmitting(false);
+    }
+
+    console.log("formData", formData);
   };
 
   return (
@@ -233,9 +274,11 @@ const UpdateService = () => {
                         </Text>
                         <InputForm
                           placeholder={`Masukkan ${v.layananform_name}`}
-                          value={v.data}
+                          value={
+                            (inputValues[v.layananform_id] as string) || v.data
+                          }
                           onChangeText={(value: any) =>
-                            handleInputChange(index, value)
+                            handleInputChange(index, v.layananform_id, value)
                           }
                         />
                         <Gap height={8} />
@@ -250,9 +293,11 @@ const UpdateService = () => {
                         <InputForm
                           placeholder={`Masukkan ${v.layananform_name}`}
                           type="number"
-                          value={v.data}
+                          value={
+                            (inputValues[v.layananform_id] as string) || v.data
+                          }
                           onChangeText={(value: any) =>
-                            handleInputChange(index, value)
+                            handleInputChange(index, v.layananform_id, value)
                           }
                         />
                         <Gap height={8} />
@@ -294,20 +339,17 @@ const UpdateService = () => {
                             className="flex flex-row space-x-2 mb-2"
                           >
                             <Checkbox
-                              value={v.data_key.includes(z.key)}
-                              onValueChange={() => {
-                                console.log(v.data_key);
-                                const newDataKey = v.data_key.includes(z.key)
-                                  ? v.data_key.filter(
-                                      (key: any) => key !== z.key
-                                    )
-                                  : [...v.data_key, z.key];
+                              value={(
+                                inputValues[v.layananform_id] as Array<number>
+                              )?.includes(z.id)}
+                              onValueChange={(value) =>
                                 handleInputChange(
                                   index,
-                                  newDataKey,
-                                  "data_key"
-                                );
-                              }}
+                                  v.layananform_id,
+                                  z.id,
+                                  "checkbox"
+                                )
+                              }
                               className="bg-neutral-50 border"
                             />
                             <Text>{z.key}</Text>
@@ -326,9 +368,14 @@ const UpdateService = () => {
                           <CustomRadioButton
                             key={z.id}
                             label={z.key}
-                            isSelected={v.data_key === z.key}
+                            isSelected={inputValues[v.layananform_id] === z.id}
                             onPress={() =>
-                              handleInputChange(index, z.key, "data_key")
+                              handleInputChange(
+                                index,
+                                v.layananform_id,
+                                z.id,
+                                "radio"
+                              )
                             }
                           />
                         ))}
@@ -344,9 +391,11 @@ const UpdateService = () => {
                         <InputForm
                           placeholder={`Masukkan ${v.layananform_name}`}
                           type="textarea"
-                          value={v.data}
+                          value={
+                            (inputValues[v.layananform_id] as string) || v.data
+                          }
                           onChangeText={(value: any) =>
-                            handleInputChange(index, value)
+                            handleInputChange(index, v.layananform_id, value)
                           }
                         />
                         <Gap height={8} />
@@ -368,7 +417,8 @@ const UpdateService = () => {
                             <Text className="text-primary-700">
                               {truncateString(
                                 selectedDocuments.find(
-                                  (doc) => doc.layananform_id === v.id
+                                  (doc) =>
+                                    doc.layananform_id === v.layananform_id
                                 )?.name || "Upload",
                                 10
                               )}
@@ -398,21 +448,21 @@ const UpdateService = () => {
             </View>
           </View>
           <View className="px-9 py-4 flex items-center">
-            {/* {isSubmitting ? (
+            {isSubmitting ? (
               <ActivityIndicator
                 size="large"
                 color="#3568C0"
                 className="mt-[5vh]"
               />
-            ) : ( */}
-            <CustomButton
-              clx2="text-sm text-white font-white"
-              type="button"
-              clx="bg-primary-700 w-[14vh] h-[5.5vh] mt-[2vh]"
-              title="Perbaiki"
-              onPress={handleSubmit}
-            />
-            {/* )} */}
+            ) : (
+              <CustomButton
+                clx2="text-sm text-white font-white"
+                type="button"
+                clx="bg-primary-700 w-[14vh] h-[5.5vh] mt-[2vh]"
+                title="Perbaiki"
+                onPress={handleSubmit}
+              />
+            )}
           </View>
         </View>
       </SafeAreaView>

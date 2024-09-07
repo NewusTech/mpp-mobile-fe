@@ -2,6 +2,7 @@ import { Text, TouchableOpacity, Image, View } from "react-native";
 import React from "react";
 import { CardInstanceProps } from "@/types/type";
 import { Link } from "expo-router";
+import { truncateString } from "@/utils";
 
 const CardInstance = ({ icon, title, route }: CardInstanceProps) => {
   return (
@@ -16,7 +17,7 @@ const CardInstance = ({ icon, title, route }: CardInstanceProps) => {
     >
       <TouchableOpacity
         style={{ elevation: 5 }}
-        className="w-[9.5vh] h-[10vh] rounded-[10px] py-3 px-3 bg-white mt-3 mr-[6.5px]"
+        className="w-[22%] h-[10vh] rounded-[10px] py-3 px-3 bg-white mt-3 mr-[6.5px]"
       >
         <View className="flex gap-2 items-center justify-center">
           <Image
@@ -24,7 +25,9 @@ const CardInstance = ({ icon, title, route }: CardInstanceProps) => {
             className="w-[4vh] h-[4vh]"
             resizeMode="contain"
           />
-          <Text className="text-[0.9vh] text-center">{title}</Text>
+          <Text className="text-[0.9vh] text-center">
+            {truncateString(title, 30)}
+          </Text>
         </View>
       </TouchableOpacity>
     </Link>
