@@ -86,21 +86,16 @@ const ServiceRequestFour = () => {
         size: doc.size,
       };
       // Append layananform_id sebagai ID untuk dokumen ini
-      formData.append(
-        `datafile[${index}][layananform_id]`,
-        doc.layananform_id.toString()
-      );
+      formData.append(`datafile[${index}][layananform_id]`, doc.layananform_id);
 
       // Append file dokumen ke FormData
       formData.append(`datafile[${index}][data]`, file);
-
-      console.log(file);
     });
 
     dataInput.forEach((item: any, index: any) => {
       formData.append(
         `datainput[${index}][layananform_id]`,
-        item.layananform_id.toString()
+        item.layananform_id
       );
 
       // Memastikan nilai tidak diubah ke string jika tidak perlu

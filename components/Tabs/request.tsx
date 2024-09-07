@@ -91,7 +91,6 @@ const Request = () => {
     status: selectedStatus,
   });
   const result = data?.data;
-  console.log(result);
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View className="py-8">
@@ -158,19 +157,23 @@ const Request = () => {
               />
             )}
           </View>
-          {result?.map((v: any) => (
-            <TabRequest
-              key={v.id}
-              title={v.instansi_name}
-              time={v.createdAt}
-              images={v.instansi_image}
-              date={v.createdAt}
-              no={v.no_request}
-              service={v.layanan_name}
-              id={v.id}
-              status={v.status}
-            />
-          ))}
+          {result && result.length > 0 ? (
+            result?.map((v: any) => (
+              <TabRequest
+                key={v.id}
+                title={v.instansi_name}
+                time={v.createdAt}
+                images={v.instansi_image}
+                date={v.createdAt}
+                no={v.no_request}
+                service={v.layanan_name}
+                id={v.id}
+                status={v.status}
+              />
+            ))
+          ) : (
+            <ActivityIndicator color="#3568C0" size="large" />
+          )}
         </View>
       </View>
     </ScrollView>
