@@ -171,7 +171,7 @@ const HomeScreen = () => {
         <View className="bg-primary-100 w-full -mt-16 rounded-t-[40px]">
           <View className="px-8 mt-8">
             <View className="flex items-end">
-              <Link href="/instances">
+              <Link href="/push">
                 <Text className="font-psemibold text-xs text-primary-900">
                   Lihat Semua
                 </Text>
