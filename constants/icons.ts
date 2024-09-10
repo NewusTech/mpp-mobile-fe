@@ -28,6 +28,8 @@ import calendar from "@/assets/icons/calendar.png";
 import check from "@/assets/icons/check.png";
 import logout from "@/assets/icons/log-out.png";
 import trash from "@/assets/icons/trash.png";
+import newss from "@/assets/icons/newss.png";
+import enterprise from "@/assets/icons/enterprise.png";
 
 export default {
   user,
@@ -60,4 +62,6 @@ export default {
   check,
   logout,
   trash,
+  newss,
+  enterprise,
 };

@@ -39,12 +39,13 @@ const CardFacility = ({ image, title }: any) => {
     <>
       <TouchableOpacity
         onPress={toggleModal}
-        className="w-[48%] h-[132px] bg-neutral-50 rounded"
+        className="w-full h-[150px] bg-neutral-50 rounded-xl mb-5"
+        style={{ elevation: 2 }}
       >
         <Image
           source={image}
           resizeMode="cover"
-          className="w-full h-[99px] rounded-t"
+          className="w-full h-[119px] rounded-t-lg"
         />
         <Text className="px-2 py-1 text-primary-700 font-psemibold text-xs">
           {title}
@@ -169,12 +170,17 @@ const HomeScreen = () => {
         </View>
         <View className="bg-primary-100 w-full -mt-16 rounded-t-[40px]">
           <View className="px-8 mt-8">
+            <View className="flex flex-row items-center space-x-2">
+              <Image
+                source={icons.enterprise}
+                className="w-6 h-6"
+                resizeMode="contain"
+              />
+              <Text className="text-xl font-pbold text-primary-700">
+                Instansi
+              </Text>
+            </View>
             <View className="flex items-end">
-              <Link href="/push">
-                <Text className="font-psemibold text-xs text-primary-900">
-                  Push
-                </Text>
-              </Link>
               <Link href="/instances">
                 <Text className="font-psemibold text-xs text-primary-900">
                   Lihat Semua
@@ -192,10 +198,17 @@ const HomeScreen = () => {
               ))}
             </View>
           </View>
-          <View className="px-8 mt-4">
-            <Text className="text-neutral-900 text-[16px] font-psemibold">
-              Berita
-            </Text>
+          <View className="px-8 mt-8">
+            <View className="flex flex-row items-center space-x-2">
+              <Text className="text-xl font-pbold text-primary-700">
+                Berita
+              </Text>
+              <Image
+                source={icons.newss}
+                className="w-8 h-8"
+                resizeMode="contain"
+              />
+            </View>
             <View className="flex items-end">
               <Link href="/news">
                 <Text className="font-psemibold text-xs text-primary-900">
@@ -215,9 +228,13 @@ const HomeScreen = () => {
               />
             ))}
           </View>
-          <View className="px-8 mt-4">
-            <Text className="text-neutral-900 text-[16px] font-psemibold">
+          <View className="px-8 mt-8">
+            <Text className="text-xl font-pbold text-primary-700">
               Fasilitas
+            </Text>
+            <Text className="text-neutral-700 mb-4">
+              Fasilitas terbaik untuk kenyamanan Anda di Mal Pelayanan Publik
+              Lampung Timur.
             </Text>
             <View className="flex items-end mb-2">
               <Link href="/facilities">
@@ -227,7 +244,7 @@ const HomeScreen = () => {
               </Link>
             </View>
           </View>
-          <View className="px-9 flex flex-row flex-wrap justify-between mb-24">
+          <View className="px-9 mb-24">
             {resultFacility?.map((v: any) => (
               <CardFacility
                 route={v.slug}

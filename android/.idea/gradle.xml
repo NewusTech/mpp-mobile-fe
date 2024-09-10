@@ -41,7 +41,6 @@
             <option value="$PROJECT_DIR$/../node_modules/expo-location/android" />
             <option value="$PROJECT_DIR$/../node_modules/expo-modules-core/android" />
             <option value="$PROJECT_DIR$/../node_modules/expo-notifications/android" />
-            <option value="$PROJECT_DIR$/../node_modules/expo-permissions/android" />
             <option value="$PROJECT_DIR$/../node_modules/expo-splash-screen/android" />
             <option value="$PROJECT_DIR$/../node_modules/expo-system-ui/android" />
             <option value="$PROJECT_DIR$/../node_modules/expo-web-browser/android" />
