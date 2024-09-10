@@ -42,7 +42,7 @@ const NewsScreen = () => {
             <CardNews
               route={v.slug}
               key={v.id}
-              icon={v.image}
+              icon={{ uri: v.image }}
               title={v.title}
               date={v.createdAt}
             />

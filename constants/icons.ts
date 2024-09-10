@@ -27,6 +27,7 @@ import ppt from "@/assets/icons/ppt.png";
 import calendar from "@/assets/icons/calendar.png";
 import check from "@/assets/icons/check.png";
 import logout from "@/assets/icons/log-out.png";
+import trash from "@/assets/icons/trash.png";
 
 export default {
   user,
@@ -58,4 +59,5 @@ export default {
   calendar,
   check,
   logout,
+  trash,
 };

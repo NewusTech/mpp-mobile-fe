@@ -14,8 +14,20 @@ import ShowToast from "@/components/Toast";
 import { useAuthStore } from "@/store/useAuthStore";
 import { Link } from "expo-router";
 import { loginUser } from "@/service/api";
+// import {
+//   GoogleSignin,
+//   GoogleSigninButton,
+//   statusCodes,
+// } from "@react-native-google-signin/google-signin";
 
 const LoginScreen = () => {
+  // const configureGoogleSignIn = () => {
+  //   GoogleSignin.configure({
+  //     androidClientId:
+  //       "1066505808109-bf58nq4mt9lk45cebjug3p3qp452ohcf.apps.googleusercontent.com",
+  //   });
+  // };
+
   const [nik, setNik] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);

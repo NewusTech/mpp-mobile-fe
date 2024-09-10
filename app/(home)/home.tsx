@@ -159,11 +159,10 @@ const HomeScreen = () => {
             activeDotStyle={[styles.dotStyle, { backgroundColor: "white" }]}
           >
             {resultCarousel?.map((img: any) => (
-              <SvgUri
-                width="100%"
-                height="100%"
-                uri={img?.image}
+              <Image
                 key={img.id}
+                source={{ uri: img.image }}
+                className="h-full w-full"
               />
             ))}
           </Carousel>
@@ -172,6 +171,11 @@ const HomeScreen = () => {
           <View className="px-8 mt-8">
             <View className="flex items-end">
               <Link href="/push">
+                <Text className="font-psemibold text-xs text-primary-900">
+                  Push
+                </Text>
+              </Link>
+              <Link href="/instances">
                 <Text className="font-psemibold text-xs text-primary-900">
                   Lihat Semua
                 </Text>
@@ -205,7 +209,7 @@ const HomeScreen = () => {
               <CardNews
                 route={v.slug}
                 key={v.id}
-                icon={v.image}
+                icon={{ uri: v.image }}
                 title={v.title}
                 date={v.createdAt}
               />
