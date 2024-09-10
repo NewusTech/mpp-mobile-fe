@@ -382,6 +382,17 @@ export function useRequestDetailById(id: any) {
   };
 }
 
+export function useNotificationAll() {
+  const baseUrl = `https://backend-mpp.newus.id/api/notifications`;
+  const { data, isLoading, mutate } = useSWR(baseUrl, fetcherAuth);
+
+  return {
+    data,
+    isLoading,
+    mutate,
+  };
+}
+
 // post
 
 export const loginUser = async ({ nik, password }: LoginType) => {

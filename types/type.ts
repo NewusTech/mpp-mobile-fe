@@ -58,6 +58,7 @@ export interface ChatProps {
 export interface NotificationCardtProps {
   desc: string;
   hour: string;
+  onPress: () => void;
 }
 
 export interface TabRequestProps {
