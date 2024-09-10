@@ -26,7 +26,7 @@ const CardInstance = ({ icon, title, route }: CardInstanceProps) => {
             resizeMode="contain"
           />
           <Text className="text-[0.9vh] text-center">
-            {truncateString(title, 30)}
+            {truncateString(title, 22)}
           </Text>
         </View>
       </TouchableOpacity>
