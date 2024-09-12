@@ -25,7 +25,8 @@
         "googleSignIn": {
           "certificateHash": "B4:EB:A4:49:AA:00:3F:31:EF:F1:71:69:D3:76:8B:86:D9:10:33:E5"
         }
-      }
+      },
+      "googleServicesFile": "./google-services.json"
     },
     "extra": {
       "googleSignIn": {
