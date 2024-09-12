@@ -8,12 +8,10 @@ import {
   Modal,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { icons, images } from "@/constants";
+import { icons } from "@/constants";
 import Carousel from "pinar";
 import CardInstance from "@/components/CardInstance";
 import CardNews from "@/components/CardNews";
-import Bottombar from "@/components/Bottombar";
-import { SvgUri } from "react-native-svg";
 import { Link } from "expo-router";
 import {
   useCarousel,
@@ -23,18 +21,19 @@ import {
   useNews,
   useSOP,
 } from "@/service/api";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { jwtDecode } from "jwt-decode";
 import { useAuthStore } from "@/store/useAuthStore";
 import { authentication } from "@/utils";
+import * as Notifications from "expo-notifications";
 
 const CardFacility = ({ image, title }: any) => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
   };
+
   return (
     <>
       <TouchableOpacity
@@ -74,10 +73,111 @@ const CardFacility = ({ image, title }: any) => {
   );
 };
 
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true, // Agar notifikasi ditampilkan di foreground
+    shouldPlaySound: true, // Jika kamu ingin suara juga dimainkan
+    shouldSetBadge: false, // Untuk tidak menampilkan badge di icon app
+  }),
+});
+
 const HomeScreen = () => {
   const [currenUser, setCurrentUser] = useState<any>(null);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [token, setToken] = useState<string | null>(null);
+  const [decode, setDecode] = useState<any>({});
+  const [expoPushToken, setExpoPushToken] = useState("");
+  const [notification, setNotification] = useState<
+    Notifications.Notification | undefined
+  >(undefined);
+  const notificationListener = useRef<Notifications.Subscription>();
+  const responseListener = useRef<Notifications.Subscription>();
+
+  useEffect(() => {
+    // Ambil token dari AsyncStorage
+    const getTokenFromStorage = async () => {
+      const token = await AsyncStorage.getItem("expoPushToken");
+      if (token) {
+        setExpoPushToken(token);
+      }
+      console.log(token);
+    };
+
+    getTokenFromStorage();
+
+    // Listener untuk notifikasi yang diterima
+    notificationListener.current =
+      Notifications.addNotificationReceivedListener((notification) => {
+        setNotification(notification);
+      });
+
+    // Listener untuk respon notifikasi
+    responseListener.current =
+      Notifications.addNotificationResponseReceivedListener((response) => {
+        console.log(response);
+      });
+
+    return () => {
+      // Bersihkan listener
+      if (notificationListener.current) {
+        Notifications.removeNotificationSubscription(
+          notificationListener.current
+        );
+      }
+      if (responseListener.current) {
+        Notifications.removeNotificationSubscription(responseListener.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (token) {
+      const decode = jwtDecode(token);
+      setDecode(decode);
+    }
+  }, []);
+
+  const sendNotification = async () => {
+    const data = {
+      token: expoPushToken,
+      message: {
+        title: "Hai",
+        body: "Selamat Datang di MPP Digital Apps",
+      },
+      id: decode.user_akun_id,
+    };
+
+    try {
+      const tokenn = await AsyncStorage.getItem("token");
+      const response = await fetch(
+        "https://0a00-114-10-103-216.ngrok-free.app/api/user/send-notification",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${tokenn}`,
+          },
+          body: JSON.stringify(data),
+        }
+      );
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Error response:", errorText);
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      console.log("Notification Sent:", result);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  useEffect(() => {
+    if (expoPushToken) {
+      sendNotification();
+    }
+  }, [expoPushToken]);
 
   useEffect(() => {
     const fetchToken = async () => {

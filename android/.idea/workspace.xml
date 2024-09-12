@@ -4,14 +4,22 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="65a5bd31-0b64-4fd0-8bc6-c1b6b4b36d28" name="Changes" comment="">
+    <list default="true" id="406451fa-58e3-416d-9e67-f3533e031c99" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/material_theme_project_new.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/material_theme_project_new.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/other.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../components/CardInstance/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../components/CardInstance/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app.json" beforeDir="false" afterPath="$PROJECT_DIR$/../app.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/(home)/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../app/(home)/_layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/(home)/home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../app/(home)/home.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/(home)/push.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../app/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../utils/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../utils/index.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,7 +29,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=PhysicalDevice, isTemplate=false, identifier=serial=RR8M308N6AV)]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=C:\Users\aldng\.android\avd\Pixel_6a_API_33.avd)]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -34,7 +42,7 @@
   "customColor": "",
   "associatedIndex": 6
 }]]></component>
-  <component name="ProjectId" id="2ls5ow3J8CoLT5p6LK8JNO4s7pN" />
+  <component name="ProjectId" id="2lv1XsNVQ73WaD34XZOofgPpEZB" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -125,11 +133,11 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="65a5bd31-0b64-4fd0-8bc6-c1b6b4b36d28" name="Changes" comment="" />
-      <created>1725956129923</created>
+      <changelist id="406451fa-58e3-416d-9e67-f3533e031c99" name="Changes" comment="" />
+      <created>1726045792269</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1725956129923</updated>
+      <updated>1726045792269</updated>
     </task>
     <servers />
   </component>
