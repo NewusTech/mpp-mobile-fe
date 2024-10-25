@@ -24,7 +24,11 @@ const SplashScreen = () => {
 
   return (
     <View className="flex-1 justify-center bg-primary-100 items-center">
-      <Image source={images.maps} />
+      <Image
+        source={images.maps}
+        className="w-[300px] h-[300px]"
+        resizeMode="contain"
+      />
     </View>
   );
 };
