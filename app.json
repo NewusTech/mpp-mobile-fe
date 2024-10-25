@@ -4,7 +4,7 @@
     "slug": "mal-pelayanan-publik-lampung-timur",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/maps.png",
+    "icon": "./assets/icons/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "platforms": ["ios", "android"],
@@ -16,7 +16,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/maps.png",
+        "foregroundImage": "./assets/icons/icon.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.aldngrha.mppmobile",
@@ -36,7 +36,7 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/maps.png"
+      "favicon": "./assets/icons/icon.png"
     },
     "plugins": [
       "expo-router",

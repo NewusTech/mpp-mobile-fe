@@ -150,7 +150,7 @@ const HomeScreen = () => {
     try {
       const tokenn = await AsyncStorage.getItem("token");
       const response = await fetch(
-        "https://0a00-114-10-103-216.ngrok-free.app/api/user/send-notification",
+        "https://backend-mpp.newus.id/api/user/send-notification",
         {
           method: "POST",
           headers: {
@@ -174,7 +174,7 @@ const HomeScreen = () => {
   };
 
   useEffect(() => {
-    if (expoPushToken) {
+    if (expoPushToken && token) {
       sendNotification();
     }
   }, [expoPushToken]);

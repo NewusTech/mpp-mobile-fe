@@ -4,8 +4,9 @@ import {
   Image,
   TouchableOpacity,
   ActivityIndicator,
+  Linking,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { icons, images } from "@/constants";
 import { SafeAreaView } from "react-native-safe-area-context";
 import InputForm from "@/components/InputForm";
@@ -14,20 +15,8 @@ import ShowToast from "@/components/Toast";
 import { useAuthStore } from "@/store/useAuthStore";
 import { Link } from "expo-router";
 import { loginUser } from "@/service/api";
-// import {
-//   GoogleSignin,
-//   GoogleSigninButton,
-//   statusCodes,
-// } from "@react-native-google-signin/google-signin";
 
 const LoginScreen = () => {
-  // const configureGoogleSignIn = () => {
-  //   GoogleSignin.configure({
-  //     androidClientId:
-  //       "1066505808109-bf58nq4mt9lk45cebjug3p3qp452ohcf.apps.googleusercontent.com",
-  //   });
-  // };
-
   const [nik, setNik] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -61,24 +50,39 @@ const LoginScreen = () => {
     }
   };
 
+  const handlePress = async () => {
+    const url = "https://mpp.lampungtimurkab.go.id/forgot-password";
+
+    // Cek apakah URL dapat dibuka
+    const supported = await Linking.canOpenURL(url);
+
+    if (supported) {
+      // Buka URL di browser
+      await Linking.openURL(url);
+    } else {
+      ShowToast(`Can't open this URL: ${url}`);
+    }
+  };
+
   return (
     <SafeAreaView className="flex-1 bg-primary-100 justify-center px-10">
       <View className="flex items-center mb-10">
         <View className="flex items-center">
-          <View className="w-[167px] h-[140px] mb-1">
+          <View className="w-[300px] h-[300px]">
             <Image
               source={images.maps}
-              className="w-full h-full object-cover"
+              className="w-full h-full"
+              resizeMode="contain"
             />
           </View>
-          <View className="flex items-center mt-4">
+          {/* <View className="flex items-center mt-4">
             <Text className="text-lg font-psemibold uppercase text-primary-700">
               Mal Pelayana Publik
             </Text>
             <Text className="text-lg uppercase text-primary-700 -mt-2">
               kabupaten lampung timur
             </Text>
-          </View>
+          </View> */}
         </View>
       </View>
       <View className="flex">
@@ -106,9 +110,11 @@ const LoginScreen = () => {
         </View>
       </View>
       <View className="flex flex-row my-2 justify-between">
-        <Text className="underline text-primary-700 text-sm">
-          Lupa Kata Sandi?
-        </Text>
+        <TouchableOpacity onPress={handlePress}>
+          <Text className="underline text-primary-700 text-sm">
+            Lupa Kata Sandi?
+          </Text>
+        </TouchableOpacity>
         <View>
           <Text className="text-primary-700 text-sm">
             Belum Punya akun? silakan
@@ -136,19 +142,7 @@ const LoginScreen = () => {
         )}
         {error && <Text className="text-error-700 pt-4">{error}</Text>}
       </View>
-      <View className="flex flex-row items-center justify-between mt-4 mb-4">
-        <View className="w-[122px] bg-neutral-800 h-[1px]"></View>
-        <Text className="text-neutral-800">atau</Text>
-        <View className="w-[122px] bg-neutral-800 h-[1px]"></View>
-      </View>
-      <CustomButton
-        onPress={handleLogin}
-        clx="bg-white w-full h-[5.8vh] border border-neutral-700"
-        clx2="text-sm text-primary-700 font-psemibold"
-        title="Masuk dengan Google"
-        type="google"
-        icon={icons.google}
-      />
+
       <View className="mt-5">
         <Text className="text-primary-700 text-xs text-center">
           Dengan mendaftar, Anda menyetujui{" "}
