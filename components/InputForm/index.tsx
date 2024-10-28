@@ -38,14 +38,13 @@ const InputForm = ({
 
   if (type === "nik")
     return (
-      <View className="flex flex-row items-center bg-neutral-50 rounded-[20px] px-4 border border-primary-700">
+      <View className="flex flex-row items-center bg-neutral-50 rounded-[20px] px-4 border">
         <Image source={icon} className="w-[2.5vh] h-[2.5vh] mr-[10px]" />
         <TextInput
           placeholder={placeholder}
           className="bg-neutral-50 w-[34vh] h-[5vh] py-[10px] rounded-[20px] pr-4 "
           value={value}
           onChangeText={onChangeText}
-          placeholderTextColor="#3568C0"
         />
       </View>
     );
