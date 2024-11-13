@@ -7,9 +7,6 @@ import {
   Image,
   Modal,
 } from "react-native";
-import * as DocumentPicker from "expo-document-picker";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import ShowToast from "../Toast";
 
 interface DocumentInfo {
   name: string;
@@ -30,7 +27,7 @@ const FileUploadComponent = ({ label, imgUrl }: FileUploadProps) => {
   useEffect(() => {
     if (imgUrl) {
       setFile({
-        name: imgUrl.uri.split("/").pop() || "default",
+        name: imgUrl?.uri?.split("/").pop() || "default",
         size: undefined,
         uri: imgUrl.uri,
         mimeType: "image/*",
@@ -45,12 +42,12 @@ const FileUploadComponent = ({ label, imgUrl }: FileUploadProps) => {
   return (
     <View className="flex mt-6 space-y-3">
       <Text className="text-sm text-neutral-800 font-psemibold">{label}</Text>
-      {file && (
+      {file?.name !== "default" ? (
         <View
           className="relative bg-white p-2 rounded-lg w-full h-44"
           style={{ elevation: 2 }}
         >
-          {file.mimeType.startsWith("image/") && (
+          {file?.mimeType.startsWith("image/") && (
             <TouchableOpacity onPress={toggleModal}>
               <Image
                 source={{ uri: file?.uri }}
@@ -82,6 +79,10 @@ const FileUploadComponent = ({ label, imgUrl }: FileUploadProps) => {
             </View>
           </Modal>
         </View>
+      ) : (
+        <View>
+          <Text>Tidak ada dokumen</Text>
+        </View>
       )}
     </View>
   );
@@ -92,23 +93,31 @@ const MultipleFileUpload = (data: any) => {
 
   return (
     <View>
-      <FileUploadComponent
-        imgUrl={{ uri: user?.filektp }}
-        label="Kartu Tanda Penduduk"
-      />
-      <FileUploadComponent
-        imgUrl={{ uri: user?.filekk }}
-        label="Kartu Keluarga"
-      />
-      <FileUploadComponent imgUrl={{ uri: user?.foto }} label="Pas Foto" />
-      <FileUploadComponent
-        imgUrl={{ uri: user?.fileijazahlain }}
-        label="Ijazah Terakhir"
-      />
-      <FileUploadComponent
-        imgUrl={{ uri: user?.aktalahir }}
-        label="Akta Kelahiran"
-      />
+      {user ? (
+        <>
+          <FileUploadComponent
+            imgUrl={{ uri: user?.filektp }}
+            label="Kartu Tanda Penduduk"
+          />
+          <FileUploadComponent
+            imgUrl={{ uri: user?.filekk }}
+            label="Kartu Keluarga"
+          />
+          <FileUploadComponent imgUrl={{ uri: user?.foto }} label="Pas Foto" />
+          <FileUploadComponent
+            imgUrl={{ uri: user?.fileijazahlain }}
+            label="Ijazah Terakhir"
+          />
+          <FileUploadComponent
+            imgUrl={{ uri: user?.aktalahir }}
+            label="Akta Kelahiran"
+          />
+        </>
+      ) : (
+        <View className="flex items-center justify-center">
+          <Text>Tidak ada dokumen</Text>
+        </View>
+      )}
     </View>
   );
 };

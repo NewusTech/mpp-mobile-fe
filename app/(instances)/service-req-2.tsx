@@ -76,6 +76,9 @@ const ServiceRequestTwo = () => {
   const resultTnc = TnC?.data;
 
   const convertToDate = (dateString: any) => {
+    if (!dateString) {
+      return null; // Or a default date, depending on your needs
+    }
     const [year, month, day] = dateString.split("-");
     return new Date(year, month - 1, day);
   };
@@ -102,8 +105,10 @@ const ServiceRequestTwo = () => {
   useEffect(() => {
     if (result) {
       const defaultDate = convertToDate(result.tgl_lahir);
-      setDate(defaultDate);
-      setSelectedDateNow(defaultDate.toDateString());
+      if (defaultDate) {
+        setDate(defaultDate);
+        setSelectedDateNow(defaultDate.toDateString());
+      }
 
       setFormData({
         name: result.name || "",
