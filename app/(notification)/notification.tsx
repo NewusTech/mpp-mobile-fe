@@ -72,7 +72,7 @@ const Notification = () => {
           </TouchableOpacity>
         </View>
         <Gap height={60} />
-        {resultNotification.length != 0 ? (
+        {resultNotification && resultNotification.length !== 0 ? (
           resultNotification?.map((v: any) => (
             <>
               <NotificationCard

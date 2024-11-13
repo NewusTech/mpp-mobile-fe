@@ -38,6 +38,10 @@ const LoginScreen = () => {
         login(data.data.token);
         ShowToast("Login Berhasil");
       }
+      if (data.status === 404) {
+        ShowToast("User tidak ditemukan");
+      }
+      console.log(data);
       if (data.status === 403) {
         ShowToast("Password dan email tidak valid");
       }

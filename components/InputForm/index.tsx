@@ -7,7 +7,6 @@ import {
 } from "react-native";
 import React from "react";
 import { InputFormProps } from "@/types/type";
-import Checkbox from "expo-checkbox";
 
 const InputForm = ({
   icon,
@@ -38,7 +37,7 @@ const InputForm = ({
 
   if (type === "nik")
     return (
-      <View className="flex flex-row items-center bg-neutral-50 rounded-[20px] px-4 border">
+      <View className="flex flex-row items-center bg-neutral-50 rounded-[20px] px-4 border border-neutral-700">
         <Image source={icon} className="w-[2.5vh] h-[2.5vh] mr-[10px]" />
         <TextInput
           placeholder={placeholder}
